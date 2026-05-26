@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Mail, Github, Linkedin, MapPin, Send, Phone, Facebook } from 'lucide-react'
+import { Mail, Github, Linkedin, Send, Facebook } from 'lucide-react'
 import SectionHeader from './SectionHeader'
 import Reveal from './Reveal'
 import { personal } from '../data/portfolio'
@@ -8,8 +8,8 @@ const CONTACT_ITEMS = [
   {
     icon: Mail,
     label: 'Email',
-    value: 'jhiannejoseberida@gmail.com',
-    href: 'mailto:jhiannejoseberida@gmail.com',
+    value: personal.email,
+    href: `mailto:${personal.email}`,
   },
   {
     icon: Github,
@@ -32,18 +32,6 @@ const CONTACT_ITEMS = [
     href: 'https://facebook.com/yanjisama',
     external: true,
   },
-  {
-    icon: MapPin,
-    label: 'Location',
-    value: 'Davao City, Philippines',
-    href: null,
-  },
-  {
-    icon: Phone,
-    label: 'Phone',
-    value: '(+63) 915 768 0262',
-    href: 'tel:+639157680262',
-  },
 ]
 
 export default function ContactSection() {
@@ -57,7 +45,7 @@ export default function ContactSection() {
     const { name, email, message } = form
     const subject = encodeURIComponent(`Portfolio contact from ${name}`)
     const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`)
-    window.location.href = `mailto:jhiannejoseberida@gmail.com?subject=${subject}&body=${body}`
+    window.location.href = `mailto:${personal.email}?subject=${subject}&body=${body}`
     setSent(true)
     setTimeout(() => setSent(false), 4000)
   }

@@ -3,8 +3,8 @@ import { Menu, X } from 'lucide-react'
 import { personal } from '../data/portfolio'
 
 const NAV_ITEMS = [
-  { id: 'about', label: '~/about' },
   { id: 'projects', label: '~/projects' },
+  { id: 'about', label: '~/about' },
   { id: 'stack', label: '~/stack' },
   { id: 'credentials', label: '~/credentials' },
   { id: 'github', label: '~/github' },
