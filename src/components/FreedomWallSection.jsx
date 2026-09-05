@@ -102,8 +102,12 @@ export default function FreedomWallSection() {
       try {
         const isSecure = window.location.protocol === 'https:'
         const protocol = isSecure ? 'wss:' : 'ws:'
-        // Default to same host on port 8080 or port 8000 via reverse proxy
-        const wsUrl = `${protocol}//${window.location.hostname}:8080`
+        // 1. If running over Cloudflare Tunnel domain (e.g. dev.jhnbrd.com), connect to ws subdomain or same-origin /ws
+        // 2. If running locally or direct IP, connect to port 8080
+        const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+        const wsUrl = isLocalhost
+          ? `${protocol}//${window.location.hostname}:8080`
+          : `${protocol}//${window.location.host}/ws`
         
         ws = new WebSocket(wsUrl)
         socketRef.current = ws
