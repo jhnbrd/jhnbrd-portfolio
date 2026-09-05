@@ -18,9 +18,8 @@ export const personal = {
   website: 'dev.jhnbrd.com',
   available: true,
   bio: [
-    "I am a Backend Developer, Systems Architect, and Co-Founder of DevJunction, specializing in building high-reliability backends, RESTful APIs, and scalable infrastructure.",
-    "With strong foundations in enterprise backend engineering (Laravel, .NET 8, FastAPI, Python) and systems administration, I approach software from data propagation down to network ports — ensuring resilience, security, and performance at scale.",
-    "Through DevJunction and enterprise solutions, I help clients and businesses turn architectural requirements into production-ready platforms, managing database schemas, secure authentication, and cloud deployment pipelines.",
+    "Backend Developer, Systems Architect, and Co-Founder of DevJunction. I engineer resilient backend platforms, RESTful APIs, and scalable cloud database architectures tailored to client operations.",
+    "Bridging enterprise technologies (Laravel, .NET 8, FastAPI, Python) with hands-on systems administration, I build and stage software with an infrastructure-first mindset — ensuring performance, security, and uptime at scale.",
   ],
   quote: '"Programming isn\'t about what you know; it\'s about what you can figure out."',
   quoteAuthor: 'Chris Pine',
