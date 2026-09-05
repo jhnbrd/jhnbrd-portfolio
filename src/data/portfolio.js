@@ -230,34 +230,34 @@ export const otherProjects = [
 
 export const stack = [
   {
-    category: 'Languages',
-    items: ['PHP', 'Python', 'JavaScript', 'C#', 'C++', 'Dart', 'Java'],
-    proficiency: 88,
+    category: 'Backend & APIs',
+    level: 'Production / Core',
+    items: ['Laravel (PHP)', '.NET 8 / C#', 'FastAPI (Python)', 'Node.js', 'RESTful APIs', 'Microservices'],
   },
   {
-    category: 'Frameworks',
-    items: ['Laravel', 'React', '.NET 8', 'Flutter', 'Firebase'],
-    proficiency: 80,
+    category: 'Databases & Storage',
+    level: 'Production / Core',
+    items: ['MySQL', 'PostgreSQL', 'MS SQL Server', 'SQLite', 'Database Normalization', 'Redis Caching'],
   },
   {
-    category: 'Backend',
-    items: ['Node.js', 'REST APIs', 'MySQL', 'PostgreSQL', 'MS SQL', 'SQLite'],
-    proficiency: 82,
+    category: 'Frontend & Mobile',
+    level: 'Proficient',
+    items: ['React.js', 'Vite', 'Tailwind CSS', 'Flutter (Dart)', 'JavaScript (ES6+)', 'Blade'],
   },
   {
-    category: 'Infrastructure',
-    items: ['Windows Server', 'Linux', 'macOS'],
-    proficiency: 85,
+    category: 'Systems & Infrastructure',
+    level: 'Proficient',
+    items: ['Windows Server', 'Ubuntu / Linux', 'Cloudflare Tunnels', 'Nginx / Uvicorn', 'Git / GitHub CI'],
   },
   {
-    category: 'Networking',
-    items: ['TCP/IP', 'Subnetting', 'LAN Config', 'Cisco IOS'],
-    proficiency: 90,
+    category: 'Networking & Security',
+    level: 'Specialized',
+    items: ['TCP/IP', 'Subnetting & Routing', 'Cisco IOS', 'OpenWrt (nodogsplash)', 'Port Auditing', 'Firewall Rules'],
   },
   {
-    category: 'Embedded',
-    items: ['Arduino', 'C++ MCU', 'Hw Interrupts', 'Sensors'],
-    proficiency: 72,
+    category: 'Hardware & Embedded',
+    level: 'Specialized',
+    items: ['Arduino', 'C++ Embedded', 'Hardware Interrupts', 'Sensor Integration', 'Relay Controllers'],
   },
 ]
 
