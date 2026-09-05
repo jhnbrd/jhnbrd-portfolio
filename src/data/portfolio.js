@@ -316,6 +316,7 @@ export const education = [
     period: 'Aug 2023 — Expected Mar 2027',
     location: 'Davao City, PH',
     honors: "Dean's Lister",
+    logo: '/images/um-logo.png',
     courses: [
       'Integrative Programming & Technologies',
       'Database Management Systems',
@@ -330,6 +331,7 @@ export const education = [
     period: '2021 — 2023',
     location: 'Davao City, PH',
     honors: 'With High Honors',
+    logo: '/images/lanhs-logo.png',
     courses: ['Computer Systems Servicing', 'Web Development', 'LAN Configuration'],
   },
 ]
@@ -342,6 +344,7 @@ export const experience = [
     period: '2025 — Present',
     type: 'Startup / Agency',
     url: 'https://facebook.com/DevJunctionInc',
+    logo: '/images/devjunction.png',
     bullets: [
       'Co-founded tech startup delivering custom web platforms, backend systems, and client software solutions.',
       'Lead backend architectural design, API development, database schema modeling, and infrastructure deployments.',
@@ -354,6 +357,7 @@ export const experience = [
     role: 'Mentor (Networking & Troubleshooting)',
     period: 'Oct 2025 — Present',
     type: 'Student Org · Volunteer',
+    logo: '/images/cce-clinic.png',
     bullets: [
       'Volunteer mentor guiding junior IT students through hands-on networking, hardware diagnosis, and system troubleshooting clinics.',
       'Assist peers with network configurations, lab connectivity, and technical problem-solving within the student organization.',
@@ -365,6 +369,7 @@ export const experience = [
     role: 'Executive Committee (Infrastructure)',
     period: 'Jun 2024 — Present',
     type: 'Community',
+    logo: '/images/artikula-logo.png',
     bullets: [
       'Manage live broadcasting systems, digital infrastructure, and network streaming setups for community events.',
     ],
