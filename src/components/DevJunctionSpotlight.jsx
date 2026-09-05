@@ -1,4 +1,4 @@
-import { ArrowUpRight, ShieldCheck, Cpu, Database, ExternalLink } from 'lucide-react'
+import { ArrowUpRight, ShieldCheck, Cpu, Database } from 'lucide-react'
 import Reveal from './Reveal'
 import { personal } from '../data/portfolio'
 
@@ -23,44 +23,57 @@ export default function DevJunctionSpotlight() {
         />
 
         <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
-          <div className="flex-1 flex flex-col gap-3">
-            {/* Header tag and status */}
-            <div className="flex items-center gap-2.5 flex-wrap">
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-sm text-xs font-bold uppercase tracking-wider bg-primary/10 text-primary border border-primary/30">
-                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" aria-hidden="true" />
-                Featured Tech Venture
-              </span>
-              <span className="text-2xs text-muted-foreground font-mono">
-                Startup · Established 2025
-              </span>
+          <div className="flex-1 flex flex-col sm:flex-row items-start gap-5">
+            {/* DevJunction Brand Logo */}
+            <div className="shrink-0 relative">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-md bg-white p-1.5 border border-primary/40 shadow-[0_0_20px_rgba(56,189,248,0.2)] flex items-center justify-center overflow-hidden transition-transform duration-300 group-hover:scale-105">
+                <img
+                  src="/images/devjunction.png"
+                  alt="DevJunction Logo"
+                  className="w-full h-full object-contain"
+                />
+              </div>
             </div>
 
-            {/* Venture Title & Role */}
-            <div className="flex flex-col gap-1">
-              <div className="flex items-baseline gap-3 flex-wrap">
-                <h2 className="text-xl sm:text-2xl font-bold text-foreground tracking-tight">
-                  DevJunction
-                </h2>
-                <span className="text-xs sm:text-sm text-primary font-mono font-medium">
-                  Co-Founder &amp; Backend Developer
+            <div className="flex-1 flex flex-col gap-3">
+              {/* Header tag and status */}
+              <div className="flex items-center gap-2.5 flex-wrap">
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-sm text-xs font-bold uppercase tracking-wider bg-primary/10 text-primary border border-primary/30">
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" aria-hidden="true" />
+                  Featured Tech Venture
+                </span>
+                <span className="text-2xs text-muted-foreground font-mono">
+                  Startup · Established 2025
                 </span>
               </div>
-              <p className="text-sm text-muted-foreground leading-relaxed max-w-2xl mt-1">
-                A modern tech startup delivering high-performance web platforms, custom backend infrastructures, and client digital systems. We architect scalable databases, secure API endpoints, and production-grade software solutions tailored to business operations.
-              </p>
-            </div>
 
-            {/* Core Competencies badges */}
-            <div className="flex flex-wrap gap-2 pt-1">
-              <span className="inline-flex items-center gap-1.5 text-xs text-foreground/80 bg-background/80 border border-border px-2.5 py-1 rounded-sm">
-                <Database size={12} className="text-primary" /> Scalable Backend &amp; APIs
-              </span>
-              <span className="inline-flex items-center gap-1.5 text-xs text-foreground/80 bg-background/80 border border-border px-2.5 py-1 rounded-sm">
-                <Cpu size={12} className="text-primary" /> Systems &amp; Database Architecture
-              </span>
-              <span className="inline-flex items-center gap-1.5 text-xs text-foreground/80 bg-background/80 border border-border px-2.5 py-1 rounded-sm">
-                <ShieldCheck size={12} className="text-primary" /> Enterprise Client Solutions
-              </span>
+              {/* Venture Title & Role */}
+              <div className="flex flex-col gap-1">
+                <div className="flex items-baseline gap-3 flex-wrap">
+                  <h2 className="text-xl sm:text-2xl font-bold text-foreground tracking-tight">
+                    DevJunction
+                  </h2>
+                  <span className="text-xs sm:text-sm text-primary font-mono font-medium">
+                    Co-Founder &amp; Backend Developer
+                  </span>
+                </div>
+                <p className="text-sm text-muted-foreground leading-relaxed max-w-2xl mt-1">
+                  A modern tech startup delivering high-performance web platforms, custom backend infrastructures, and client digital systems. We architect scalable databases, secure API endpoints, and production-grade software solutions tailored to business operations.
+                </p>
+              </div>
+
+              {/* Core Competencies badges */}
+              <div className="flex flex-wrap gap-2 pt-1">
+                <span className="inline-flex items-center gap-1.5 text-xs text-foreground/80 bg-background/80 border border-border px-2.5 py-1 rounded-sm">
+                  <Database size={12} className="text-primary" /> Scalable Backend &amp; APIs
+                </span>
+                <span className="inline-flex items-center gap-1.5 text-xs text-foreground/80 bg-background/80 border border-border px-2.5 py-1 rounded-sm">
+                  <Cpu size={12} className="text-primary" /> Systems &amp; Database Architecture
+                </span>
+                <span className="inline-flex items-center gap-1.5 text-xs text-foreground/80 bg-background/80 border border-border px-2.5 py-1 rounded-sm">
+                  <ShieldCheck size={12} className="text-primary" /> Enterprise Client Solutions
+                </span>
+              </div>
             </div>
           </div>
 
