@@ -73,11 +73,14 @@ export default function FreedomWallSection() {
   })
 
   const [inputMessage, setInputMessage] = useState('')
-  const [onlineCount, setOnlineCount] = useState(3)
+  const [onlineCount, setOnlineCount] = useState(1)
+  const [socketStatus, setSocketStatus] = useState('connecting')
   const channelRef = useRef(null)
+  const socketRef = useRef(null)
 
-  // Sync with BroadcastChannel for simultaneous multi-tab live chat
+  // Determine WebSocket URL dynamically based on current host/protocol
   useEffect(() => {
+    // 1. Setup local multi-tab BroadcastChannel fallback
     try {
       if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
         const channel = new BroadcastChannel(BROADCAST_CHANNEL)
@@ -91,16 +94,59 @@ export default function FreedomWallSection() {
       }
     } catch (e) {}
 
-    // Fluctuate live user count subtly to feel like a real-time socket room
-    const interval = setInterval(() => {
-      setOnlineCount((prev) => {
-        const delta = Math.random() > 0.5 ? 1 : -1
-        return Math.max(2, Math.min(8, prev + delta))
-      })
-    }, 12000)
+    // 2. Connect to real-time WebSocket server
+    let ws = null
+    let reconnectTimeout = null
+
+    function connectWs() {
+      try {
+        const isSecure = window.location.protocol === 'https:'
+        const protocol = isSecure ? 'wss:' : 'ws:'
+        // Default to same host on port 8080 or port 8000 via reverse proxy
+        const wsUrl = `${protocol}//${window.location.hostname}:8080`
+        
+        ws = new WebSocket(wsUrl)
+        socketRef.current = ws
+
+        ws.onopen = () => {
+          setSocketStatus('connected')
+        }
+
+        ws.onmessage = (event) => {
+          try {
+            const data = JSON.parse(event.data)
+            if (data.type === 'INIT' && Array.isArray(data.history)) {
+              if (data.history.length > 0) {
+                setMessages(data.history.slice(-8))
+              }
+              if (data.clientsCount) setOnlineCount(data.clientsCount)
+            } else if (data.type === 'NEW_CHAT' && data.message) {
+              setMessages((prev) => [...prev.slice(-7), data.message])
+            } else if (data.type === 'PRESENCE' && data.clientsCount) {
+              setOnlineCount(data.clientsCount)
+            }
+          } catch (err) {}
+        }
+
+        ws.onclose = () => {
+          setSocketStatus('offline')
+          // Auto-retry connection after 5 seconds
+          reconnectTimeout = setTimeout(connectWs, 5000)
+        }
+
+        ws.onerror = () => {
+          setSocketStatus('offline')
+        }
+      } catch (err) {
+        setSocketStatus('offline')
+      }
+    }
+
+    connectWs()
 
     return () => {
-      clearInterval(interval)
+      if (reconnectTimeout) clearTimeout(reconnectTimeout)
+      if (ws) ws.close()
       if (channelRef.current) channelRef.current.close()
     }
   }, [])
@@ -116,25 +162,36 @@ export default function FreedomWallSection() {
     const newMsg = {
       id: `msg_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
       user: username.trim() || 'anonymous',
-      text: inputMessage.trim().slice(0, 160), // cap message length to prevent spam
+      text: inputMessage.trim().slice(0, 160),
       timestamp,
       color: userColor,
     }
 
-    // Keep only the most recent 8 messages — strict freedom wall policy (no scroll history)
-    setMessages((prev) => {
-      const updated = [...prev.slice(-7), newMsg]
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(updated))
-      } catch (err) {}
-      return updated
-    })
+    // If live WebSocket is connected, transmit over network to everyone
+    if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
+      socketRef.current.send(
+        JSON.stringify({
+          type: 'CHAT',
+          user: newMsg.user,
+          text: newMsg.text,
+          color: newMsg.color,
+        })
+      )
+    } else {
+      // Local fallback
+      setMessages((prev) => {
+        const updated = [...prev.slice(-7), newMsg]
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(updated))
+        } catch (err) {}
+        return updated
+      })
 
-    // Broadcast live to all other tabs
-    if (channelRef.current) {
-      try {
-        channelRef.current.postMessage({ type: 'NEW_CHAT', message: newMsg })
-      } catch (err) {}
+      if (channelRef.current) {
+        try {
+          channelRef.current.postMessage({ type: 'NEW_CHAT', message: newMsg })
+        } catch (err) {}
+      }
     }
 
     // Persist username
@@ -170,10 +227,14 @@ export default function FreedomWallSection() {
             <div className="flex items-center gap-3">
               <span className="flex items-center gap-1.5 text-xs font-mono text-success font-semibold">
                 <span className="w-2 h-2 rounded-full bg-success animate-pulse" />
-                <span>{onlineCount} peering nodes</span>
+                <span>{onlineCount} {onlineCount === 1 ? 'node' : 'nodes'} online</span>
               </span>
-              <span className="text-2xs font-mono text-primary bg-primary/10 border border-primary/20 px-2 py-0.5 rounded-sm uppercase tracking-wider font-bold">
-                Live Broadcast
+              <span className={`text-2xs font-mono px-2 py-0.5 rounded-sm uppercase tracking-wider font-bold border ${
+                socketStatus === 'connected'
+                  ? 'text-primary bg-primary/10 border-primary/30'
+                  : 'text-warning bg-warning/10 border-warning/30'
+              }`}>
+                {socketStatus === 'connected' ? 'WS: Connected' : 'WS: Standby (Mesh)'}
               </span>
             </div>
           </div>
