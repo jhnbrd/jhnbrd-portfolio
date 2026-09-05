@@ -8,6 +8,7 @@ const NAV_ITEMS = [
   { id: 'stack', label: '~/stack', desc: 'Architecture & technology matrix' },
   { id: 'credentials', label: '~/credentials', desc: 'Certifications & competitive record' },
   { id: 'github', label: '~/github', desc: 'Code repositories & activity' },
+  { id: 'freedom-wall', label: '~/freedom-wall', desc: 'Simultaneous live chat & transient feed' },
   { id: 'contact', label: '~/contact', desc: 'Direct message & contract inquiries' },
 ]
 

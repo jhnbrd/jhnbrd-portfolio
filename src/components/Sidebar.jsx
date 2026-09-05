@@ -1,4 +1,5 @@
 import { personal, stats } from '../data/portfolio'
+import ProfileViewsCounter from './ProfileViewsCounter'
 
 const FALLBACK_AVATAR = null // renders initials block when no image
 
@@ -8,6 +9,7 @@ const NAV_ITEMS = [
   { id: 'stack', label: '~/stack' },
   { id: 'credentials', label: '~/credentials' },
   { id: 'github', label: '~/github' },
+  { id: 'freedom-wall', label: '~/freedom-wall' },
   { id: 'contact', label: '~/contact' },
 ]
 
@@ -93,6 +95,9 @@ export default function Sidebar({ activeSection }) {
             <span className="text-xs text-primary font-bold">{s.value}</span>
           </div>
         ))}
+        <div className="pt-1 border-t border-border/40">
+          <ProfileViewsCounter />
+        </div>
       </div>
 
       {/* Quote */}

@@ -8,10 +8,11 @@ import ProjectsSection from './components/ProjectsSection'
 import StackSection from './components/StackSection'
 import CredentialsSection from './components/CredentialsSection'
 import GitHubSection from './components/GitHubSection'
+import FreedomWallSection from './components/FreedomWallSection'
 import ContactSection from './components/ContactSection'
 import Footer from './components/Footer'
 
-const SECTIONS = ['projects', 'about', 'stack', 'credentials', 'github', 'contact']
+const SECTIONS = ['projects', 'about', 'stack', 'credentials', 'github', 'freedom-wall', 'contact']
 
 function useActiveSection(scrollRef) {
   const [active, setActive] = useState('projects')
@@ -100,6 +101,10 @@ export default function App() {
 
             <div id="github" className="scroll-snap-section scroll-mt-14 lg:scroll-mt-0">
               <GitHubSection />
+            </div>
+
+            <div id="freedom-wall" className="scroll-snap-section scroll-mt-14 lg:scroll-mt-0">
+              <FreedomWallSection />
             </div>
 
             <div id="contact" className="scroll-snap-section scroll-mt-14 lg:scroll-mt-0">
