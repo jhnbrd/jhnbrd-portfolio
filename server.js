@@ -1,11 +1,11 @@
-import { WebSocketServer, WebSocket } from 'ws'
+import { createServer } from 'node:http'
+import { createHash } from 'node:crypto'
 import { spawn } from 'node:child_process'
 
 const PORT = process.env.WS_PORT || 8008
-const wss = new WebSocketServer({ port: PORT })
+const MAX_HISTORY = 8
 
 // In-memory ring buffer: strictly keeps only the last 8 messages (no-scrollback freedom wall)
-const MAX_HISTORY = 8
 let messageHistory = [
   {
     id: 'seed_1',
@@ -16,71 +16,205 @@ let messageHistory = [
   },
 ]
 
-function broadcast(payload) {
-  const data = JSON.stringify(payload)
-  wss.clients.forEach((client) => {
-    if (client.readyState === WebSocket.OPEN) {
-      client.send(data)
+const clients = new Set()
+
+function broadcast(data) {
+  const payload = JSON.stringify(data)
+  const frame = encodeFrame(payload)
+  for (const socket of clients) {
+    if (!socket.destroyed) {
+      socket.write(frame)
     }
-  })
+  }
 }
 
-wss.on('connection', (ws) => {
-  // Send current active clients count & latest history to the newly connected visitor
-  ws.send(
-    JSON.stringify({
-      type: 'INIT',
-      history: messageHistory,
-      clientsCount: wss.clients.size,
-    })
+// Encode raw UTF-8 string into RFC 6455 WebSocket unmasked frame
+function encodeFrame(payload) {
+  const buf = Buffer.from(payload, 'utf8')
+  const len = buf.length
+  let header
+
+  if (len < 126) {
+    header = Buffer.from([0x81, len])
+  } else if (len < 65536) {
+    header = Buffer.alloc(4)
+    header[0] = 0x81
+    header[1] = 126
+    header.writeUInt16BE(len, 2)
+  } else {
+    header = Buffer.alloc(10)
+    header[0] = 0x81
+    header[1] = 127
+    header.writeBigUInt64BE(BigInt(len), 2)
+  }
+
+  return Buffer.concat([header, buf])
+}
+
+// Decode incoming RFC 6455 WebSocket masked frames
+function decodeFrames(buffer) {
+  const frames = []
+  let offset = 0
+
+  while (offset < buffer.length) {
+    if (buffer.length - offset < 2) break
+
+    const firstByte = buffer[offset]
+    const secondByte = buffer[offset + 1]
+    const opcode = firstByte & 0x0f
+    const isMasked = (secondByte & 0x80) !== 0
+    let payloadLen = secondByte & 0x7f
+    let currentOffset = offset + 2
+
+    if (payloadLen === 126) {
+      if (buffer.length - currentOffset < 2) break
+      payloadLen = buffer.readUInt16BE(currentOffset)
+      currentOffset += 2
+    } else if (payloadLen === 127) {
+      if (buffer.length - currentOffset < 8) break
+      payloadLen = Number(buffer.readBigUInt64BE(currentOffset))
+      currentOffset += 8
+    }
+
+    let maskKey = null
+    if (isMasked) {
+      if (buffer.length - currentOffset < 4) break
+      maskKey = buffer.slice(currentOffset, currentOffset + 4)
+      currentOffset += 4
+    }
+
+    if (buffer.length - currentOffset < payloadLen) break
+
+    const payloadData = buffer.slice(currentOffset, currentOffset + payloadLen)
+    if (isMasked && maskKey) {
+      for (let i = 0; i < payloadData.length; i++) {
+        payloadData[i] ^= maskKey[i % 4]
+      }
+    }
+
+    offset = currentOffset + payloadLen
+
+    if (opcode === 0x08) {
+      // Close frame
+      frames.push({ type: 'close' })
+    } else if (opcode === 0x09) {
+      // Ping frame
+      frames.push({ type: 'ping', data: payloadData })
+    } else if (opcode === 0x01) {
+      // Text frame
+      frames.push({ type: 'text', data: payloadData.toString('utf8') })
+    }
+  }
+
+  return frames
+}
+
+const server = createServer((req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/plain' })
+  res.end('Freedom Wall Node Socket Active')
+})
+
+// Standard RFC 6455 WebSocket Upgrade Handshake
+server.on('upgrade', (req, socket) => {
+  const key = req.headers['sec-websocket-key']
+  if (!key) {
+    socket.destroy()
+    return
+  }
+
+  const GUID = '258EAFA5-E914-47DA-95CA-C5AB0DC85B11'
+  const acceptKey = createHash('sha1')
+    .update(key + GUID)
+    .digest('base64')
+
+  const responseHeaders = [
+    'HTTP/1.1 101 Switching Protocols',
+    'Upgrade: websocket',
+    'Connection: Upgrade',
+    `Sec-WebSocket-Accept: ${acceptKey}`,
+    '\r\n',
+  ]
+
+  socket.write(responseHeaders.join('\r\n'))
+  clients.add(socket)
+
+  // Send initial history and presence to newly connected user
+  socket.write(
+    encodeFrame(
+      JSON.stringify({
+        type: 'INIT',
+        history: messageHistory,
+        clientsCount: clients.size,
+      })
+    )
   )
 
-  // Broadcast updated client count to all peers
+  // Broadcast updated presence to all users
   broadcast({
     type: 'PRESENCE',
-    clientsCount: wss.clients.size,
+    clientsCount: clients.size,
   })
 
-  ws.on('message', (raw) => {
-    try {
-      const msg = JSON.parse(raw.toString())
-      if (msg.type === 'CHAT' && msg.text && msg.user) {
-        const cleanMsg = {
-          id: `msg_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
-          user: String(msg.user).slice(0, 16).trim() || 'anonymous',
-          text: String(msg.text).slice(0, 160).trim(),
-          timestamp: new Date().toTimeString().split(' ')[0],
-          color: msg.color || '#38bdf8',
-        }
+  let rxBuffer = Buffer.alloc(0)
 
-        // Push new message and drop the oldest beyond 8
-        messageHistory.push(cleanMsg)
-        if (messageHistory.length > MAX_HISTORY) {
-          messageHistory.shift()
-        }
+  socket.on('data', (chunk) => {
+    rxBuffer = Buffer.concat([rxBuffer, chunk])
+    const frames = decodeFrames(rxBuffer)
 
-        // Broadcast immediately to everyone connected across the internet
-        broadcast({
-          type: 'NEW_CHAT',
-          message: cleanMsg,
-        })
+    for (const frame of frames) {
+      if (frame.type === 'close') {
+        socket.destroy()
+        return
       }
-    } catch (e) {
-      // Ignore malformed payloads
+      if (frame.type === 'ping') {
+        socket.write(Buffer.from([0x8a, 0x00])) // pong
+        continue
+      }
+      if (frame.type === 'text') {
+        try {
+          const msg = JSON.parse(frame.data)
+          if (msg.type === 'CHAT' && msg.text && msg.user) {
+            const cleanMsg = {
+              id: `msg_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
+              user: String(msg.user).slice(0, 16).trim() || 'anonymous',
+              text: String(msg.text).slice(0, 160).trim(),
+              timestamp: new Date().toTimeString().split(' ')[0],
+              color: msg.color || '#38bdf8',
+            }
+
+            messageHistory.push(cleanMsg)
+            if (messageHistory.length > MAX_HISTORY) {
+              messageHistory.shift()
+            }
+
+            broadcast({
+              type: 'NEW_CHAT',
+              message: cleanMsg,
+            })
+          }
+        } catch (err) {}
+      }
     }
   })
 
-  ws.on('close', () => {
+  socket.on('close', () => {
+    clients.delete(socket)
     broadcast({
       type: 'PRESENCE',
-      clientsCount: wss.clients.size,
+      clientsCount: clients.size,
     })
+  })
+
+  socket.on('error', () => {
+    clients.delete(socket)
   })
 })
 
-console.log(`[Freedom Wall WebSocket Server] Listening on ws://0.0.0.0:${PORT}`)
+server.listen(PORT, '0.0.0.0', () => {
+  console.log(`[Freedom Wall Zero-Dep Server] Listening on ws://0.0.0.0:${PORT}`)
+})
 
-// If started as main orchestrator (or via npm start), spawn Vite preview natively without needing extra packages
+// If started as main orchestrator (via npm start), spawn Vite preview natively
 if (process.env.SPAWN_PREVIEW !== 'false') {
   const isWindows = process.platform === 'win32'
   const npxCmd = isWindows ? 'npx.cmd' : 'npx'
@@ -104,4 +238,3 @@ if (process.env.SPAWN_PREVIEW !== 'false') {
     process.exit()
   })
 }
-
