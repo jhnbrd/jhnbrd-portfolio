@@ -1,4 +1,5 @@
 import { WebSocketServer, WebSocket } from 'ws'
+import { spawn } from 'node:child_process'
 
 const PORT = process.env.WS_PORT || 8008
 const wss = new WebSocketServer({ port: PORT })
@@ -78,3 +79,29 @@ wss.on('connection', (ws) => {
 })
 
 console.log(`[Freedom Wall WebSocket Server] Listening on ws://0.0.0.0:${PORT}`)
+
+// If started as main orchestrator (or via npm start), spawn Vite preview natively without needing extra packages
+if (process.env.SPAWN_PREVIEW !== 'false') {
+  const isWindows = process.platform === 'win32'
+  const npxCmd = isWindows ? 'npx.cmd' : 'npx'
+
+  console.log('[Web Server] Spawning vite preview on port 8000...')
+  const preview = spawn(npxCmd, ['vite', 'preview', '--port', '8000', '--host'], {
+    stdio: 'inherit',
+    shell: true,
+  })
+
+  preview.on('error', (err) => {
+    console.error('[Web Server Error]', err)
+  })
+
+  process.on('SIGINT', () => {
+    preview.kill()
+    process.exit()
+  })
+  process.on('SIGTERM', () => {
+    preview.kill()
+    process.exit()
+  })
+}
+
