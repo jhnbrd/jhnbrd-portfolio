@@ -3,10 +3,10 @@ import { useEffect, useState, useCallback } from 'react'
 const BOOT_LINES = [
   { id: 0, text: 'kernel: jhnbrd-portfolio v1.0.0 loaded', ts: '0.001', ok: false, delay: 100 },
   { id: 1, text: 'cpu: Ryzen 5 7535HS detected', ts: '0.143', ok: false, delay: 350 },
-  { id: 2, text: 'profile: jhianne.berida', ts: '0.284', ok: true, delay: 600 },
-  { id: 3, text: 'reading /dev/credentials', ts: '0.421', ok: true, delay: 850 },
-  { id: 4, text: 'mounting project filesystem', ts: '0.557', ok: true, delay: 1100 },
-  { id: 5, text: 'initializing network stack', ts: '0.694', ok: true, delay: 1350 },
+  { id: 2, text: 'profile: jhianne.berida (co-founder @ devjunction)', ts: '0.284', ok: true, delay: 600 },
+  { id: 3, text: 'reading /dev/credentials & /dev/systems', ts: '0.421', ok: true, delay: 850 },
+  { id: 4, text: 'mounting project filesystem & ventures', ts: '0.557', ok: true, delay: 1100 },
+  { id: 5, text: 'initializing backend & network stack', ts: '0.694', ok: true, delay: 1350 },
   { id: 6, text: 'compiling assets', ts: '0.830', ok: true, delay: 1550 },
   { id: 7, text: 'launching ui daemon', ts: '0.967', ok: true, delay: 1750 },
 ]
