@@ -96,6 +96,19 @@ export default function GitHubSection() {
           </div>
         </Reveal>
 
+        {/* GitHub profile direct link */}
+        <Reveal delay="delay-150">
+          <a
+            href={`https://github.com/${USERNAME}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-xs font-mono text-muted-foreground hover:text-primary transition-colors border border-border hover:border-primary/50 bg-surface px-4 py-2 rounded-sm"
+          >
+            <span>github.com/{USERNAME}</span>
+            <span className="text-primary font-bold">↗</span>
+          </a>
+        </Reveal>
+
       </div>
     </section>
   )
