@@ -362,12 +362,12 @@ export const experience = [
   {
     id: 1,
     org: 'UM CCE Skills Clinic',
-    role: 'Technical Mentor',
+    role: 'Mentor (Networking & Troubleshooting)',
     period: 'Oct 2025 — Present',
-    type: 'Academic',
+    type: 'Student Org · Volunteer',
     bullets: [
-      'Mentor junior IT students in programming, API integration, and web development through hands-on clinics.',
-      'Provide architectural code reviews and troubleshooting to reinforce industry-standard practices.',
+      'Volunteer mentor guiding junior IT students through hands-on networking, hardware diagnosis, and system troubleshooting clinics.',
+      'Assist peers with network configurations, lab connectivity, and technical problem-solving within the student organization.',
     ],
   },
   {
