@@ -1,8 +1,9 @@
 import { useState } from 'react'
-import { ArrowUpRight, ChevronDown, ChevronUp } from 'lucide-react'
+import { ArrowUpRight, ChevronDown, ChevronUp, Layers } from 'lucide-react'
 import SectionHeader from './SectionHeader'
 import Reveal from './Reveal'
 import DevJunctionSpotlight from './DevJunctionSpotlight'
+import ProjectModal from './ProjectModal'
 import { featuredProjects, otherProjects } from '../data/portfolio'
 
 function StatusBadge({ status }) {
@@ -12,88 +13,71 @@ function StatusBadge({ status }) {
   return <span className="status-badge-dev">◌ in dev</span>
 }
 
-function ProjectCard({ project, delay }) {
+function ProjectCard({ project, delay, onSelect }) {
   return (
     <Reveal delay={delay} as="article" className="h-full">
-      <div className="card card-hover shimmer-sweep overflow-hidden flex flex-col group h-full">
-      {/* Thumbnail */}
-      <div className="relative overflow-hidden shrink-0 bg-surface" style={{ height: '160px', background: 'linear-gradient(135deg, #0d1117 0%, #0f1923 50%, #0a0c10 100%)' }}>
-        <img
-          src={project.image}
-          alt={`${project.name} project thumbnail`}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-          loading="lazy"
-          onError={(e) => { e.currentTarget.style.display = 'none' }}
-        />
-        <div className="absolute inset-0 bg-background opacity-10 group-hover:opacity-0 transition-opacity duration-300" aria-hidden="true" />
-        <div className="absolute top-2.5 right-2.5">
-          <StatusBadge status={project.status} />
+      <div
+        role="button"
+        tabIndex={0}
+        onClick={() => onSelect(project)}
+        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onSelect(project) }}
+        className="card card-hover shimmer-sweep overflow-hidden flex flex-col group h-full cursor-pointer transition-all duration-200 hover:border-primary/50 text-left focus:outline-none focus:ring-1 focus:ring-primary"
+        aria-label={`View details for ${project.name}`}
+      >
+        {/* Thumbnail */}
+        <div
+          className="relative overflow-hidden shrink-0 bg-surface"
+          style={{ height: '175px', background: 'linear-gradient(135deg, #0d1117 0%, #0f1923 50%, #0a0c10 100%)' }}
+        >
+          <img
+            src={project.image}
+            alt={`${project.name} thumbnail`}
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            loading="lazy"
+            onError={(e) => { e.currentTarget.style.display = 'none' }}
+          />
+          <div className="absolute inset-0 bg-background/20 group-hover:bg-transparent transition-colors duration-300" aria-hidden="true" />
+          <div className="absolute top-2.5 right-2.5">
+            <StatusBadge status={project.status} />
+          </div>
+          <div className="absolute top-2.5 left-2.5">
+            <span className="text-2xs font-mono text-muted-foreground bg-background/90 border border-border px-2 py-0.5 rounded-sm">
+              {project.year}
+            </span>
+          </div>
         </div>
-        <div className="absolute top-2.5 left-2.5">
-          <span className="text-xs text-muted-foreground bg-background border border-border px-2 py-0.5 rounded-sm">
-            {project.year}
-          </span>
-        </div>
-      </div>
 
-      {/* Body */}
-      <div className="p-5 flex flex-col gap-3 flex-1">
-        <div className="flex flex-col gap-0.5">
-          <span className="text-base text-foreground font-bold">{project.name}</span>
-          <span className="text-xs text-muted-foreground">{project.subtitle}</span>
-        </div>
-        <p className="text-sm text-muted-foreground leading-relaxed flex-1">{project.description}</p>
-        <div className="flex flex-wrap gap-1.5">
-          {project.tags.map((tag) => (
-            <span key={tag} className="skill-tag">{tag}</span>
-          ))}
-        </div>
-        <div className="flex items-center justify-between mt-1 pt-2 border-t border-border/40 gap-2 flex-wrap">
-          <span className="text-2xs text-muted-foreground italic">{project.role}</span>
-          <div className="flex items-center gap-3">
-            {project.liveUrl && (
-              <a
-                href={project.liveUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-1 text-xs text-primary hover:text-sky-300 font-bold transition-colors group/link"
-                aria-label={`Visit ${project.name} live`}
-              >
-                visit live
-                <ArrowUpRight
-                  size={11}
-                  className="group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform"
-                  aria-hidden="true"
-                />
-              </a>
-            )}
-            {project.github && !project.private && (
-              <a
-                href={project.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors group/link"
-                aria-label={`View ${project.name} on GitHub`}
-              >
-                github
-                <ArrowUpRight
-                  size={11}
-                  className="group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform"
-                  aria-hidden="true"
-                />
-              </a>
-            )}
-            {project.private && (
-              <span className="text-2xs text-muted-foreground italic">private repo</span>
-            )}
-            {!project.liveUrl && !project.github && (
-              <span className="text-2xs text-muted-foreground italic">
-                {project.type === 'research' ? 'research paper' : 'hardware build'}
+        {/* Minimalist Card Body */}
+        <div className="p-5 flex flex-col justify-between flex-1 gap-4">
+          <div className="flex flex-col gap-1">
+            <h3 className="text-base text-foreground font-bold group-hover:text-primary transition-colors">
+              {project.name}
+            </h3>
+            <p className="text-xs text-muted-foreground line-clamp-1">{project.subtitle}</p>
+          </div>
+
+          {/* Core tech tags (max 3) */}
+          <div className="flex flex-wrap gap-1.5">
+            {project.tags.slice(0, 3).map((tag) => (
+              <span key={tag} className="skill-tag text-2xs">
+                {tag}
+              </span>
+            ))}
+            {project.tags.length > 3 && (
+              <span className="text-2xs text-muted-foreground px-1 py-0.5">
+                +{project.tags.length - 3} more
               </span>
             )}
           </div>
+
+          {/* Action indicator */}
+          <div className="flex items-center justify-between pt-3 border-t border-border/40 text-2xs text-muted-foreground font-mono">
+            <span>{project.role}</span>
+            <span className="text-primary group-hover:translate-x-0.5 transition-transform inline-flex items-center gap-1 font-bold">
+              View details →
+            </span>
+          </div>
         </div>
-      </div>
       </div>
     </Reveal>
   )
@@ -102,12 +86,13 @@ function ProjectCard({ project, delay }) {
 const DELAYS = ['', 'delay-100', 'delay-200', 'delay-100', 'delay-200', 'delay-300']
 
 export default function ProjectsSection() {
+  const [selectedProject, setSelectedProject] = useState(null)
   const [showAllOther, setShowAllOther] = useState(false)
   const displayedOther = showAllOther ? otherProjects : otherProjects.slice(0, 4)
 
   return (
     <section aria-labelledby="projects-heading" className="px-6 sm:px-10 lg:px-12 py-12 border-b border-border">
-      <SectionHeader command="ls ./projects --thumbnails" title="Projects & Ventures" />
+      <SectionHeader command="ls ./projects --thumbnails" title="Projects &amp; Ventures" />
 
       {/* DevJunction Featured Startup Spotlight */}
       <DevJunctionSpotlight />
@@ -115,9 +100,22 @@ export default function ProjectsSection() {
       {/* Featured project cards — live first */}
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 mb-10">
         {featuredProjects.map((project, i) => (
-          <ProjectCard key={project.id} project={project} delay={DELAYS[i] ?? ''} />
+          <ProjectCard
+            key={project.id}
+            project={project}
+            delay={DELAYS[i] ?? ''}
+            onSelect={setSelectedProject}
+          />
         ))}
       </div>
+
+      {/* Interactive Project Detail Modal */}
+      {selectedProject && (
+        <ProjectModal
+          project={selectedProject}
+          onClose={() => setSelectedProject(null)}
+        />
+      )}
 
       {/* Other projects — compact curated list */}
       <Reveal>
