@@ -41,9 +41,18 @@ export default function Sidebar({ activeSection }) {
             JB
           </div>
         )}
-        <div className="mt-1">
+        <div className="mt-1 flex flex-col gap-1">
           <div className="text-sm text-foreground font-bold leading-tight">{personal.name}</div>
-          <div className="text-xs text-primary mt-0.5">{personal.title}</div>
+          <div className="text-xs text-primary font-medium">{personal.title}</div>
+          <a
+            href={personal.devjunctionUrl || 'https://facebook.com/DevJunctionInc'}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 text-2xs text-muted-foreground hover:text-primary transition-colors group/dj"
+          >
+            <span>@ DevJunction</span>
+            <span className="text-3xs group-hover/dj:translate-x-0.5 transition-transform">↗</span>
+          </a>
         </div>
       </div>
 
