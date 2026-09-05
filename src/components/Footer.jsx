@@ -4,7 +4,15 @@ export default function Footer() {
       <div className="text-xs text-muted-foreground">
         © 2026 Jhianne Berida
         <span className="mx-2 text-border">·</span>
-        Davao City, Philippines
+        Co-Founder @{' '}
+        <a
+          href="https://facebook.com/DevJunctionInc"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-foreground hover:text-primary transition-colors underline decoration-border"
+        >
+          DevJunction
+        </a>
       </div>
       <div className="flex items-center gap-2">
         <span className="w-1.5 h-1.5 rounded-full bg-success" aria-hidden="true" />

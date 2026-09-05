@@ -1,13 +1,20 @@
 import { useState } from 'react'
-import { Mail, Github, Linkedin, Send, Facebook } from 'lucide-react'
+import { Mail, Github, Linkedin, Send, Facebook, Building2 } from 'lucide-react'
 import SectionHeader from './SectionHeader'
 import Reveal from './Reveal'
 import { personal } from '../data/portfolio'
 
 const CONTACT_ITEMS = [
   {
+    icon: Building2,
+    label: 'DevJunction Inc.',
+    value: 'facebook.com/DevJunctionInc',
+    href: personal.devjunctionUrl || 'https://facebook.com/DevJunctionInc',
+    external: true,
+  },
+  {
     icon: Mail,
-    label: 'Email',
+    label: 'Direct Email',
     value: personal.email,
     href: `mailto:${personal.email}`,
   },
@@ -27,7 +34,7 @@ const CONTACT_ITEMS = [
   },
   {
     icon: Facebook,
-    label: 'Facebook',
+    label: 'Personal Facebook',
     value: 'facebook.com/yanjisama',
     href: 'https://facebook.com/yanjisama',
     external: true,
@@ -59,8 +66,7 @@ export default function ContactSection() {
         <div className="flex-1 flex flex-col gap-4">
           <Reveal>
             <p className="text-sm text-muted-foreground leading-relaxed max-w-lg mb-2">
-              Currently open to backend engineering roles, freelance system architecture, or
-              collaboration on infrastructure tooling. Reach out through any of the channels below.
+              Available for backend engineering opportunities, client software development via <strong>DevJunction</strong>, and scalable infrastructure consulting. Reach out directly through any of the channels below.
             </p>
           </Reveal>
 

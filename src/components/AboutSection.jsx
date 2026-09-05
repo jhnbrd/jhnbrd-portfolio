@@ -117,7 +117,7 @@ export default function AboutSection() {
           <Reveal>
             <div className="card p-5 flex flex-col gap-4">
               <div className="text-2xs text-muted-foreground tracking-widest uppercase">
-                Staging Ecosystem
+                Dev &amp; Staging Infrastructure
               </div>
               {machines.map((m, i) => (
                 <div
