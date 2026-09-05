@@ -48,45 +48,50 @@ function ProjectCard({ project, delay }) {
             <span key={tag} className="skill-tag">{tag}</span>
           ))}
         </div>
-        <div className="flex items-center justify-between mt-1">
+        <div className="flex items-center justify-between mt-1 pt-2 border-t border-border/40 gap-2 flex-wrap">
           <span className="text-2xs text-muted-foreground italic">{project.role}</span>
-          {project.private ? (
-            <span className="text-2xs text-muted-foreground italic">currently private</span>
-          ) : project.liveUrl ? (
-            <a
-              href={project.liveUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1 text-xs text-muted-foreground hover:text-primary transition-colors group/link"
-              aria-label={`Visit ${project.name} live`}
-            >
-              visit live
-              <ArrowUpRight
-                size={11}
-                className="group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform"
-                aria-hidden="true"
-              />
-            </a>
-          ) : project.github ? (
-            <a
-              href={project.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1 text-xs text-muted-foreground hover:text-primary transition-colors group/link"
-              aria-label={`View ${project.name} on GitHub`}
-            >
-              view on github
-              <ArrowUpRight
-                size={11}
-                className="group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform"
-                aria-hidden="true"
-              />
-            </a>
-          ) : (
-            <span className="text-2xs text-muted-foreground italic">
-              {project.type === 'research' ? 'research paper' : 'hardware build'}
-            </span>
-          )}
+          <div className="flex items-center gap-3">
+            {project.liveUrl && (
+              <a
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1 text-xs text-primary hover:text-sky-300 font-bold transition-colors group/link"
+                aria-label={`Visit ${project.name} live`}
+              >
+                visit live
+                <ArrowUpRight
+                  size={11}
+                  className="group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform"
+                  aria-hidden="true"
+                />
+              </a>
+            )}
+            {project.github && !project.private && (
+              <a
+                href={project.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors group/link"
+                aria-label={`View ${project.name} on GitHub`}
+              >
+                github
+                <ArrowUpRight
+                  size={11}
+                  className="group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform"
+                  aria-hidden="true"
+                />
+              </a>
+            )}
+            {project.private && (
+              <span className="text-2xs text-muted-foreground italic">private repo</span>
+            )}
+            {!project.liveUrl && !project.github && (
+              <span className="text-2xs text-muted-foreground italic">
+                {project.type === 'research' ? 'research paper' : 'hardware build'}
+              </span>
+            )}
+          </div>
         </div>
       </div>
       </div>
