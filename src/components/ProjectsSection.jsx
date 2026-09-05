@@ -1,4 +1,5 @@
-import { ArrowUpRight } from 'lucide-react'
+import { useState } from 'react'
+import { ArrowUpRight, ChevronDown, ChevronUp } from 'lucide-react'
 import SectionHeader from './SectionHeader'
 import Reveal from './Reveal'
 import { featuredProjects, otherProjects } from '../data/portfolio'
@@ -95,6 +96,9 @@ function ProjectCard({ project, delay }) {
 const DELAYS = ['', 'delay-100', 'delay-200', 'delay-100', 'delay-200', 'delay-300']
 
 export default function ProjectsSection() {
+  const [showAllOther, setShowAllOther] = useState(false)
+  const displayedOther = showAllOther ? otherProjects : otherProjects.slice(0, 4)
+
   return (
     <section aria-labelledby="projects-heading" className="px-6 sm:px-10 lg:px-12 py-12 border-b border-border">
       <SectionHeader command="ls ./projects --thumbnails" title="Projects" />
@@ -106,12 +110,12 @@ export default function ProjectsSection() {
         ))}
       </div>
 
-      {/* Other projects — compact list */}
+      {/* Other projects — compact curated list */}
       <Reveal>
         <div className="border border-border rounded-sm overflow-hidden bg-surface">
           <div className="flex items-center gap-4 py-2.5 px-4 sm:px-5 border-b border-border bg-background">
             <div className="flex-1 text-2xs text-muted-foreground tracking-widest uppercase">
-              Other Projects
+              Project Archive &amp; Prototypes
             </div>
             <div className="text-2xs text-muted-foreground tracking-widest uppercase hidden sm:block w-36 shrink-0">
               Period
@@ -121,11 +125,11 @@ export default function ProjectsSection() {
             </div>
           </div>
           <div className="px-4 sm:px-5">
-            {otherProjects.map((p, idx) => (
+            {displayedOther.map((p, idx) => (
               <div
                 key={p.name}
                 className={`flex items-start gap-4 py-3 ${
-                  idx < otherProjects.length - 1 ? 'border-b border-border' : ''
+                  idx < displayedOther.length - 1 ? 'border-b border-border' : ''
                 }`}
               >
                 <div className="flex-1 min-w-0">
@@ -152,6 +156,25 @@ export default function ProjectsSection() {
               </div>
             ))}
           </div>
+          {otherProjects.length > 4 && (
+            <div className="border-t border-border bg-background/50 px-4 py-2 flex justify-center">
+              <button
+                type="button"
+                onClick={() => setShowAllOther(!showAllOther)}
+                className="text-xs text-muted-foreground hover:text-primary transition-colors flex items-center gap-1 py-1 px-3 rounded-sm"
+              >
+                {showAllOther ? (
+                  <>
+                    Show fewer archived projects <ChevronUp size={14} />
+                  </>
+                ) : (
+                  <>
+                    Show all {otherProjects.length} archived prototypes <ChevronDown size={14} />
+                  </>
+                )}
+              </button>
+            </div>
+          )}
         </div>
       </Reveal>
     </section>

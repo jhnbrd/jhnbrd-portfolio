@@ -75,7 +75,19 @@ export default function AboutSection() {
                 {experience.map((exp) => (
                   <div key={exp.id} className="pl-4 border-l border-border flex flex-col gap-1 rounded-r-sm transition-[border-color,background-color] duration-150 hover:border-primary/40 hover:bg-primary/[0.02]">
                     <div className="flex items-start justify-between gap-2 flex-wrap">
-                      <span className="text-sm text-foreground font-bold leading-tight">{exp.org}</span>
+                      {exp.url ? (
+                        <a
+                          href={exp.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-sm text-foreground font-bold leading-tight hover:text-primary transition-colors inline-flex items-center gap-1 group/org"
+                        >
+                          {exp.org}
+                          <span className="text-2xs text-muted-foreground group-hover/org:text-primary transition-colors">↗</span>
+                        </a>
+                      ) : (
+                        <span className="text-sm text-foreground font-bold leading-tight">{exp.org}</span>
+                      )}
                       <span className="text-xs text-muted-foreground shrink-0">{exp.period}</span>
                     </div>
                     <div className="flex items-center gap-2 flex-wrap">

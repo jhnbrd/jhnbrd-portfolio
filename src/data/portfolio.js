@@ -2,9 +2,9 @@ export const personal = {
   avatar: '/images/avatar.jpg',      // drop your headshot here: public/images/avatar.jpg
   name: 'Jhianne Berida',
   fullName: 'Jhianne Jose Cañete Berida',
-  title: 'Aspiring Backend Developer',
-  subtitle: 'Infrastructure-First · Full-Stack · Davao City, PH',
-  tagline: 'Network Engineer · Systems Architect · Davao City, PH',
+  title: 'Backend Developer & Co-Founder',
+  subtitle: 'Co-Founder @ DevJunction · Systems & Infrastructure · Davao City, PH',
+  tagline: 'Backend Architect · Cloud Systems · Co-Founder @ DevJunction',
   location: 'Davao City, Philippines',
   email: 'jhiannejoseberida@gmail.com',
   phone: '(+63) 915 768 0262',
@@ -14,20 +14,21 @@ export const personal = {
   linkedinUrl: 'https://linkedin.com/in/jhianneberida',
   facebook: 'facebook.com/yanjisama',
   facebookUrl: 'https://facebook.com/yanjisama',
+  devjunctionUrl: 'https://facebook.com/DevJunctionInc',
   website: 'dev.jhnbrd.com',
   available: true,
   bio: [
-    "I'm a 3rd-year Information Technology student specializing in Business Analytics with a strong foundation in full-stack web development, network administration, and hardware integration.",
-    "Armed with TESDA COC 1 (Computer Hardware Servicing) and IT Specialist designations, I view applications through the lens of data propagation — I don't launch apps blindly; I audit ports first.",
-    "My current stack bridges Laravel, React, .NET 8, Firebase, and Flutter — connecting structured enterprise systems with dynamic, real-time consumer apps. I treat backend development as an orchestration challenge: managing database schemas, REST APIs, and scalable architectures with precision.",
+    "I am a Backend Developer, Systems Architect, and Co-Founder of DevJunction, specializing in building high-reliability backends, RESTful APIs, and scalable infrastructure.",
+    "With strong foundations in enterprise backend engineering (Laravel, .NET 8, FastAPI, Python) and systems administration, I approach software from data propagation down to network ports — ensuring resilience, security, and performance at scale.",
+    "Through DevJunction and enterprise solutions, I help clients and businesses turn architectural requirements into production-ready platforms, managing database schemas, secure authentication, and cloud deployment pipelines.",
   ],
   quote: '"Programming isn\'t about what you know; it\'s about what you can figure out."',
   quoteAuthor: 'Chris Pine',
   tags: [
+    'DevJunction Co-Founder',
+    'Backend Architecture',
+    'Laravel · .NET 8 · FastAPI',
     'IT Specialist',
-    'TESDA COC 1',
-    'Laravel · React · .NET',
-    'Arduino · Embedded',
     'Multi-machine Staging',
   ],
 }
@@ -379,6 +380,19 @@ export const education = [
 ]
 
 export const experience = [
+  {
+    id: 'devjunction',
+    org: 'DevJunction',
+    role: 'Co-Founder & Backend Developer',
+    period: '2025 — Present',
+    type: 'Startup / Agency',
+    url: 'https://facebook.com/DevJunctionInc',
+    bullets: [
+      'Co-founded tech startup delivering custom web platforms, backend systems, and client software solutions.',
+      'Lead backend architectural design, API development, database schema modeling, and infrastructure deployments.',
+      'Collaborate with founders and clients to transform operational requirements into reliable software deliverables.',
+    ],
+  },
   {
     id: 1,
     org: 'UM CCE Skills Clinic',
