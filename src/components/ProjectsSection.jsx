@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { ArrowUpRight, ChevronDown, ChevronUp } from 'lucide-react'
 import SectionHeader from './SectionHeader'
 import Reveal from './Reveal'
+import DevJunctionSpotlight from './DevJunctionSpotlight'
 import { featuredProjects, otherProjects } from '../data/portfolio'
 
 function StatusBadge({ status }) {
@@ -101,7 +102,10 @@ export default function ProjectsSection() {
 
   return (
     <section aria-labelledby="projects-heading" className="px-6 sm:px-10 lg:px-12 py-12 border-b border-border">
-      <SectionHeader command="ls ./projects --thumbnails" title="Projects" />
+      <SectionHeader command="ls ./projects --thumbnails" title="Projects & Ventures" />
+
+      {/* DevJunction Featured Startup Spotlight */}
+      <DevJunctionSpotlight />
 
       {/* Featured project cards — live first */}
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 mb-10">

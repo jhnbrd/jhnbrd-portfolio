@@ -62,7 +62,7 @@ export default function HeroSection({ activeSection }) {
   }
 
   return (
-    <section className="relative overflow-hidden border-b border-border" style={{ height: '420px' }}>
+    <section className="relative overflow-hidden border-b border-border min-h-[460px] flex flex-col justify-end">
       {/* Network SVG Background */}
       <div className="absolute inset-0" aria-hidden="true">
         <svg
@@ -205,11 +205,29 @@ export default function HeroSection({ activeSection }) {
         <p className="text-primary text-base sm:text-lg tracking-wide mb-2">
           {personal.title}
         </p>
-        <p className="text-muted-foreground text-xs sm:text-sm max-w-xl leading-relaxed">
+        <p className="text-muted-foreground text-xs sm:text-sm max-w-xl leading-relaxed mb-4">
           {personal.tagline}
           <span className="mx-2 text-border">·</span>
           TESDA COC 1 · IT Specialist · Homelab Admin
         </p>
+        <div className="flex items-center gap-3 flex-wrap">
+          <a
+            href="#projects"
+            onClick={(e) => handleNav(e, 'projects')}
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-sm text-xs font-bold uppercase tracking-wide bg-primary text-background hover:bg-sky-400 transition-all shadow-[0_0_14px_rgba(56,189,248,0.25)]"
+          >
+            <span>Explore Work</span>
+            <span aria-hidden="true">↓</span>
+          </a>
+          <a
+            href="#contact"
+            onClick={(e) => handleNav(e, 'contact')}
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-sm text-xs font-mono text-muted-foreground hover:text-foreground border border-border hover:border-primary/50 bg-background/60 transition-colors"
+          >
+            <span>Get in Touch</span>
+            <span className="text-primary" aria-hidden="true">›</span>
+          </a>
+        </div>
       </div>
 
       {/* Status Badges — top right, floating */}
