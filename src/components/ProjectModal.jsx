@@ -118,14 +118,14 @@ export default function ProjectModal({ project, onClose }) {
           </div>
 
           {/* Action Links */}
-          <div className="pt-4 border-t border-border flex items-center justify-between gap-3 flex-wrap">
-            <div className="flex items-center gap-3 flex-wrap">
+          <div className="pt-4 border-t border-border flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
               {project.liveUrl && (
                 <a
                   href={project.liveUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-sm text-xs font-bold uppercase tracking-wide bg-primary text-background hover:bg-sky-400 transition-all shadow-[0_0_14px_rgba(56,189,248,0.25)]"
+                  className="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-sm text-xs font-bold uppercase tracking-wide bg-primary text-background hover:bg-sky-400 transition-all shadow-[0_0_14px_rgba(56,189,248,0.25)]"
                 >
                   <span>Visit Live Demo</span>
                   <ArrowUpRight size={14} />
@@ -136,7 +136,7 @@ export default function ProjectModal({ project, onClose }) {
                   href={project.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-sm text-xs font-mono text-muted-foreground hover:text-foreground border border-border hover:border-primary/50 bg-background transition-colors"
+                  className="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-sm text-xs font-mono text-muted-foreground hover:text-foreground border border-border hover:border-primary/50 bg-background transition-colors"
                 >
                   <Github size={14} />
                   <span>View on GitHub</span>
@@ -144,12 +144,12 @@ export default function ProjectModal({ project, onClose }) {
                 </a>
               )}
               {project.private && (
-                <span className="text-xs text-muted-foreground italic">
+                <span className="text-xs text-muted-foreground italic py-1">
                   🔒 Source repository is private (client/commercial NDA)
                 </span>
               )}
               {!project.liveUrl && !project.github && (
-                <span className="text-xs text-muted-foreground italic">
+                <span className="text-xs text-muted-foreground italic py-1">
                   {project.type === 'research' ? 'Academic research paper' : 'Hardware & embedded build'}
                 </span>
               )}
@@ -158,7 +158,7 @@ export default function ProjectModal({ project, onClose }) {
             <button
               type="button"
               onClick={onClose}
-              className="text-xs text-muted-foreground hover:text-foreground font-mono transition-colors"
+              className="text-xs text-muted-foreground hover:text-foreground font-mono transition-colors text-center py-1 sm:py-0"
             >
               [Close / Esc]
             </button>
