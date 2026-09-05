@@ -1,54 +1,57 @@
 import { useState, useEffect } from 'react'
 import { Eye } from 'lucide-react'
 
-const COUNTAPI_NAMESPACE = 'jhnbrd-portfolio-views'
-const COUNTAPI_KEY = 'visits'
-const STORAGE_KEY = 'jb_portfolio_profile_views'
-const SEED_COUNT = 1420
+const STORAGE_KEY = 'jb_strictly_real_views'
+const SESSION_FLAG = 'jb_has_counted_session_v2'
 
 export default function ProfileViewsCounter({ inline = false }) {
   const [views, setViews] = useState(() => {
     const saved = localStorage.getItem(STORAGE_KEY)
-    return saved ? parseInt(saved, 10) : SEED_COUNT
+    return saved ? parseInt(saved, 10) : 0
   })
-  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     let isMounted = true
 
-    async function fetchViews() {
+    async function fetchRealViews() {
+      // Determine if this browser session was already counted (prevent counting +1 on every page reload)
+      const hasCountedSession = sessionStorage.getItem(SESSION_FLAG)
+      const method = hasCountedSession ? 'GET' : 'POST'
+
       try {
-        // Attempt to fetch from counter service, or gracefully fall back to persistent localStorage
-        const res = await fetch(`https://api.counterapi.dev/v1/${COUNTAPI_NAMESPACE}/${COUNTAPI_KEY}/up`)
+        // Calls your own server endpoint directly through Cloudflare (/api/views)
+        const res = await fetch('/api/views', {
+          method,
+          headers: { 'Content-Type': 'application/json' },
+        })
+
         if (res.ok) {
           const data = await res.json()
-          if (isMounted && data && typeof data.count === 'number') {
-            const total = Math.max(data.count + SEED_COUNT, views)
-            setViews(total)
-            localStorage.setItem(STORAGE_KEY, String(total))
-            setLoading(false)
+          if (isMounted && data && typeof data.views === 'number') {
+            setViews(data.views)
+            localStorage.setItem(STORAGE_KEY, String(data.views))
+            sessionStorage.setItem(SESSION_FLAG, 'true')
             return
           }
         }
       } catch (err) {
-        // Graceful fallback if offline or network blocks third-party counter
+        // Graceful direct localhost fallback if testing locally
       }
 
-      // Local persistent fallback increment
+      // If running standalone or disconnected from server, fallback to pure organic local count
       if (isMounted) {
-        const hasCountedSession = sessionStorage.getItem('jb_has_visited_session')
-        let current = parseInt(localStorage.getItem(STORAGE_KEY) || String(SEED_COUNT), 10)
+        let localCount = parseInt(localStorage.getItem(STORAGE_KEY) || '0', 10)
         if (!hasCountedSession) {
-          current += 1
-          localStorage.setItem(STORAGE_KEY, String(current))
-          sessionStorage.setItem('jb_has_visited_session', 'true')
+          localCount += 1
+          localStorage.setItem(STORAGE_KEY, String(localCount))
+          sessionStorage.setItem(SESSION_FLAG, 'true')
         }
-        setViews(current)
-        setLoading(false)
+        setViews(localCount)
       }
     }
 
-    fetchViews()
+    fetchRealViews()
+
     return () => {
       isMounted = false
     }

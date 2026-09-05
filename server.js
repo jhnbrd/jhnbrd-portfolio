@@ -1,9 +1,34 @@
 import { createServer } from 'node:http'
 import { createHash } from 'node:crypto'
 import { spawn } from 'node:child_process'
+import { readFileSync, writeFileSync, existsSync } from 'node:fs'
+import { join } from 'node:path'
 
 const PORT = process.env.WS_PORT || 8008
 const MAX_HISTORY = 8
+const STATS_FILE = join(process.cwd(), 'stats.json')
+
+// Persistent strictly-real view counter
+let profileViews = 0
+try {
+  if (existsSync(STATS_FILE)) {
+    const raw = readFileSync(STATS_FILE, 'utf8')
+    const parsed = JSON.parse(raw)
+    if (typeof parsed.views === 'number') profileViews = parsed.views
+  } else {
+    writeFileSync(STATS_FILE, JSON.stringify({ views: 0 }, null, 2))
+  }
+} catch (e) {
+  profileViews = 0
+}
+
+function recordView() {
+  profileViews += 1
+  try {
+    writeFileSync(STATS_FILE, JSON.stringify({ views: profileViews }, null, 2))
+  } catch (err) {}
+  return profileViews
+}
 
 // In-memory ring buffer: strictly keeps only the last 8 messages (no-scrollback freedom wall)
 let messageHistory = [
@@ -95,13 +120,10 @@ function decodeFrames(buffer) {
     offset = currentOffset + payloadLen
 
     if (opcode === 0x08) {
-      // Close frame
       frames.push({ type: 'close' })
     } else if (opcode === 0x09) {
-      // Ping frame
       frames.push({ type: 'ping', data: payloadData })
     } else if (opcode === 0x01) {
-      // Text frame
       frames.push({ type: 'text', data: payloadData.toString('utf8') })
     }
   }
@@ -110,8 +132,33 @@ function decodeFrames(buffer) {
 }
 
 const server = createServer((req, res) => {
+  // CORS & Cache headers
+  res.setHeader('Access-Control-Allow-Origin', '*')
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
+
+  if (req.method === 'OPTIONS') {
+    res.writeHead(204)
+    res.end()
+    return
+  }
+
+  // 100% Strictly-Real Views API endpoint: GET /api/views or POST /api/views
+  if (req.url === '/api/views') {
+    if (req.method === 'POST') {
+      const count = recordView()
+      res.writeHead(200, { 'Content-Type': 'application/json' })
+      res.end(JSON.stringify({ views: count }))
+      return
+    }
+    // GET current views
+    res.writeHead(200, { 'Content-Type': 'application/json' })
+    res.end(JSON.stringify({ views: profileViews }))
+    return
+  }
+
   res.writeHead(200, { 'Content-Type': 'text/plain' })
-  res.end('Freedom Wall Node Socket Active')
+  res.end('Freedom Wall & Real Telemetry Server Active')
 })
 
 // Standard RFC 6455 WebSocket Upgrade Handshake

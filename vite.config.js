@@ -12,6 +12,10 @@ export default defineConfig({
         target: 'ws://localhost:8008',
         ws: true,
       },
+      '/api': {
+        target: 'http://localhost:8008',
+        changeOrigin: true,
+      },
     },
     hmr: {
       host: 'dev.jhnbrd.com',
@@ -27,6 +31,10 @@ export default defineConfig({
       '/ws': {
         target: 'ws://localhost:8008',
         ws: true,
+      },
+      '/api': {
+        target: 'http://localhost:8008',
+        changeOrigin: true,
       },
     },
   },
