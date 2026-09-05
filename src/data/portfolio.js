@@ -239,63 +239,70 @@ export const credentials = [
     name: 'IT Specialist in Networking',
     issuer: 'Certiport / Pearson VUE',
     year: 'Oct 2025',
+    category: 'Networking & Infrastructure',
     icon: 'network',
     description:
       'Industry credential covering network configuration, TCP/IP protocols, subnetting, and network troubleshooting methodologies.',
-  },
-  {
-    id: 2,
-    name: 'Microsoft Office Specialist: Word Associate',
-    issuer: 'Microsoft',
-    year: 'Mar 2025',
-    icon: 'file-text',
-    description:
-      'Certified competency in Microsoft Word document creation, professional formatting, and collaborative workflows (Word 2019).',
-  },
-  {
-    id: 3,
-    name: 'IT Specialist in HTML & CSS',
-    issuer: 'Certiport / Pearson VUE',
-    year: 'May 2025',
-    icon: 'code',
-    description:
-      'Validated expertise in semantic HTML5, CSS3, responsive design, and web accessibility standards.',
   },
   {
     id: 4,
     name: 'IT Specialist in Databases',
     issuer: 'Certiport / Pearson VUE',
     year: 'Apr 2025',
+    category: 'Backend & Data',
     icon: 'database',
     description:
       'Credential covering relational database design, SQL queries, normalization, and database administration fundamentals.',
-  },
-  {
-    id: 5,
-    name: 'Legacy JavaScript Algorithms & Data Structures',
-    issuer: 'freeCodeCamp',
-    year: 'Jun 2024',
-    icon: 'code-2',
-    description:
-      'Comprehensive JavaScript covering algorithms, data structures, functional programming, and OOP paradigms.',
   },
   {
     id: 6,
     name: 'IT Specialist in Java',
     issuer: 'Certiport / Pearson VUE',
     year: 'Mar 2024',
+    category: 'Software Engineering',
     icon: 'coffee',
     description:
-      'Industry credential validating Java programming, OOP principles, data types, and application development fundamentals.',
+      'Industry credential validating Java programming, OOP principles, data structures, and application development fundamentals.',
+  },
+  {
+    id: 3,
+    name: 'IT Specialist in HTML & CSS',
+    issuer: 'Certiport / Pearson VUE',
+    year: 'May 2025',
+    category: 'Web & Systems',
+    icon: 'code',
+    description:
+      'Validated expertise in semantic HTML5, CSS3, responsive design, and web accessibility standards.',
   },
   {
     id: 7,
-    name: 'CHS NC II — COC 1 (Certificate of Competency)',
+    name: 'CHS NC II — COC 1 (Hardware & System Assembly)',
     issuer: 'TESDA Philippines',
     year: 'Aug 2023',
+    category: 'Hardware & Systems',
     icon: 'cpu',
     description:
-      'Completed COC 1 of Computer Hardware Servicing NC II covering hardware assembly, OS installation, and BIOS configuration. Full NC II assessment was not completed due to testing site issues.',
+      'Certified competency in Computer Hardware Servicing covering system hardware assembly, motherboard BIOS configuration, and OS deployment.',
+  },
+  {
+    id: 2,
+    name: 'Microsoft Office Specialist: Word Associate',
+    issuer: 'Microsoft',
+    year: 'Mar 2025',
+    category: 'Productivity & Documentation',
+    icon: 'file-text',
+    description:
+      'Certified competency in Microsoft Word document creation, technical documentation formatting, and collaborative workflows.',
+  },
+  {
+    id: 5,
+    name: 'Legacy JavaScript Algorithms & Data Structures',
+    issuer: 'freeCodeCamp',
+    year: 'Jun 2024',
+    category: 'Algorithms & Logic',
+    icon: 'code-2',
+    description:
+      'Comprehensive JavaScript covering algorithms, data structures, functional programming, and OOP paradigms.',
   },
 ]
 
