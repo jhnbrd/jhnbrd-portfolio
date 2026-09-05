@@ -106,7 +106,7 @@ export default function FreedomWallSection() {
         // 2. If running locally or direct IP, connect to port 8080
         const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
         const wsUrl = isLocalhost
-          ? `${protocol}//${window.location.hostname}:8080`
+          ? `${protocol}//${window.location.hostname}:8008`
           : `${protocol}//${window.location.host}/ws`
         
         ws = new WebSocket(wsUrl)

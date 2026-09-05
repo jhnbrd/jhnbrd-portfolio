@@ -7,6 +7,12 @@ export default defineConfig({
     port: 8000,
     host: true,
     allowedHosts: true,
+    proxy: {
+      '/ws': {
+        target: 'ws://localhost:8008',
+        ws: true,
+      },
+    },
     hmr: {
       host: 'dev.jhnbrd.com',
       clientPort: 443,
@@ -17,5 +23,11 @@ export default defineConfig({
     port: 8000,
     host: true,
     allowedHosts: true,
+    proxy: {
+      '/ws': {
+        target: 'ws://localhost:8008',
+        ws: true,
+      },
+    },
   },
 })

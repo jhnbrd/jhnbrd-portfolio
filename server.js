@@ -1,6 +1,6 @@
 import { WebSocketServer, WebSocket } from 'ws'
 
-const PORT = process.env.WS_PORT || 8080
+const PORT = process.env.WS_PORT || 8008
 const wss = new WebSocketServer({ port: PORT })
 
 // In-memory ring buffer: strictly keeps only the last 8 messages (no-scrollback freedom wall)
