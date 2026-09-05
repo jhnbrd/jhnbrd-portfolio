@@ -158,10 +158,10 @@ export default function AboutSection() {
                     key={exp.id}
                     className="p-5 rounded-sm border border-border bg-background hover:border-primary/50 transition-colors flex flex-col justify-between gap-4 group"
                   >
-                    <div className="flex flex-col gap-3">
+                    <div className="flex flex-col gap-4">
                       {/* Org Header with Logo */}
-                      <div className="flex items-start justify-between gap-2">
-                        <div className="w-10 h-10 rounded-sm bg-white p-1 border border-border flex items-center justify-center shrink-0 shadow-sm overflow-hidden">
+                      <div className="flex items-center justify-between gap-3">
+                        <div className="w-14 h-14 rounded-md bg-white p-2 border border-border/80 flex items-center justify-center shrink-0 shadow-md overflow-hidden transition-transform duration-200 group-hover:scale-105">
                           <img
                             src={exp.logo}
                             alt={`${exp.org} logo`}
@@ -170,10 +170,10 @@ export default function AboutSection() {
                           />
                         </div>
                         <div className="flex flex-col items-end gap-1">
-                          <span className="text-3xs text-primary font-mono bg-primary/10 border border-primary/20 px-2 py-0.5 rounded-sm">
+                          <span className="text-3xs text-primary font-mono bg-primary/10 border border-primary/20 px-2 py-0.5 rounded-sm font-bold">
                             {exp.type}
                           </span>
-                          <span className="text-3xs text-muted-foreground font-mono">{exp.period}</span>
+                          <span className="text-2xs text-muted-foreground font-mono">{exp.period}</span>
                         </div>
                       </div>
 
@@ -255,10 +255,10 @@ export default function AboutSection() {
             {activeTab === 'education' && (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 animate-fade-in">
                 {education.map((edu) => (
-                  <div key={edu.id} className="p-5 bg-background border border-border rounded-sm flex flex-col justify-between gap-3">
-                    <div className="flex flex-col gap-3">
-                      <div className="flex items-start justify-between gap-3">
-                        <div className="w-11 h-11 rounded-sm bg-white p-1 border border-border flex items-center justify-center shrink-0 shadow-sm overflow-hidden">
+                  <div key={edu.id} className="p-6 bg-background border border-border rounded-sm flex flex-col justify-between gap-4 group">
+                    <div className="flex flex-col gap-4">
+                      <div className="flex items-center justify-between gap-4">
+                        <div className="w-16 h-16 rounded-md bg-white p-2 border border-border/80 flex items-center justify-center shrink-0 shadow-md overflow-hidden transition-transform duration-200 group-hover:scale-105">
                           <img
                             src={edu.logo}
                             alt={`${edu.school} logo`}
@@ -269,11 +269,11 @@ export default function AboutSection() {
                         <span className="text-2xs text-muted-foreground font-mono">{edu.period}</span>
                       </div>
 
-                      <div className="flex flex-col gap-0.5">
-                        <h4 className="text-sm font-bold text-foreground">{edu.school}</h4>
+                      <div className="flex flex-col gap-1">
+                        <h4 className="text-base font-bold text-foreground">{edu.school}</h4>
                         <span className="text-xs text-primary font-mono">{edu.degree}</span>
                         {edu.honors && (
-                          <span className="text-3xs text-success font-bold font-mono mt-1">
+                          <span className="text-3xs text-success font-bold font-mono mt-0.5">
                             ★ {edu.honors}
                           </span>
                         )}
