@@ -2,11 +2,11 @@ export const personal = {
   avatar: '/images/avatar.jpg',      // drop your headshot here: public/images/avatar.jpg
   name: 'Jhianne Berida',
   fullName: 'Jhianne Jose Cañete Berida',
-  title: 'Backend Developer & Co-Founder',
+  title: 'Backend Developer',
   subtitle: 'Co-Founder @ DevJunction · Systems & Infrastructure · Davao City, PH',
   tagline: 'Backend Architect · Cloud Systems · Co-Founder @ DevJunction',
   location: 'Davao City, Philippines',
-  email: 'jhiannejoseberida@gmail.com',
+  email: 'dev@jhnbrd.com',
   phone: '(+63) 915 768 0262',
   github: 'github.com/jhnbrd',
   githubUrl: 'https://github.com/jhnbrd',
@@ -85,17 +85,17 @@ export const homelab = {
     machine: 'Lenovo G70 (Repurposed)',
   },
   localServices: [
-    { name: 'JHNBRD Portfolio',     port: 8000, runtime: 'Vite / React',     status: 'running' },
-    { name: 'BrewTracks v7 API',    port: 8200, runtime: '.NET 8 Web API',   status: 'running' },
-    { name: 'BrewTracks v7 React',  port: 8201, runtime: 'Vite / React',     status: 'running' },
-    { name: 'RapidResponse v2',     port: 8110, runtime: 'Uvicorn / FastAPI', status: 'running' },
+    { name: 'JHNBRD Portfolio', port: 8000, runtime: 'Vite / React', status: 'running' },
+    { name: 'BrewTracks v7 API', port: 8200, runtime: '.NET 8 Web API', status: 'running' },
+    { name: 'BrewTracks v7 React', port: 8201, runtime: 'Vite / React', status: 'running' },
+    { name: 'RapidResponse v2', port: 8110, runtime: 'Uvicorn / FastAPI', status: 'running' },
     { name: "Brews n' Blooms WiFi", port: 8080, runtime: 'Laravel / OpenWrt', status: 'running' },
   ],
   tunnels: [
-    { subdomain: 'dev.jhnbrd.com',    port: 8000 },
-    { subdomain: 'rr.jhnbrd.com',     port: 8110 },
+    { subdomain: 'dev.jhnbrd.com', port: 8000 },
+    { subdomain: 'rr.jhnbrd.com', port: 8110 },
     { subdomain: 'cafeapi.jhnbrd.com', port: 8200 },
-    { subdomain: 'cafe.jhnbrd.com',   port: 8201 },
+    { subdomain: 'cafe.jhnbrd.com', port: 8201 },
   ],
 }
 

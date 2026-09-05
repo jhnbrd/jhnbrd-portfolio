@@ -3,8 +3,8 @@ import { personal, stats } from '../data/portfolio'
 const FALLBACK_AVATAR = null // renders initials block when no image
 
 const NAV_ITEMS = [
-  { id: 'about', label: '~/about' },
   { id: 'projects', label: '~/projects' },
+  { id: 'about', label: '~/about' },
   { id: 'stack', label: '~/stack' },
   { id: 'credentials', label: '~/credentials' },
   { id: 'github', label: '~/github' },
@@ -44,7 +44,6 @@ export default function Sidebar({ activeSection }) {
         <div className="mt-1">
           <div className="text-sm text-foreground font-bold leading-tight">{personal.name}</div>
           <div className="text-xs text-primary mt-0.5">{personal.title}</div>
-          <div className="text-xs text-muted-foreground mt-0.5">{personal.location}</div>
         </div>
       </div>
 

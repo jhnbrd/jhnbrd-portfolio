@@ -11,10 +11,10 @@ import GitHubSection from './components/GitHubSection'
 import ContactSection from './components/ContactSection'
 import Footer from './components/Footer'
 
-const SECTIONS = ['about', 'projects', 'stack', 'credentials', 'github', 'contact']
+const SECTIONS = ['projects', 'about', 'stack', 'credentials', 'github', 'contact']
 
 function useActiveSection(scrollRef) {
-  const [active, setActive] = useState('about')
+  const [active, setActive] = useState('projects')
 
   useEffect(() => {
     const root = scrollRef.current
@@ -82,12 +82,12 @@ export default function App() {
             </div>
 
             {/* Remaining sections: scroll-margin-top on mobile to clear sticky nav */}
-            <div id="about" className="scroll-snap-section scroll-mt-14 lg:scroll-mt-0">
-              <AboutSection />
-            </div>
-
             <div id="projects" className="scroll-snap-section scroll-mt-14 lg:scroll-mt-0">
               <ProjectsSection />
+            </div>
+
+            <div id="about" className="scroll-snap-section scroll-mt-14 lg:scroll-mt-0">
+              <AboutSection />
             </div>
 
             <div id="stack" className="scroll-snap-section scroll-mt-14 lg:scroll-mt-0">
