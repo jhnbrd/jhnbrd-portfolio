@@ -150,13 +150,13 @@ export default function AboutSection() {
               <div className="flex items-center justify-between px-4 py-2.5 border-b border-border bg-background">
                 <div className="flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-                  <span className="text-2xs font-mono text-foreground font-bold">jhnbrd.com edge tunnel</span>
+                  <span className="text-2xs font-mono text-foreground font-bold">Cloudflare Edge Architecture</span>
                 </div>
-                <span className="text-3xs text-muted-foreground font-mono">Cloudflare Zero-Trust</span>
+                <span className="text-3xs text-success font-mono">● WAF / SSL Active</span>
               </div>
               <div className="p-4 flex flex-col gap-3">
                 <div className="text-2xs text-muted-foreground font-mono tracking-wider uppercase">
-                  Reverse Proxy Endpoints
+                  Protected Ingress Endpoints
                 </div>
                 <div className="grid grid-cols-1 gap-2">
                   {homelab.tunnels.map((t) => (
@@ -164,8 +164,8 @@ export default function AboutSection() {
                       key={t.subdomain}
                       className="flex items-center justify-between px-2.5 py-1.5 bg-background/60 rounded-sm border border-border/40 font-mono text-2xs"
                     >
-                      <span className="text-primary truncate">{t.subdomain}</span>
-                      <span className="text-muted-foreground text-3xs shrink-0">port {t.port} → active</span>
+                      <span className="text-primary truncate font-bold">{t.subdomain}</span>
+                      <span className="text-muted-foreground text-3xs shrink-0">{t.role}</span>
                     </div>
                   ))}
                 </div>

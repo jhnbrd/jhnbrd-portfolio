@@ -55,29 +55,19 @@ export const machines = [
 ]
 
 export const homelab = {
-  isp: 'PLDT HOME Fiber',
-  captiveRouter: {
-    device: 'Xiaomi Mi Router 4C',
-    os: 'OpenWrt + nodogsplash',
-    role: 'Captive WiFi Portal Router',
-  },
-  server: {
-    ip: '192.168.1.10',
-    hostname: 'lenovo-g70',
-    machine: 'Lenovo G70 (Repurposed)',
-  },
-  localServices: [
-    { name: 'JHNBRD Portfolio', port: 8000, runtime: 'Vite / React', status: 'running' },
-    { name: 'BrewTracks v7 API', port: 8200, runtime: '.NET 8 Web API', status: 'running' },
-    { name: 'BrewTracks v7 React', port: 8201, runtime: 'Vite / React', status: 'running' },
-    { name: 'RapidResponse v2', port: 8110, runtime: 'Uvicorn / FastAPI', status: 'running' },
-    { name: "Brews n' Blooms WiFi", port: 8080, runtime: 'Laravel / OpenWrt', status: 'running' },
+  architecture: 'Zero-Trust Cloudflare Edge & Reverse Proxy',
+  security: 'WAF & SSL/TLS Protected',
+  stagingServices: [
+    { name: 'Portfolio Gateway', protocol: 'HTTPS / WAF', status: 'active' },
+    { name: 'BrewTracks Cloud API', protocol: 'REST / OAuth2', status: 'active' },
+    { name: 'RapidResponse AI Engine', protocol: 'gRPC / FastAPI', status: 'active' },
+    { name: 'Enterprise Microservices', protocol: 'Internal Staging', status: 'active' },
   ],
   tunnels: [
-    { subdomain: 'dev.jhnbrd.com', port: 8000 },
-    { subdomain: 'rr.jhnbrd.com', port: 8110 },
-    { subdomain: 'cafeapi.jhnbrd.com', port: 8200 },
-    { subdomain: 'cafe.jhnbrd.com', port: 8201 },
+    { subdomain: 'dev.jhnbrd.com', role: 'Production Portfolio Gateway' },
+    { subdomain: 'rr.jhnbrd.com', role: 'RapidResponse AI Service' },
+    { subdomain: 'cafeapi.jhnbrd.com', role: 'BrewTracks Enterprise API' },
+    { subdomain: 'cafe.jhnbrd.com', role: 'BrewTracks Web Client' },
   ],
 }
 
