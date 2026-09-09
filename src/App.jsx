@@ -8,6 +8,7 @@ import EditorialProjectsList from './components/EditorialProjectsList'
 import EditorialProjectDrawer from './components/EditorialProjectDrawer'
 import EditorialFooter from './components/EditorialFooter'
 import MinimalistFreedomWallModal from './components/MinimalistFreedomWallModal'
+import FloatingFreedomWallButton from './components/FloatingFreedomWallButton'
 
 import {
   personal,
@@ -23,7 +24,7 @@ function AppContent() {
   const { isDark } = useTheme()
 
   return (
-    <div className={`min-h-screen font-sans transition-colors duration-500 ${
+    <div className={`min-h-screen font-sans transition-colors duration-700 ${
       isDark ? 'bg-neutral-950 text-white' : 'bg-white text-black'
     }`}>
       <EditorialHeader 
@@ -46,6 +47,11 @@ function AppContent() {
       <EditorialProjectDrawer 
         project={selectedProject}
         onClose={() => setSelectedProject(null)}
+      />
+
+      {/* Cute Floating Freedom Wall button only visible on the last section */}
+      <FloatingFreedomWallButton 
+        onClick={() => setIsFreedomWallOpen(true)}
       />
 
       <MinimalistFreedomWallModal 

@@ -2,31 +2,46 @@ import React, { useRef, useEffect, useCallback } from 'react'
 import { motion } from 'framer-motion'
 
 /**
- * Interactive particle constellation that follows the cursor.
- * Nodes drift organically and form glowing connections when near each other or the cursor.
+ * Option D: Physics Repulsion Shards / Binary Particle Cloud
+ * Monospace code glyphs and binary shards drift in the hero space.
+ * When the cursor sweeps past, shards dynamically scatter away with spring physics
+ * and organically oscillate back to their origin.
  */
-function ParticleField() {
+function CodeRepulsionField() {
   const canvasRef = useRef(null)
   const mouseRef = useRef({ x: -1000, y: -1000 })
-  const particlesRef = useRef([])
+  const shardsRef = useRef([])
   const rafRef = useRef(null)
 
-  const PARTICLE_COUNT = 60
-  const CONNECTION_DIST = 140
-  const MOUSE_DIST = 180
+  const SHARD_COUNT = 65
+  const REPEL_RADIUS = 160
+  const GLYPHS = ['0', '1', '{}', '[]', '//', '=>', ';', '&&', '()', '!=', '::', 'nil', '0x1']
 
-  const initParticles = useCallback((w, h) => {
-    const particles = []
-    for (let i = 0; i < PARTICLE_COUNT; i++) {
-      particles.push({
-        x: Math.random() * w,
-        y: Math.random() * h,
-        vx: (Math.random() - 0.5) * 0.4,
-        vy: (Math.random() - 0.5) * 0.4,
-        radius: Math.random() * 1.5 + 0.5,
+  const initShards = useCallback((w, h) => {
+    const shards = []
+    for (let i = 0; i < SHARD_COUNT; i++) {
+      const originX = Math.random() * w
+      const originY = Math.random() * h
+      const glyph = GLYPHS[Math.floor(Math.random() * GLYPHS.length)]
+      const isAccent = Math.random() < 0.2
+      const size = Math.floor(Math.random() * 4) + 11 // 11px - 14px
+
+      shards.push({
+        x: originX,
+        y: originY,
+        originX,
+        originY,
+        vx: 0,
+        vy: 0,
+        glyph,
+        size,
+        isAccent,
+        alpha: Math.random() * 0.3 + 0.15,
+        driftPhase: Math.random() * Math.PI * 2,
+        driftSpeed: Math.random() * 0.008 + 0.004,
       })
     }
-    return particles
+    return shards
   }, [])
 
   useEffect(() => {
@@ -38,14 +53,13 @@ function ParticleField() {
       canvas.width = canvas.offsetWidth * window.devicePixelRatio
       canvas.height = canvas.offsetHeight * window.devicePixelRatio
       ctx.scale(window.devicePixelRatio, window.devicePixelRatio)
-      particlesRef.current = initParticles(canvas.offsetWidth, canvas.offsetHeight)
+      shardsRef.current = initShards(canvas.offsetWidth, canvas.offsetHeight)
     }
     resize()
     window.addEventListener('resize', resize)
 
     const handleMouseMove = (e) => {
       const rect = canvas.getBoundingClientRect()
-      // Only track if within or near the hero viewport
       if (e.clientY <= rect.bottom && e.clientY >= rect.top) {
         mouseRef.current = { x: e.clientX - rect.left, y: e.clientY - rect.top }
       } else {
@@ -60,76 +74,63 @@ function ParticleField() {
     window.addEventListener('mousemove', handleMouseMove)
     document.addEventListener('mouseleave', handleMouseLeave)
 
+    let frame = 0
     const animate = () => {
+      frame++
       const w = canvas.offsetWidth
       const h = canvas.offsetHeight
       ctx.clearRect(0, 0, w, h)
 
-      const particles = particlesRef.current
+      const shards = shardsRef.current
       const mouse = mouseRef.current
 
-      // Update & draw particles
-      for (let i = 0; i < particles.length; i++) {
-        const p = particles[i]
+      for (let i = 0; i < shards.length; i++) {
+        const s = shards[i]
 
-        // Gentle drift
-        p.x += p.vx
-        p.y += p.vy
+        // Gentle floating ambient drift
+        s.driftPhase += s.driftSpeed
+        const targetX = s.originX + Math.sin(s.driftPhase) * 12
+        const targetY = s.originY + Math.cos(s.driftPhase * 0.8) * 12
 
-        // Wrap edges
-        if (p.x < 0) p.x = w
-        if (p.x > w) p.x = 0
-        if (p.y < 0) p.y = h
-        if (p.y > h) p.y = 0
+        // Repulsion physics from cursor
+        const dx = s.x - mouse.x
+        const dy = s.y - mouse.y
+        const dist = Math.sqrt(dx * dx + dy * dy)
 
-        // Cursor attraction
-        const dxM = mouse.x - p.x
-        const dyM = mouse.y - p.y
-        const distM = Math.sqrt(dxM * dxM + dyM * dyM)
-        if (distM < MOUSE_DIST && distM > 0) {
-          const force = (MOUSE_DIST - distM) / MOUSE_DIST * 0.015
-          p.vx += dxM / distM * force
-          p.vy += dyM / distM * force
+        if (dist < REPEL_RADIUS && dist > 0) {
+          const repelForce = ((REPEL_RADIUS - dist) / REPEL_RADIUS) * 3.2
+          s.vx += (dx / dist) * repelForce
+          s.vy += (dy / dist) * repelForce
         }
 
-        // Dampen velocity
-        p.vx *= 0.995
-        p.vy *= 0.995
+        // Hooke's spring force returning shard to target floating point
+        const springK = 0.045
+        s.vx += (targetX - s.x) * springK
+        s.vy += (targetY - s.y) * springK
 
-        // Draw particle
-        const alpha = distM < MOUSE_DIST ? 0.9 : 0.35
-        ctx.beginPath()
-        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(34, 197, 94, ${alpha})`
-        ctx.fill()
+        // Damping / air resistance
+        s.vx *= 0.91
+        s.vy *= 0.91
 
-        // Draw connections between nearby particles
-        for (let j = i + 1; j < particles.length; j++) {
-          const q = particles[j]
-          const dx = p.x - q.x
-          const dy = p.y - q.y
-          const dist = Math.sqrt(dx * dx + dy * dy)
-          if (dist < CONNECTION_DIST) {
-            const lineAlpha = (1 - dist / CONNECTION_DIST) * 0.15
-            ctx.beginPath()
-            ctx.moveTo(p.x, p.y)
-            ctx.lineTo(q.x, q.y)
-            ctx.strokeStyle = `rgba(34, 197, 94, ${lineAlpha})`
-            ctx.lineWidth = 0.5
-            ctx.stroke()
-          }
+        s.x += s.vx
+        s.y += s.vy
+
+        // Draw code shard
+        ctx.font = `${s.size}px 'JetBrains Mono', monospace, monospace`
+        ctx.textAlign = 'center'
+        ctx.textBaseline = 'middle'
+
+        // Highlight shards near cursor with energetic neon tone
+        const proximityBoost = dist < REPEL_RADIUS ? (1 - dist / REPEL_RADIUS) * 0.45 : 0
+        const currentAlpha = Math.min(1, s.alpha + proximityBoost)
+
+        if (s.isAccent || dist < REPEL_RADIUS) {
+          ctx.fillStyle = `rgba(56, 189, 248, ${currentAlpha})`
+        } else {
+          ctx.fillStyle = `rgba(255, 255, 255, ${currentAlpha})`
         }
 
-        // Draw connection to cursor
-        if (distM < MOUSE_DIST) {
-          const lineAlpha = (1 - distM / MOUSE_DIST) * 0.3
-          ctx.beginPath()
-          ctx.moveTo(p.x, p.y)
-          ctx.lineTo(mouse.x, mouse.y)
-          ctx.strokeStyle = `rgba(34, 197, 94, ${lineAlpha})`
-          ctx.lineWidth = 0.6
-          ctx.stroke()
-        }
+        ctx.fillText(s.glyph, s.x, s.y)
       }
 
       rafRef.current = requestAnimationFrame(animate)
@@ -143,7 +144,7 @@ function ParticleField() {
       document.removeEventListener('mouseleave', handleMouseLeave)
       if (rafRef.current) cancelAnimationFrame(rafRef.current)
     }
-  }, [initParticles])
+  }, [initShards])
 
   return (
     <canvas
@@ -156,8 +157,8 @@ function ParticleField() {
 export default function EditorialHero() {
   return (
     <section className="relative w-full min-h-screen bg-[#050505] text-white flex flex-col items-center justify-center px-6 overflow-hidden select-none">
-      {/* Interactive Particle Constellation Background */}
-      <ParticleField />
+      {/* Option D: Physics Repulsion Shards / Binary Particle Cloud */}
+      <CodeRepulsionField />
 
       {/* Architectural wireframe lines */}
       <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
@@ -178,12 +179,12 @@ export default function EditorialHero() {
         </svg>
       </div>
 
-      {/* Hero Content with smooth entry & scroll awareness */}
+      {/* Hero Content with relaxed pacing */}
       <motion.div 
         initial={{ opacity: 0, y: 35 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: false, amount: 0.3 }}
-        transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 1.3, ease: [0.16, 1, 0.3, 1] }}
         className="relative z-10 max-w-4xl mx-auto text-center flex flex-col items-center pt-8"
       >
         <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-bold tracking-tight leading-[1.08] text-white">
@@ -196,7 +197,7 @@ export default function EditorialHero() {
           initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false, amount: 0.3 }}
-          transition={{ duration: 1, delay: 0.2, ease: 'easeOut' }}
+          transition={{ duration: 1.2, delay: 0.25, ease: 'easeOut' }}
           className="mt-6 text-sm sm:text-base md:text-lg text-neutral-400 font-light max-w-lg mx-auto leading-relaxed"
         >
           Backend architect building scalable APIs, cloud infrastructure, and zero-trust platforms from Davao City.
@@ -207,7 +208,7 @@ export default function EditorialHero() {
       <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 0.8, duration: 1 }}
+        transition={{ delay: 0.8, duration: 1.2 }}
         className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center pointer-events-none"
       >
         <div className="w-[1px] h-8 bg-gradient-to-b from-white/30 via-white/10 to-transparent animate-pulse" />

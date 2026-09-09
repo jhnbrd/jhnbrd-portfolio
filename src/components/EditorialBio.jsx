@@ -24,19 +24,19 @@ export default function EditorialBio({ personal }) {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.15,
+        staggerChildren: 0.18,
         delayChildren: 0.1,
       },
     },
   }
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 45 },
+    hidden: { opacity: 0, y: 40 },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.85,
+        duration: 1.3,
         ease: [0.16, 1, 0.3, 1],
       },
     },
@@ -45,7 +45,7 @@ export default function EditorialBio({ personal }) {
   return (
     <section 
       id="about" 
-      className={`w-full min-h-screen flex flex-col justify-center py-28 sm:py-40 transition-colors duration-500 ${
+      className={`w-full min-h-screen flex flex-col justify-center py-28 sm:py-40 transition-colors duration-700 ${
         isDark 
           ? 'bg-neutral-950 text-white border-b border-neutral-800' 
           : 'bg-white text-black border-b border-[#e5e7eb]'
@@ -99,7 +99,7 @@ export default function EditorialBio({ personal }) {
 
               <a
                 href={`mailto:${personal.email}`}
-                className={`inline-flex items-center gap-2.5 font-medium text-xs sm:text-sm px-7 py-3.5 rounded-full transition-all duration-200 transform hover:-translate-y-0.5 shadow-sm ${
+                className={`inline-flex items-center gap-2.5 font-medium text-xs sm:text-sm px-7 py-3.5 rounded-full transition-all duration-300 transform hover:-translate-y-0.5 shadow-sm ${
                   isDark 
                     ? 'bg-white hover:bg-neutral-200 text-black' 
                     : 'bg-black hover:bg-neutral-800 text-white'
@@ -118,7 +118,7 @@ export default function EditorialBio({ personal }) {
               <p className={`text-base sm:text-lg font-light leading-relaxed ${
                 isDark ? 'text-neutral-300' : 'text-neutral-700'
               }`}>
-                I'm a {age}-year-old backend developer and systems architect based in Davao City, Philippines. As Co-Founder of DevJunction, I specialize in engineering high-throughput REST APIs, resilient database architectures, and automated cloud staging environments built to power mission-critical software operations.
+                I'm a {age}-year-old backend developer and systems architect based in Davao City, Philippines. At DevJunction, I specialize in engineering high-throughput REST APIs, resilient database architectures, and automated cloud staging environments built to power mission-critical software operations.
               </p>
             </motion.div>
           </div>

@@ -11,7 +11,7 @@ export default function EditorialFooter({ personal }) {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.12,
+        staggerChildren: 0.16,
         delayChildren: 0.1,
       },
     },
@@ -23,7 +23,7 @@ export default function EditorialFooter({ personal }) {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.85,
+        duration: 1.25,
         ease: [0.16, 1, 0.3, 1],
       },
     },
@@ -32,7 +32,7 @@ export default function EditorialFooter({ personal }) {
   return (
     <footer 
       id="contact" 
-      className={`relative w-full min-h-screen flex flex-col justify-between pt-32 pb-10 sm:pb-12 px-6 sm:px-12 overflow-hidden transition-colors duration-500 ${
+      className={`relative w-full min-h-screen flex flex-col justify-between pt-32 pb-10 sm:pb-12 px-6 sm:px-12 overflow-hidden transition-colors duration-700 ${
         isDark ? 'bg-neutral-950 text-white' : 'bg-white text-black'
       }`}
     >
@@ -88,7 +88,7 @@ export default function EditorialFooter({ personal }) {
         >
           <a
             href={`mailto:${personal.email}`}
-            className={`inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-xs sm:text-sm font-sans transition-all duration-200 border transform hover:-translate-y-0.5 ${
+            className={`inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-xs sm:text-sm font-sans transition-all duration-300 border transform hover:-translate-y-0.5 ${
               isDark 
                 ? 'bg-transparent hover:bg-neutral-800 text-white border-neutral-700 shadow-sm' 
                 : 'bg-transparent hover:bg-neutral-100 text-black border-neutral-300 shadow-sm'
@@ -102,7 +102,7 @@ export default function EditorialFooter({ personal }) {
             href={personal.linkedinUrl}
             target="_blank"
             rel="noreferrer"
-            className={`inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-xs sm:text-sm font-sans transition-all duration-200 border transform hover:-translate-y-0.5 ${
+            className={`inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-xs sm:text-sm font-sans transition-all duration-300 border transform hover:-translate-y-0.5 ${
               isDark 
                 ? 'bg-transparent hover:bg-neutral-800 text-white border-neutral-700 shadow-sm' 
                 : 'bg-transparent hover:bg-neutral-100 text-black border-neutral-300 shadow-sm'
@@ -116,7 +116,7 @@ export default function EditorialFooter({ personal }) {
             href="https://m.me/yanjisama"
             target="_blank"
             rel="noreferrer"
-            className={`inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-xs sm:text-sm font-sans transition-all duration-200 border transform hover:-translate-y-0.5 ${
+            className={`inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-xs sm:text-sm font-sans transition-all duration-300 border transform hover:-translate-y-0.5 ${
               isDark 
                 ? 'bg-transparent hover:bg-[#1877F2]/15 text-white border-neutral-700 hover:border-[#1877F2]/50 shadow-sm' 
                 : 'bg-transparent hover:bg-[#1877F2]/10 text-black border-neutral-300 hover:border-[#1877F2]/50 shadow-sm'
@@ -133,7 +133,7 @@ export default function EditorialFooter({ personal }) {
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: false, amount: 0.2 }}
-        transition={{ duration: 0.8, delay: 0.15 }}
+        transition={{ duration: 1.1, delay: 0.15 }}
         className={`relative z-10 w-full max-w-5xl mx-auto pt-8 border-t flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-sans ${
           isDark ? 'border-neutral-800 text-neutral-400' : 'border-neutral-200 text-neutral-600'
         }`}

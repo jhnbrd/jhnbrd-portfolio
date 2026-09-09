@@ -39,7 +39,7 @@ function ProjectRow({ project, index, isDark, onSelectProject, onHover, onLeave 
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.75,
+        duration: 1.1,
         ease: [0.16, 1, 0.3, 1],
       },
     },
@@ -111,7 +111,11 @@ function ProjectRow({ project, index, isDark, onSelectProject, onHover, onLeave 
 
 export default function EditorialProjectsList({ projects, onSelectProject }) {
   const [hoveredProject, setHoveredProject] = useState(null)
+  const [isPreviewActive, setIsPreviewActive] = useState(false)
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
+
+  const hoverTimerRef = useRef(null)
+  const leaveTimerRef = useRef(null)
   const { isDark } = useTheme()
 
   const displayProjects = projects.slice(0, 4)
@@ -120,12 +124,45 @@ export default function EditorialProjectsList({ projects, onSelectProject }) {
     setMousePos({ x: e.clientX, y: e.clientY })
   }
 
+  // Row Hover handler with smart 1-second initial delay
+  const handleRowHover = (project) => {
+    if (leaveTimerRef.current) {
+      clearTimeout(leaveTimerRef.current)
+      leaveTimerRef.current = null
+    }
+
+    if (isPreviewActive) {
+      // Already actively previewing -> instant switch without delay!
+      setHoveredProject(project)
+    } else {
+      // First hover -> 1 second (1000ms) delay
+      if (hoverTimerRef.current) clearTimeout(hoverTimerRef.current)
+      hoverTimerRef.current = setTimeout(() => {
+        setHoveredProject(project)
+        setIsPreviewActive(true)
+      }, 1000)
+    }
+  }
+
+  // Row Leave handler with short grace period for moving between rows
+  const handleRowLeave = () => {
+    if (hoverTimerRef.current) {
+      clearTimeout(hoverTimerRef.current)
+      hoverTimerRef.current = null
+    }
+
+    leaveTimerRef.current = setTimeout(() => {
+      setHoveredProject(null)
+      setIsPreviewActive(false)
+    }, 150)
+  }
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
+        staggerChildren: 0.14,
         delayChildren: 0.1,
       },
     },
@@ -134,18 +171,18 @@ export default function EditorialProjectsList({ projects, onSelectProject }) {
   return (
     <section 
       id="projects" 
-      className={`relative w-full py-28 sm:py-36 transition-colors duration-500 ${
+      className={`relative w-full py-28 sm:py-36 transition-colors duration-700 ${
         isDark ? 'bg-neutral-950 text-white' : 'bg-white text-black'
       }`}
       onMouseMove={handleMouseMove}
     >
       <div className="max-w-5xl mx-auto px-6 sm:px-12">
-        {/* Title centered */}
+        {/* Title centered with relaxed pacing */}
         <motion.h2 
           initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false, amount: 0.3 }}
-          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
           className={`text-xl sm:text-2xl font-normal text-center mb-20 select-none font-sans ${
             isDark ? 'text-neutral-300' : 'text-neutral-800'
           }`}
@@ -170,40 +207,41 @@ export default function EditorialProjectsList({ projects, onSelectProject }) {
               index={index}
               isDark={isDark}
               onSelectProject={onSelectProject}
-              onHover={(p) => setHoveredProject(p)}
-              onLeave={() => setHoveredProject(null)}
+              onHover={handleRowHover}
+              onLeave={handleRowLeave}
             />
           ))}
         </motion.div>
       </div>
 
-      {/* Floating Cursor-Follower Preview */}
+      {/* Floating Cursor-Follower Preview with spring entrance */}
       <AnimatePresence>
         {hoveredProject && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
+            initial={{ opacity: 0, scale: 0.85, y: -10 }}
             animate={{ 
               opacity: 1, 
               scale: 1, 
               x: mousePos.x + 28, 
               y: mousePos.y - 90 
             }}
-            exit={{ opacity: 0, scale: 0.8 }}
+            exit={{ opacity: 0, scale: 0.85, transition: { duration: 0.2 } }}
             transition={{
               type: 'spring',
-              stiffness: 450,
-              damping: 32,
+              stiffness: 420,
+              damping: 30,
               mass: 0.35,
             }}
-            className="pointer-events-none fixed top-0 left-0 z-40 w-64 sm:w-80 rounded-xl overflow-hidden shadow-[0_20px_40px_rgba(0,0,0,0.25)] border border-neutral-100 bg-black hidden md:block"
+            className="pointer-events-none fixed top-0 left-0 z-40 w-64 sm:w-80 rounded-2xl overflow-hidden shadow-[0_25px_50px_rgba(0,0,0,0.35)] border border-neutral-200 dark:border-neutral-800 bg-neutral-900 hidden md:block"
           >
-            <div className="relative aspect-[16/10] bg-neutral-900 overflow-hidden">
+            <div className="relative aspect-[16/10] bg-neutral-950 overflow-hidden">
               <img 
                 src={hoveredProject.image} 
                 alt={hoveredProject.name}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover transition-transform duration-500 scale-105"
                 onError={(e) => { e.currentTarget.style.display = 'none' }}
               />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
             </div>
           </motion.div>
         )}
