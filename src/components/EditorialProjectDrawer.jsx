@@ -20,7 +20,7 @@ export default function EditorialProjectDrawer({ project, onClose }) {
 
   // Split technology tags into Frontend vs Backend cleanly
   const frontendKeywords = ['react', 'vue', 'html', 'css', 'javascript', 'customtkinter', 'ui', 'tailwind', 'three.js']
-  const backendKeywords = ['python', 'fastapi', 'laravel', 'php', 'sqlite', 'mysql', 'postgresql', 'openwrt', 'scikit-learn', 'psutil', 'nodogsplash', 'c++', 'arduino', 'spring boot', 'graphql', 'mongodb']
+  const backendKeywords = ['python', 'fastapi', 'laravel', 'php', 'sqlite', 'mysql', 'postgresql', 'postgis', 'node.js', 'openwrt', 'scikit-learn', 'psutil', 'nodogsplash', 'c++', 'arduino', 'spring boot', 'graphql', 'mongodb', 'c#', '.net', 'sql', 'paymongo', 'tensorflow']
 
   const frontendStack = project?.tags?.filter(t => 
     frontendKeywords.some(kw => t.toLowerCase().includes(kw))
