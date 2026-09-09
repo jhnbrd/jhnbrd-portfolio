@@ -28,5 +28,6 @@ Thumbs.db
 # Test / coverage
 coverage/
 
-# Local planning
+# Local planning & context
 minimalist_plan.md
+context.md
