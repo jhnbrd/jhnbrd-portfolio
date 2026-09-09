@@ -39,7 +39,7 @@ function ProjectRow({ project, index, isDark, onSelectProject, onHover, onLeave 
       opacity: 1,
       y: 0,
       transition: {
-        duration: 1.1,
+        duration: 1.6,
         ease: [0.16, 1, 0.3, 1],
       },
     },
@@ -124,7 +124,7 @@ export default function EditorialProjectsList({ projects, onSelectProject }) {
     setMousePos({ x: e.clientX, y: e.clientY })
   }
 
-  // Row Hover handler with smart 1-second initial delay
+  // Row Hover handler with half-second (500ms) initial delay
   const handleRowHover = (project) => {
     if (leaveTimerRef.current) {
       clearTimeout(leaveTimerRef.current)
@@ -135,12 +135,12 @@ export default function EditorialProjectsList({ projects, onSelectProject }) {
       // Already actively previewing -> instant switch without delay!
       setHoveredProject(project)
     } else {
-      // First hover -> 1 second (1000ms) delay
+      // First hover -> half second (500ms) delay
       if (hoverTimerRef.current) clearTimeout(hoverTimerRef.current)
       hoverTimerRef.current = setTimeout(() => {
         setHoveredProject(project)
         setIsPreviewActive(true)
-      }, 1000)
+      }, 500)
     }
   }
 
@@ -162,8 +162,8 @@ export default function EditorialProjectsList({ projects, onSelectProject }) {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.14,
-        delayChildren: 0.1,
+        staggerChildren: 0.18,
+        delayChildren: 0.15,
       },
     },
   }
@@ -177,12 +177,12 @@ export default function EditorialProjectsList({ projects, onSelectProject }) {
       onMouseMove={handleMouseMove}
     >
       <div className="max-w-5xl mx-auto px-6 sm:px-12">
-        {/* Title centered with relaxed pacing */}
+        {/* Title centered with relaxed pacing, triggers only when centered in view */}
         <motion.h2 
-          initial={{ opacity: 0, y: 25 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.3 }}
-          transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
+          viewport={{ once: false, margin: '-20% 0px -20% 0px', amount: 0.4 }}
+          transition={{ duration: 1.8, ease: [0.16, 1, 0.3, 1] }}
           className={`text-xl sm:text-2xl font-normal text-center mb-20 select-none font-sans ${
             isDark ? 'text-neutral-300' : 'text-neutral-800'
           }`}
@@ -190,12 +190,12 @@ export default function EditorialProjectsList({ projects, onSelectProject }) {
           Selected Projects
         </motion.h2>
 
-        {/* Project list */}
+        {/* Project list - triggers when centered on screen */}
         <motion.div 
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: false, amount: 0.15 }}
+          viewport={{ once: false, margin: '-18% 0px -18% 0px', amount: 0.35 }}
           className={`divide-y border-y ${
             isDark ? 'divide-neutral-800 border-neutral-800' : 'divide-neutral-200 border-neutral-200'
           }`}

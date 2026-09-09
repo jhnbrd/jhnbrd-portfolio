@@ -11,19 +11,19 @@ export default function EditorialFooter({ personal }) {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.16,
-        delayChildren: 0.1,
+        staggerChildren: 0.22,
+        delayChildren: 0.15,
       },
     },
   }
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 35 },
+    hidden: { opacity: 0, y: 45 },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 1.25,
+        duration: 1.8,
         ease: [0.16, 1, 0.3, 1],
       },
     },
@@ -57,12 +57,12 @@ export default function EditorialFooter({ personal }) {
       {/* Top balance anchor */}
       <div className="hidden sm:block h-4" />
 
-      {/* Center Collaboration CTA Area */}
+      {/* Center Collaboration CTA Area - triggers when centered on screen */}
       <motion.div
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: false, amount: 0.2 }}
+        viewport={{ once: false, margin: '-18% 0px -18% 0px', amount: 0.35 }}
         className="relative z-10 max-w-4xl mx-auto px-4 text-center flex flex-col items-center my-auto py-12 w-full"
       >
         <motion.p 
@@ -132,8 +132,8 @@ export default function EditorialFooter({ personal }) {
       <motion.div 
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
-        viewport={{ once: false, amount: 0.2 }}
-        transition={{ duration: 1.1, delay: 0.15 }}
+        viewport={{ once: false, margin: '-10% 0px 0px 0px', amount: 0.2 }}
+        transition={{ duration: 1.4, delay: 0.2 }}
         className={`relative z-10 w-full max-w-5xl mx-auto pt-8 border-t flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-sans ${
           isDark ? 'border-neutral-800 text-neutral-400' : 'border-neutral-200 text-neutral-600'
         }`}

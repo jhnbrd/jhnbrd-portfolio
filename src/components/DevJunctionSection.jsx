@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
-import { ArrowUpRight, Database, Cpu, ShieldCheck, Sparkles } from 'lucide-react'
+import { ArrowUpRight, Database, Cpu, ShieldCheck } from 'lucide-react'
 import { useTheme } from '../hooks/useTheme'
 
 export default function DevJunctionSection({ personal }) {
@@ -13,25 +13,25 @@ export default function DevJunctionSection({ personal }) {
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
 
-  // Smooth, relaxed scroll reveal transitions
+  // Smooth, relaxed scroll reveal transitions (1.8s duration)
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.18,
-        delayChildren: 0.1,
+        staggerChildren: 0.22,
+        delayChildren: 0.15,
       },
     },
   }
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 40 },
+    hidden: { opacity: 0, y: 50 },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 1.3,
+        duration: 1.8,
         ease: [0.16, 1, 0.3, 1],
       },
     },
@@ -92,7 +92,7 @@ export default function DevJunctionSection({ personal }) {
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: false, amount: 0.2 }}
+          viewport={{ once: false, margin: '-20% 0px -20% 0px', amount: 0.35 }}
           className="w-full flex flex-col space-y-12"
         >
           {/* Spotlight Tag */}

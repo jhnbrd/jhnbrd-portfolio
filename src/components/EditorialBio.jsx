@@ -24,19 +24,19 @@ export default function EditorialBio({ personal }) {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.18,
-        delayChildren: 0.1,
+        staggerChildren: 0.22,
+        delayChildren: 0.15,
       },
     },
   }
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 40 },
+    hidden: { opacity: 0, y: 55 },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 1.3,
+        duration: 1.8,
         ease: [0.16, 1, 0.3, 1],
       },
     },
@@ -56,7 +56,7 @@ export default function EditorialBio({ personal }) {
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: false, amount: 0.2 }}
+          viewport={{ once: false, margin: '-20% 0px -20% 0px', amount: 0.35 }}
           className="w-full flex flex-col"
         >
           {/* Top Unique Manifesto Statement */}
