@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { ArrowUpRight } from 'lucide-react'
 import { useTheme } from '../hooks/useTheme'
 
 function ProjectRow({ project, index, isDark, onSelectProject, onHover, onLeave }) {
@@ -211,6 +212,29 @@ export default function EditorialProjectsList({ projects, onSelectProject }) {
               onLeave={handleRowLeave}
             />
           ))}
+        </motion.div>
+
+        {/* See 30+ projects on GitHub link */}
+        <motion.div
+          initial={{ opacity: 0, y: 25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, margin: '-10% 0px -10% 0px', amount: 0.3 }}
+          transition={{ duration: 1.4, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          className="mt-14 sm:mt-16 flex justify-center"
+        >
+          <a
+            href="https://github.com/jhnbrd?tab=repositories"
+            target="_blank"
+            rel="noreferrer"
+            className={`group inline-flex items-center gap-2.5 px-6 py-3 rounded-full text-xs sm:text-sm font-mono transition-all duration-300 transform hover:-translate-y-0.5 border ${
+              isDark
+                ? 'border-neutral-800 hover:border-neutral-600 bg-neutral-900/50 hover:bg-neutral-900 text-neutral-400 hover:text-white'
+                : 'border-neutral-200 hover:border-neutral-400 bg-neutral-50 hover:bg-white text-neutral-600 hover:text-black shadow-sm'
+            }`}
+          >
+            <span>See 30+ projects on GitHub</span>
+            <ArrowUpRight size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200" />
+          </a>
         </motion.div>
       </div>
 
