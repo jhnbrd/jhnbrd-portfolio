@@ -12,46 +12,67 @@
     background-color: #050505;
   }
 
+  body {
+    transition: background-color 0.5s ease, color 0.5s ease;
+  }
+
   ::selection {
     background-color: #ff5722;
     color: #ffffff;
   }
 }
 
-/* Gradient highlight for "creative" word exact match to screenshot */
+/* Gradient highlight for accent words */
 .creative-gradient {
   background: linear-gradient(100deg, #ff4d4d 0%, #ff6b3d 45%, #ffd23f 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-/* Precise delicate architectural lines seen in screenshot 1 */
-.hero-lines-overlay {
-  background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+/* Fade-in keyframe for CSS-only reveals */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-/* Subtle chevron animation */
-@keyframes chevronPulse {
-  0%, 100% { opacity: 0.3; transform: translateY(0); }
-  50% { opacity: 0.8; transform: translateY(6px); }
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-.animate-chevron {
-  animation: chevronPulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+/* Fade-in for modals */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-/* Smooth scrollbar */
+.animate-fade-in {
+  animation: fadeIn 0.35s ease-out both;
+}
+
+/* Smooth scrollbar (adapts to theme via JS class on html) */
 ::-webkit-scrollbar {
   width: 5px;
 }
+
 ::-webkit-scrollbar-track {
   background: #050505;
 }
+
+.dark ::-webkit-scrollbar-track {
+  background: #050505;
+}
+
 ::-webkit-scrollbar-thumb {
   background: #262626;
   border-radius: 4px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: #404040;
 }
