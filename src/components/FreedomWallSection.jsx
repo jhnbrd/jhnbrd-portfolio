@@ -15,45 +15,6 @@ import Reveal from './Reveal'
 const STORAGE_KEY = 'jb_freedom_wall_feed_v1'
 const BROADCAST_CHANNEL = 'jb_portfolio_freedom_wall'
 
-// Initial seeded conversation showing lively recent chatter
-const SEED_MESSAGES = [
-  {
-    id: 'msg_1',
-    user: 'sys_admin_dvo',
-    text: 'Zero-trust CF tunnel config is slick! Clean latency.',
-    timestamp: '14:21:05',
-    color: '#38bdf8',
-  },
-  {
-    id: 'msg_2',
-    user: 'alex_founder',
-    text: 'Saw the DevJunction launch. Looking forward to partnering on the SaaS project!',
-    timestamp: '14:22:40',
-    color: '#10b981',
-  },
-  {
-    id: 'msg_3',
-    user: 'dev_mark',
-    text: 'Terminal UI is responsive as hell. Loving the keyboard escape handling.',
-    timestamp: '14:24:12',
-    color: '#f59e0b',
-  },
-  {
-    id: 'msg_4',
-    user: 'guest_882',
-    text: 'Greetings from Manila! Great backend portfolio layout.',
-    timestamp: '14:25:33',
-    color: '#a855f7',
-  },
-  {
-    id: 'msg_5',
-    user: 'um_peer',
-    text: 'Solid mentoring work at CCE skills clinic bro! Keep grinding 💪',
-    timestamp: '14:26:01',
-    color: '#ec4899',
-  },
-]
-
 const USER_COLORS = ['#38bdf8', '#10b981', '#f59e0b', '#a855f7', '#ec4899', '#34d399', '#60a5fa']
 
 export default function FreedomWallSection() {
@@ -65,7 +26,7 @@ export default function FreedomWallSection() {
         if (Array.isArray(parsed) && parsed.length > 0) return parsed.slice(-8)
       }
     } catch (e) {}
-    return SEED_MESSAGES
+    return []
   })
 
   const [username, setUsername] = useState(() => {

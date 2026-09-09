@@ -31,15 +31,7 @@ function recordView() {
 }
 
 // In-memory ring buffer: strictly keeps only the last 8 messages (no-scrollback freedom wall)
-let messageHistory = [
-  {
-    id: 'seed_1',
-    user: 'sys_admin',
-    text: 'Freedom wall node initialized. Ephemeral mode active.',
-    timestamp: new Date().toTimeString().split(' ')[0],
-    color: '#38bdf8',
-  },
-]
+let messageHistory = []
 
 const clients = new Set()
 
