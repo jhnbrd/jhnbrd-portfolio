@@ -22,6 +22,7 @@ export default function MinimalistFreedomWallModal({ isOpen, onClose }) {
   const [onlineCount, setOnlineCount] = useState(1)
   const [socketStatus, setSocketStatus] = useState('connecting')
   const socketRef = useRef(null)
+  const channelRef = useRef(null)
 
   useEffect(() => {
     if (!isOpen) return
@@ -32,44 +33,84 @@ export default function MinimalistFreedomWallModal({ isOpen, onClose }) {
     document.addEventListener('keydown', handleKeyDown)
     document.body.style.overflow = 'hidden'
 
+    // Multi-tab synchronization fallback
+    let channel = null
+    try {
+      if (typeof BroadcastChannel !== 'undefined') {
+        channel = new BroadcastChannel('jb_freedom_wall')
+        channelRef.current = channel
+        channel.onmessage = (event) => {
+          if (event.data?.type === 'NEW_CHAT' && event.data.message) {
+            setMessages((prev) => {
+              if (prev.some((m) => m.id === event.data.message.id)) return prev
+              const next = [...prev.slice(-7), event.data.message]
+              try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(next))
+              } catch (e) {}
+              return next
+            })
+          }
+        }
+      }
+    } catch (e) {}
+
     let ws = null
     let reconnectTimeout = null
+    let isDestroyed = false
 
     function connectWs() {
+      if (isDestroyed) return
       try {
         const isSecure = window.location.protocol === 'https:'
         const protocol = isSecure ? 'wss:' : 'ws:'
-        const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-        const wsUrl = isLocalhost
-          ? `${protocol}//${window.location.hostname}:8008`
-          : `${protocol}//${window.location.host}/ws`
+        // Connect to unified /ws endpoint on the current host (works across localhost, LAN mobile, and production)
+        const wsUrl = `${protocol}//${window.location.host}/ws`
 
         ws = new WebSocket(wsUrl)
         socketRef.current = ws
 
-        ws.onopen = () => setSocketStatus('connected')
+        ws.onopen = () => {
+          if (isDestroyed) return
+          setSocketStatus('connected')
+        }
+
         ws.onmessage = (event) => {
           try {
             const data = JSON.parse(event.data)
             if (data.type === 'INIT' && Array.isArray(data.history)) {
-              setMessages(data.history.slice(-8))
+              if (data.history.length > 0) {
+                setMessages(data.history.slice(-8))
+              }
               if (data.clientsCount) setOnlineCount(data.clientsCount)
             } else if (data.type === 'NEW_CHAT' && data.message) {
               setMessages((prev) => {
+                if (prev.some((m) => m.id === data.message.id)) return prev
                 const next = [...prev.slice(-7), data.message]
                 try {
                   localStorage.setItem(STORAGE_KEY, JSON.stringify(next))
                 } catch (e) {}
                 return next
               })
+              if (channel) {
+                try {
+                  channel.postMessage({ type: 'NEW_CHAT', message: data.message })
+                } catch (e) {}
+              }
             } else if (data.type === 'PRESENCE' && data.clientsCount) {
               setOnlineCount(data.clientsCount)
             }
           } catch (err) {}
         }
+
         ws.onclose = () => {
+          if (isDestroyed) return
           setSocketStatus('offline')
-          reconnectTimeout = setTimeout(connectWs, 5000)
+          reconnectTimeout = setTimeout(connectWs, 3500)
+        }
+
+        ws.onerror = () => {
+          if (isDestroyed) return
+          setSocketStatus('offline')
         }
       } catch (e) {
         setSocketStatus('offline')
@@ -79,10 +120,16 @@ export default function MinimalistFreedomWallModal({ isOpen, onClose }) {
     connectWs()
 
     return () => {
+      isDestroyed = true
       document.removeEventListener('keydown', handleKeyDown)
       document.body.style.overflow = ''
       if (reconnectTimeout) clearTimeout(reconnectTimeout)
-      if (ws) ws.close()
+      if (ws) {
+        try { ws.close() } catch (e) {}
+      }
+      if (channel) {
+        try { channel.close() } catch (e) {}
+      }
     }
   }, [isOpen, onClose])
 
@@ -92,29 +139,42 @@ export default function MinimalistFreedomWallModal({ isOpen, onClose }) {
     if (!trimmed) return
 
     const newEntry = {
-      id: `client_${Date.now()}`,
+      id: `client_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
       user: username.trim() || 'guest',
       text: trimmed,
       timestamp: new Date().toTimeString().split(' ')[0],
       color: '#34d399',
     }
 
-    if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
-      socketRef.current.send(JSON.stringify({
-        type: 'SEND_CHAT',
-        user: newEntry.user,
-        text: newEntry.text,
-        color: newEntry.color,
-      }))
-    }
-
+    // Optimistically add to local feed and broadcast to other tabs
     setMessages((prev) => {
+      if (prev.some((m) => m.id === newEntry.id)) return prev
       const next = [...prev.slice(-7), newEntry]
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(next))
       } catch (e) {}
       return next
     })
+
+    if (channelRef.current) {
+      try {
+        channelRef.current.postMessage({ type: 'NEW_CHAT', message: newEntry })
+      } catch (e) {}
+    }
+
+    // Send over WebSocket if connected
+    if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
+      socketRef.current.send(
+        JSON.stringify({
+          type: 'CHAT',
+          id: newEntry.id,
+          user: newEntry.user,
+          text: newEntry.text,
+          color: newEntry.color,
+        })
+      )
+    }
+
     setInputMessage('')
   }
 

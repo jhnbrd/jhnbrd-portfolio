@@ -122,22 +122,22 @@ export default function DevJunctionSection({ personal }) {
               </div>
 
               {/* Action Buttons */}
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-1 w-full sm:w-auto">
+              <div className="flex flex-wrap items-center gap-3 pt-2">
                 <a
                   href={personal.devjunctionUrl || 'https://facebook.com/DevJunctionInc'}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full text-xs sm:text-sm font-semibold tracking-wide bg-[#1D64F2] hover:bg-[#1651c6] text-white transition-all duration-300 transform hover:-translate-y-0.5 shadow-[0_0_20px_rgba(29,100,242,0.3)] hover:shadow-[0_0_30px_rgba(29,100,242,0.5)] group/btn"
+                  className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-medium tracking-normal bg-[#1D64F2] hover:bg-[#1651c6] text-white transition-all duration-300 transform hover:-translate-y-0.5 shadow-[0_0_20px_rgba(29,100,242,0.3)] hover:shadow-[0_0_30px_rgba(29,100,242,0.5)] whitespace-nowrap group/btn"
                   aria-label="Visit DevJunction Facebook Page"
                 >
                   <span>Visit DevJunction</span>
-                  <ArrowUpRight size={15} className="group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
+                  <ArrowUpRight size={14} className="shrink-0 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
                 </a>
 
                 <button
                   type="button"
                   onClick={handleContactClick}
-                  className={`inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full text-xs sm:text-sm font-mono transition-all duration-300 border ${
+                  className={`inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-mono transition-all duration-300 border whitespace-nowrap ${
                     isDark
                       ? 'border-neutral-800 text-neutral-400 hover:text-white hover:border-[#1D64F2]/50 hover:bg-[#1D64F2]/5'
                       : 'border-neutral-300 text-neutral-600 hover:text-black hover:border-[#1D64F2]/50 hover:bg-white'

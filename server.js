@@ -212,9 +212,9 @@ server.on('upgrade', (req, socket) => {
       if (frame.type === 'text') {
         try {
           const msg = JSON.parse(frame.data)
-          if (msg.type === 'CHAT' && msg.text && msg.user) {
+          if ((msg.type === 'CHAT' || msg.type === 'SEND_CHAT') && msg.text && msg.user) {
             const cleanMsg = {
-              id: `msg_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
+              id: msg.id || `msg_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
               user: String(msg.user).slice(0, 16).trim() || 'anonymous',
               text: String(msg.text).slice(0, 160).trim(),
               timestamp: new Date().toTimeString().split(' ')[0],
