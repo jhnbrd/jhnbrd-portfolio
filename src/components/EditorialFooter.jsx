@@ -32,7 +32,7 @@ export default function EditorialFooter({ personal }) {
   return (
     <footer 
       id="contact" 
-      className={`relative w-full min-h-screen flex flex-col justify-between pt-32 pb-10 sm:pb-12 px-6 sm:px-12 overflow-hidden transition-colors duration-700 ${
+      className={`relative w-full min-h-screen min-h-[100dvh] flex flex-col justify-between pt-20 sm:pt-32 pb-8 sm:pb-12 px-5 sm:px-12 overflow-hidden transition-colors duration-700 ${
         isDark ? 'bg-neutral-950 text-white' : 'bg-white text-black'
       }`}
     >
@@ -62,19 +62,19 @@ export default function EditorialFooter({ personal }) {
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: false, margin: '-18% 0px -18% 0px', amount: 0.35 }}
-        className="relative z-10 max-w-4xl mx-auto px-4 text-center flex flex-col items-center my-auto py-12 w-full"
+        viewport={{ once: false, margin: '-18% 0px -18% 0px', amount: 0.3 }}
+        className="relative z-10 max-w-4xl mx-auto px-4 text-center flex flex-col items-center my-auto py-8 sm:py-12 w-full"
       >
         <motion.p 
           variants={itemVariants}
-          className={`text-sm font-sans mb-3 ${isDark ? 'text-neutral-500' : 'text-neutral-500'}`}
+          className={`text-xs sm:text-sm font-sans mb-2 sm:mb-3 ${isDark ? 'text-neutral-500' : 'text-neutral-500'}`}
         >
           Want to collaborate?
         </motion.p>
 
         <motion.h2 
           variants={itemVariants}
-          className={`text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight leading-[1.08] mb-12 font-sans ${
+          className={`text-3xl sm:text-5xl md:text-7xl font-bold tracking-tight leading-[1.1] mb-8 sm:mb-12 font-sans ${
             isDark ? 'text-white' : 'text-black'
           }`}
         >
@@ -84,11 +84,11 @@ export default function EditorialFooter({ personal }) {
         {/* Action CTAs: Email, LinkedIn, Facebook Messenger */}
         <motion.div 
           variants={itemVariants}
-          className="flex flex-wrap items-center justify-center gap-3.5 sm:gap-4"
+          className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 w-full sm:w-auto max-w-xs sm:max-w-none"
         >
           <a
             href={`mailto:${personal.email}`}
-            className={`inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-xs sm:text-sm font-sans transition-all duration-300 border transform hover:-translate-y-0.5 ${
+            className={`inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full text-xs sm:text-sm font-sans transition-all duration-300 border transform hover:-translate-y-0.5 ${
               isDark 
                 ? 'bg-transparent hover:bg-neutral-800 text-white border-neutral-700 shadow-sm' 
                 : 'bg-transparent hover:bg-neutral-100 text-black border-neutral-300 shadow-sm'
@@ -102,7 +102,7 @@ export default function EditorialFooter({ personal }) {
             href={personal.linkedinUrl}
             target="_blank"
             rel="noreferrer"
-            className={`inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-xs sm:text-sm font-sans transition-all duration-300 border transform hover:-translate-y-0.5 ${
+            className={`inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full text-xs sm:text-sm font-sans transition-all duration-300 border transform hover:-translate-y-0.5 ${
               isDark 
                 ? 'bg-transparent hover:bg-neutral-800 text-white border-neutral-700 shadow-sm' 
                 : 'bg-transparent hover:bg-neutral-100 text-black border-neutral-300 shadow-sm'
@@ -116,7 +116,7 @@ export default function EditorialFooter({ personal }) {
             href="https://m.me/yanjisama"
             target="_blank"
             rel="noreferrer"
-            className={`inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-xs sm:text-sm font-sans transition-all duration-300 border transform hover:-translate-y-0.5 ${
+            className={`inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full text-xs sm:text-sm font-sans transition-all duration-300 border transform hover:-translate-y-0.5 ${
               isDark 
                 ? 'bg-transparent hover:bg-[#1877F2]/15 text-white border-neutral-700 hover:border-[#1877F2]/50 shadow-sm' 
                 : 'bg-transparent hover:bg-[#1877F2]/10 text-black border-neutral-300 hover:border-[#1877F2]/50 shadow-sm'
@@ -134,11 +134,11 @@ export default function EditorialFooter({ personal }) {
         whileInView={{ opacity: 1 }}
         viewport={{ once: false, margin: '-10% 0px 0px 0px', amount: 0.2 }}
         transition={{ duration: 1.4, delay: 0.2 }}
-        className={`relative z-10 w-full max-w-5xl mx-auto pt-8 border-t flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-sans ${
+        className={`relative z-10 w-full max-w-5xl mx-auto pt-6 sm:pt-8 border-t flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 text-xs font-sans ${
           isDark ? 'border-neutral-800 text-neutral-400' : 'border-neutral-200 text-neutral-600'
         }`}
       >
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 sm:gap-3 text-center sm:text-left">
           <span className={`text-base font-bold tracking-tighter ${isDark ? 'text-white' : 'text-black'}`}>jb</span>
           <span className="opacity-40">·</span>
           <span className="font-medium">Jhianne Berida</span>

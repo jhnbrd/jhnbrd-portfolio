@@ -54,9 +54,9 @@ function ProjectRow({ project, index, isDark, onSelectProject, onHover, onLeave 
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={() => onSelectProject(project)}
-      className="group relative flex items-baseline justify-between py-10 sm:py-14 cursor-pointer select-none transition-colors duration-300"
+      className="group relative flex flex-col sm:flex-row sm:items-baseline justify-between py-6 sm:py-12 gap-1.5 sm:gap-0 cursor-pointer select-none transition-colors duration-300"
     >
-      <div className="flex items-baseline space-x-6 sm:space-x-10 z-10">
+      <div className="flex items-baseline space-x-4 sm:space-x-8 z-10">
         <motion.span
           animate={{
             x: isHovered ? offset.x * 0.4 : 0,
@@ -81,7 +81,7 @@ function ProjectRow({ project, index, isDark, onSelectProject, onHover, onLeave 
             damping: 24,
             mass: 0.25,
           }}
-          className={`text-3xl sm:text-5xl md:text-6xl font-medium tracking-tight transition-colors duration-300 ${
+          className={`text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-medium tracking-tight transition-colors duration-300 ${
             isDark 
               ? 'text-neutral-100 group-hover:text-neutral-400' 
               : 'text-neutral-950 group-hover:text-neutral-500'
@@ -91,7 +91,7 @@ function ProjectRow({ project, index, isDark, onSelectProject, onHover, onLeave 
         </motion.h3>
       </div>
 
-      <div className="z-10 text-right">
+      <div className="z-10 pl-8 sm:pl-0 text-left sm:text-right">
         <motion.span
           animate={{
             x: isHovered ? -offset.x * 0.3 : 0,
@@ -172,19 +172,19 @@ export default function EditorialProjectsList({ projects, onSelectProject }) {
   return (
     <section 
       id="projects" 
-      className={`relative w-full py-28 sm:py-36 transition-colors duration-700 ${
+      className={`relative w-full py-20 sm:py-36 transition-colors duration-700 ${
         isDark ? 'bg-neutral-950 text-white' : 'bg-white text-black'
       }`}
       onMouseMove={handleMouseMove}
     >
-      <div className="max-w-5xl mx-auto px-6 sm:px-12">
+      <div className="max-w-5xl mx-auto px-5 sm:px-12">
         {/* Title centered with relaxed pacing, triggers only when centered in view */}
         <motion.h2 
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false, margin: '-20% 0px -20% 0px', amount: 0.4 }}
           transition={{ duration: 1.8, ease: [0.16, 1, 0.3, 1] }}
-          className={`text-xl sm:text-2xl font-normal text-center mb-20 select-none font-sans ${
+          className={`text-lg sm:text-2xl font-normal text-center mb-12 sm:mb-20 select-none font-sans ${
             isDark ? 'text-neutral-300' : 'text-neutral-800'
           }`}
         >
@@ -220,13 +220,13 @@ export default function EditorialProjectsList({ projects, onSelectProject }) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false, margin: '-10% 0px -10% 0px', amount: 0.3 }}
           transition={{ duration: 1.4, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-14 sm:mt-16 flex justify-center"
+          className="mt-10 sm:mt-16 flex justify-center"
         >
           <a
             href="https://github.com/jhnbrd?tab=repositories"
             target="_blank"
             rel="noreferrer"
-            className={`group inline-flex items-center gap-2.5 px-6 py-3 rounded-full text-xs sm:text-sm font-mono transition-all duration-300 transform hover:-translate-y-0.5 border ${
+            className={`group inline-flex items-center justify-center gap-2.5 px-6 py-3 rounded-full text-xs sm:text-sm font-mono transition-all duration-300 transform hover:-translate-y-0.5 border w-full sm:w-auto ${
               isDark
                 ? 'border-neutral-800 hover:border-neutral-600 bg-neutral-900/50 hover:bg-neutral-900 text-neutral-400 hover:text-white'
                 : 'border-neutral-200 hover:border-neutral-400 bg-neutral-50 hover:bg-white text-neutral-600 hover:text-black shadow-sm'

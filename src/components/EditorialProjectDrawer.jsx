@@ -39,19 +39,19 @@ export default function EditorialProjectDrawer({ project, onClose }) {
           transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
           className="fixed inset-0 z-50 overflow-y-auto bg-black text-white"
         >
-          {/* Top navigation row matching video 00:19 */}
-          <div className="max-w-5xl mx-auto px-6 sm:px-12 pt-8 pb-6 flex items-center justify-between">
+          {/* Top navigation row */}
+          <div className="max-w-5xl mx-auto px-5 sm:px-12 pt-6 sm:pt-8 pb-4 sm:pb-6 flex items-center justify-between">
             {/* Back button */}
             <button
               onClick={onClose}
-              className="flex items-center gap-2 text-xs uppercase tracking-widest font-mono text-neutral-400 hover:text-white transition-colors"
+              className="flex items-center gap-2 py-2 text-xs uppercase tracking-widest font-mono text-neutral-400 hover:text-white transition-colors"
             >
               <X size={16} />
               <span>Back</span>
             </button>
 
             {/* Top right external link icon */}
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3">
               {project.liveUrl && (
                 <a
                   href={project.liveUrl}
@@ -83,11 +83,11 @@ export default function EditorialProjectDrawer({ project, onClose }) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 30 }}
             transition={{ duration: 0.5, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="max-w-5xl mx-auto px-6 sm:px-12 py-10 space-y-16"
+            className="max-w-5xl mx-auto px-5 sm:px-12 py-6 sm:py-10 space-y-10 sm:space-y-16"
           >
-            {/* Project Title & Headline matching video 00:19 */}
+            {/* Project Title & Headline */}
             <div>
-              <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-white mb-4">
+              <h1 className="text-3xl sm:text-5xl md:text-7xl font-bold tracking-tight text-white mb-3 sm:mb-4">
                 {project.name}
               </h1>
               <p className="text-neutral-400 font-mono text-xs sm:text-sm">
@@ -95,10 +95,10 @@ export default function EditorialProjectDrawer({ project, onClose }) {
               </p>
             </div>
 
-            {/* Description & Technologies Two-Column Grid matching video 00:19 */}
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-10 sm:gap-16 pt-8 border-t border-neutral-900">
+            {/* Description & Technologies Two-Column Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 sm:gap-16 pt-6 sm:pt-8 border-t border-neutral-900">
               {/* Left Column: DESCRIPTION */}
-              <div className="md:col-span-7 space-y-4">
+              <div className="md:col-span-7 space-y-3 sm:space-y-4">
                 <h3 className="text-xs font-mono uppercase tracking-widest text-neutral-400">
                   Description
                 </h3>
@@ -108,7 +108,7 @@ export default function EditorialProjectDrawer({ project, onClose }) {
               </div>
 
               {/* Right Column: TECHNOLOGIES */}
-              <div className="md:col-span-5 space-y-4">
+              <div className="md:col-span-5 space-y-3 sm:space-y-4">
                 <h3 className="text-xs font-mono uppercase tracking-widest text-neutral-400">
                   Technologies
                 </h3>
@@ -130,12 +130,12 @@ export default function EditorialProjectDrawer({ project, onClose }) {
             </div>
 
             {/* Bottom: Framed UI Screenshot Showcase */}
-            <div className="pt-8 border-t border-neutral-900">
-              <div className="relative rounded-2xl overflow-hidden border border-neutral-800/80 bg-neutral-950 shadow-2xl">
+            <div className="pt-6 sm:pt-8 border-t border-neutral-900 pb-8">
+              <div className="relative rounded-xl sm:rounded-2xl overflow-hidden border border-neutral-800/80 bg-neutral-950 shadow-2xl">
                 <img
                   src={project.image}
                   alt={`${project.name} preview`}
-                  className="w-full h-auto object-cover max-h-[640px]"
+                  className="w-full h-auto object-cover max-h-[380px] sm:max-h-[640px]"
                   onError={(e) => { e.currentTarget.style.display = 'none' }}
                 />
               </div>

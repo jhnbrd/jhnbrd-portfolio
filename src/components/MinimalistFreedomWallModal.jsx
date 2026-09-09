@@ -122,15 +122,15 @@ export default function MinimalistFreedomWallModal({ isOpen, onClose }) {
 
   return (
     <div 
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in"
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-sm animate-fade-in"
       onClick={onClose}
     >
       <div 
-        className="w-full max-w-lg bg-[#0d0e12] border border-neutral-800 rounded-3xl p-6 sm:p-8 shadow-2xl flex flex-col space-y-6"
+        className="w-full max-w-lg bg-[#0d0e12] border border-neutral-800 rounded-2xl sm:rounded-3xl p-5 sm:p-8 shadow-2xl flex flex-col space-y-5 sm:space-y-6 max-h-[90dvh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-neutral-800 pb-4">
+        <div className="flex items-center justify-between border-b border-neutral-800 pb-3 sm:pb-4">
           <div className="flex items-center gap-2 font-mono text-xs text-neutral-300">
             <Radio size={13} className={socketStatus === 'connected' ? 'text-emerald-400' : 'text-neutral-500'} />
             <span className="font-semibold text-white">Live Freedom Wall</span>
@@ -138,7 +138,7 @@ export default function MinimalistFreedomWallModal({ isOpen, onClose }) {
           </div>
           <button 
             onClick={onClose}
-            className="w-7 h-7 rounded-full bg-neutral-900 flex items-center justify-center text-neutral-400 hover:text-white"
+            className="w-7 h-7 rounded-full bg-neutral-900 flex items-center justify-center text-neutral-400 hover:text-white transition-colors"
             aria-label="Close"
           >
             <X size={14} />
@@ -146,31 +146,31 @@ export default function MinimalistFreedomWallModal({ isOpen, onClose }) {
         </div>
 
         {/* In-Memory Ring Feed / Human Only Messages */}
-        <div className="space-y-3 max-h-64 overflow-y-auto pr-1">
+        <div className="space-y-2.5 sm:space-y-3 max-h-60 sm:max-h-64 overflow-y-auto pr-1">
           {messages.length === 0 ? (
-            <div className="py-12 flex flex-col items-center justify-center text-center text-neutral-500 space-y-2 select-none">
-              <MessageSquare size={26} className="text-neutral-700 mb-1" />
+            <div className="py-10 sm:py-12 flex flex-col items-center justify-center text-center text-neutral-500 space-y-2 select-none">
+              <MessageSquare size={24} className="text-neutral-700 mb-1" />
               <p className="text-xs font-mono text-neutral-300">No messages on the wall yet.</p>
-              <p className="text-[11px] text-neutral-500 max-w-xs">
+              <p className="text-[11px] text-neutral-500 max-w-xs px-2">
                 Be the first visitor to broadcast a message to anyone online!
               </p>
             </div>
           ) : (
             messages.map((msg, i) => (
-              <div key={msg.id || i} className="p-3.5 rounded-xl bg-neutral-900/60 border border-neutral-800/80 font-mono text-xs">
+              <div key={msg.id || i} className="p-3 sm:p-3.5 rounded-xl bg-neutral-900/60 border border-neutral-800/80 font-mono text-xs">
                 <div className="flex items-center justify-between text-neutral-500 mb-1">
                   <span className="font-bold text-neutral-300" style={{ color: msg.color || '#38bdf8' }}>{msg.user}</span>
-                  <span>{msg.timestamp}</span>
+                  <span className="text-[10px]">{msg.timestamp}</span>
                 </div>
-                <p className="text-neutral-200 text-sm font-sans font-normal leading-relaxed">{msg.text}</p>
+                <p className="text-neutral-200 text-xs sm:text-sm font-sans font-normal leading-relaxed">{msg.text}</p>
               </div>
             ))
           )}
         </div>
 
         {/* Input Form */}
-        <form onSubmit={handleSendMessage} className="space-y-3">
-          <div className="flex gap-2">
+        <form onSubmit={handleSendMessage} className="space-y-2.5 sm:space-y-3">
+          <div className="flex flex-col sm:flex-row gap-2">
             <input 
               type="text" 
               value={username}
@@ -179,14 +179,14 @@ export default function MinimalistFreedomWallModal({ isOpen, onClose }) {
                 localStorage.setItem('jb_freedom_wall_username', e.target.value)
               }}
               placeholder="Username" 
-              className="w-1/3 bg-neutral-900 border border-neutral-800 rounded-xl px-3.5 py-2 text-xs font-mono text-white focus:outline-none focus:border-emerald-500"
+              className="sm:w-1/3 bg-neutral-900 border border-neutral-800 rounded-xl px-3.5 py-2.5 text-xs font-mono text-white focus:outline-none focus:border-emerald-500"
             />
             <input 
               type="text" 
               value={inputMessage}
               onChange={(e) => setInputMessage(e.target.value)}
               placeholder="Say something nice..." 
-              className="flex-1 bg-neutral-900 border border-neutral-800 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-emerald-500"
+              className="flex-1 bg-neutral-900 border border-neutral-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500"
             />
           </div>
           <button 

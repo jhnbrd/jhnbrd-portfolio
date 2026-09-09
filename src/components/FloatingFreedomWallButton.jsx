@@ -35,7 +35,7 @@ export default function FloatingFreedomWallButton({ onClick }) {
             damping: 22,
             mass: 0.6,
           }}
-          className="fixed bottom-6 right-6 sm:bottom-10 sm:right-10 z-40 pointer-events-auto"
+          className="fixed bottom-5 right-5 sm:bottom-10 sm:right-10 z-40 pointer-events-auto"
         >
           {/* Cute subtle floating bounce */}
           <motion.button

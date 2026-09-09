@@ -28,7 +28,7 @@ export default function EditorialHeader({ onOpenFreedomWall }) {
 
   return (
     <>
-      <header className="fixed top-0 left-0 w-full z-40 px-8 sm:px-16 py-8 flex items-center justify-between pointer-events-none transition-colors duration-300">
+      <header className="fixed top-0 left-0 w-full z-40 px-5 sm:px-12 md:px-16 py-5 sm:py-8 flex items-center justify-between pointer-events-none transition-colors duration-300">
         {/* Left mark */}
         <a 
           href="#" 
@@ -38,7 +38,7 @@ export default function EditorialHeader({ onOpenFreedomWall }) {
         </a>
 
         {/* Right actions */}
-        <div className="flex items-center gap-5 pointer-events-auto">
+        <div className="flex items-center gap-4 sm:gap-5 pointer-events-auto">
           {/* Dark/Light Mode Toggle */}
           <button
             onClick={toggle}
@@ -51,7 +51,7 @@ export default function EditorialHeader({ onOpenFreedomWall }) {
           {/* Menu toggle */}
           <button
             onClick={() => setIsMenuOpen(true)}
-            className={`flex items-center gap-2.5 text-sm font-medium tracking-tight group transition-colors duration-300 select-none ${headerTextColor}`}
+            className={`flex items-center gap-2.5 text-sm font-medium tracking-tight group transition-colors duration-300 select-none py-1 ${headerTextColor}`}
             aria-label="Toggle Menu"
           >
             <span className="text-xs uppercase tracking-wider font-sans font-normal opacity-85 group-hover:opacity-100">menu</span>
@@ -81,7 +81,7 @@ export default function EditorialHeader({ onOpenFreedomWall }) {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', stiffness: 380, damping: 38 }}
-              className={`fixed top-0 right-0 h-full w-full sm:w-[480px] md:w-[540px] z-50 p-10 sm:p-14 flex flex-col justify-between shadow-2xl transition-colors duration-500 ${
+              className={`fixed top-0 right-0 h-full w-full sm:w-[480px] md:w-[540px] z-50 p-6 sm:p-12 md:p-14 flex flex-col justify-between shadow-2xl transition-colors duration-500 overflow-y-auto ${
                 isDark ? 'bg-neutral-950 text-white' : 'bg-white text-black'
               }`}
             >
@@ -97,25 +97,25 @@ export default function EditorialHeader({ onOpenFreedomWall }) {
                 </button>
               </div>
 
-              <div className="grid grid-cols-12 gap-8 my-auto pt-6">
-                {/* Left col: Social */}
-                <div className="col-span-5 space-y-4 font-sans">
-                  <div className={`text-xs font-mono uppercase tracking-widest mb-6 ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>
+              <div className="flex flex-col-reverse sm:grid sm:grid-cols-12 gap-8 my-auto pt-6">
+                {/* Social links */}
+                <div className="sm:col-span-5 space-y-3 sm:space-y-4 font-sans">
+                  <div className={`text-xs font-mono uppercase tracking-widest mb-4 sm:mb-6 ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>
                     Social
                   </div>
-                  <div className={`flex flex-col space-y-3 text-base ${isDark ? 'text-neutral-400' : 'text-neutral-600'}`}>
-                    <a href="https://linkedin.com/in/jhianneberida" target="_blank" rel="noreferrer" className={`${isDark ? 'hover:text-white' : 'hover:text-black'} transition-colors`}>LinkedIn</a>
-                    <a href="https://facebook.com/yanjisama" target="_blank" rel="noreferrer" className={`${isDark ? 'hover:text-white' : 'hover:text-black'} transition-colors`}>Facebook</a>
-                    <a href="https://github.com/jhnbrd" target="_blank" rel="noreferrer" className={`${isDark ? 'hover:text-white' : 'hover:text-black'} transition-colors`}>GitHub</a>
+                  <div className={`flex flex-col space-y-2.5 sm:space-y-3 text-sm sm:text-base ${isDark ? 'text-neutral-400' : 'text-neutral-600'}`}>
+                    <a href="https://linkedin.com/in/jhianneberida" target="_blank" rel="noreferrer" className={`${isDark ? 'hover:text-white' : 'hover:text-black'} transition-colors py-0.5`}>LinkedIn</a>
+                    <a href="https://facebook.com/yanjisama" target="_blank" rel="noreferrer" className={`${isDark ? 'hover:text-white' : 'hover:text-black'} transition-colors py-0.5`}>Facebook</a>
+                    <a href="https://github.com/jhnbrd" target="_blank" rel="noreferrer" className={`${isDark ? 'hover:text-white' : 'hover:text-black'} transition-colors py-0.5`}>GitHub</a>
                   </div>
                 </div>
 
-                {/* Right col: Sections */}
-                <div className="col-span-7 space-y-6">
-                  <div className={`text-xs font-mono uppercase tracking-widest mb-6 ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>
+                {/* Sections navigation */}
+                <div className="sm:col-span-7 space-y-4 sm:space-y-6">
+                  <div className={`text-xs font-mono uppercase tracking-widest mb-4 sm:mb-6 ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>
                     Menu
                   </div>
-                  <nav className="flex flex-col space-y-4">
+                  <nav className="flex flex-col space-y-3 sm:space-y-4">
                     {[
                       { label: 'About Me', href: '#about' },
                       { label: 'DevJunction', href: '#devjunction' },
@@ -126,7 +126,7 @@ export default function EditorialHeader({ onOpenFreedomWall }) {
                         key={idx}
                         href={item.href}
                         onClick={() => setIsMenuOpen(false)}
-                        className={`text-3xl sm:text-4xl font-medium tracking-tight transition-colors ${
+                        className={`text-2xl sm:text-4xl font-medium tracking-tight transition-colors py-1 ${
                           isDark ? 'text-white hover:text-neutral-400' : 'text-neutral-900 hover:text-neutral-500'
                         }`}
                       >
@@ -137,7 +137,7 @@ export default function EditorialHeader({ onOpenFreedomWall }) {
                 </div>
               </div>
 
-              <div className={`pt-8 flex items-center justify-between text-xs font-sans ${
+              <div className={`pt-6 sm:pt-8 flex items-center justify-between text-xs font-sans ${
                 isDark ? 'border-t border-neutral-800' : 'border-t border-neutral-100'
               }`}>
                 <div>

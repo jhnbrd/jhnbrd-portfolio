@@ -13,18 +13,19 @@ function CodeRepulsionField() {
   const shardsRef = useRef([])
   const rafRef = useRef(null)
 
-  const SHARD_COUNT = 65
-  const REPEL_RADIUS = 160
+  const REPEL_RADIUS = 150
   const GLYPHS = ['0', '1', '{}', '[]', '//', '=>', ';', '&&', '()', '!=', '::', 'nil', '0x1']
 
   const initShards = useCallback((w, h) => {
+    const isMobile = w < 640
+    const shardCount = isMobile ? 32 : 65
     const shards = []
-    for (let i = 0; i < SHARD_COUNT; i++) {
+    for (let i = 0; i < shardCount; i++) {
       const originX = Math.random() * w
       const originY = Math.random() * h
       const glyph = GLYPHS[Math.floor(Math.random() * GLYPHS.length)]
       const isAccent = Math.random() < 0.2
-      const size = Math.floor(Math.random() * 4) + 11 // 11px - 14px
+      const size = Math.floor(Math.random() * 4) + (isMobile ? 10 : 11)
 
       shards.push({
         x: originX,
@@ -71,8 +72,22 @@ function CodeRepulsionField() {
       mouseRef.current = { x: -1000, y: -1000 }
     }
 
+    const handleTouchMove = (e) => {
+      if (e.touches && e.touches[0]) {
+        const touch = e.touches[0]
+        const rect = canvas.getBoundingClientRect()
+        mouseRef.current = { x: touch.clientX - rect.left, y: touch.clientY - rect.top }
+      }
+    }
+
+    const handleTouchEnd = () => {
+      mouseRef.current = { x: -1000, y: -1000 }
+    }
+
     window.addEventListener('mousemove', handleMouseMove)
     document.addEventListener('mouseleave', handleMouseLeave)
+    window.addEventListener('touchmove', handleTouchMove, { passive: true })
+    window.addEventListener('touchend', handleTouchEnd)
 
     let frame = 0
     const animate = () => {
@@ -142,6 +157,8 @@ function CodeRepulsionField() {
       window.removeEventListener('resize', resize)
       window.removeEventListener('mousemove', handleMouseMove)
       document.removeEventListener('mouseleave', handleMouseLeave)
+      window.removeEventListener('touchmove', handleTouchMove)
+      window.removeEventListener('touchend', handleTouchEnd)
       if (rafRef.current) cancelAnimationFrame(rafRef.current)
     }
   }, [initShards])
@@ -156,7 +173,7 @@ function CodeRepulsionField() {
 
 export default function EditorialHero() {
   return (
-    <section className="relative w-full min-h-screen bg-[#050505] text-white flex flex-col items-center justify-center px-6 overflow-hidden select-none">
+    <section className="relative w-full min-h-screen min-h-[100dvh] bg-[#050505] text-white flex flex-col items-center justify-center px-5 sm:px-6 overflow-hidden select-none">
       {/* Option D: Physics Repulsion Shards / Binary Particle Cloud */}
       <CodeRepulsionField />
 
@@ -187,7 +204,7 @@ export default function EditorialHero() {
         transition={{ duration: 1.3, ease: [0.16, 1, 0.3, 1] }}
         className="relative z-10 max-w-4xl mx-auto text-center flex flex-col items-center pt-8"
       >
-        <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-bold tracking-tight leading-[1.08] text-white">
+        <h1 className="text-3xl sm:text-5xl md:text-7xl lg:text-[5.5rem] font-bold tracking-tight leading-[1.12] sm:leading-[1.08] text-white">
           Engineering{' '}
           <span className="creative-gradient font-bold tracking-tight">resilient</span>{' '}
           systems.
@@ -198,7 +215,7 @@ export default function EditorialHero() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false, amount: 0.3 }}
           transition={{ duration: 1.2, delay: 0.25, ease: 'easeOut' }}
-          className="mt-6 text-sm sm:text-base md:text-lg text-neutral-400 font-light max-w-lg mx-auto leading-relaxed"
+          className="mt-5 sm:mt-6 text-xs sm:text-base md:text-lg text-neutral-400 font-light max-w-lg mx-auto leading-relaxed px-2"
         >
           Backend architect building scalable APIs, cloud infrastructure, and zero-trust platforms from Davao City.
         </motion.p>
@@ -209,9 +226,9 @@ export default function EditorialHero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.8, duration: 1.2 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center pointer-events-none"
+        className="absolute bottom-6 sm:bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center pointer-events-none"
       >
-        <div className="w-[1px] h-8 bg-gradient-to-b from-white/30 via-white/10 to-transparent animate-pulse" />
+        <div className="w-[1px] h-7 sm:h-8 bg-gradient-to-b from-white/30 via-white/10 to-transparent animate-pulse" />
       </motion.div>
     </section>
   )
