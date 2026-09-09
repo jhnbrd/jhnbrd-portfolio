@@ -5,12 +5,12 @@
   # ⚡ dev.jhnbrd.com — Personal Developer Portfolio
 
   <p align="center">
-    <strong>A high-performance, terminal & homelab-inspired developer portfolio and engineering showcase.</strong>
+    <strong>A high-impact, interaction-first editorial developer portfolio and backend engineering showcase inspired by the architecture and UI/UX psychology of bencodes.de.</strong>
   </p>
 
   <p align="center">
-    <a href="https://dev.jhnbrd.com"><img src="https://img.shields.io/badge/Live%20Demo-dev.jhnbrd.com-38bdf8?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Live Site" /></a>
-    <a href="https://github.com/jhnbrd/portfolio/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-emerald?style=for-the-badge" alt="License" /></a>
+    <a href="https://dev.jhnbrd.com"><img src="https://img.shields.io/badge/Live%20Site-dev.jhnbrd.com-22c55e?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Live Site" /></a>
+    <a href="https://github.com/jhnbrd/portfolio/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-black?style=for-the-badge" alt="License" /></a>
     <a href="https://github.com/jhnbrd/portfolio/stargazers"><img src="https://img.shields.io/github/stars/jhnbrd/portfolio?style=for-the-badge&color=f59e0b&logo=github" alt="Stars" /></a>
     <a href="https://github.com/jhnbrd/portfolio/network/members"><img src="https://img.shields.io/github/forks/jhnbrd/portfolio?style=for-the-badge&color=818cf8&logo=github" alt="Forks" /></a>
   </p>
@@ -19,17 +19,17 @@
     <img src="https://img.shields.io/badge/React-18.3-61DAFB?style=flat-square&logo=react&logoColor=black" alt="React" />
     <img src="https://img.shields.io/badge/Vite-5.4-646CFF?style=flat-square&logo=vite&logoColor=white" alt="Vite" />
     <img src="https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white" alt="Tailwind CSS" />
-    <img src="https://img.shields.io/badge/Node.js-20+-339933?style=flat-square&logo=node.js&logoColor=white" alt="Node" />
+    <img src="https://img.shields.io/badge/Architecture-Editorial_Minimalism-111113?style=flat-square" alt="Style" />
     <img src="https://img.shields.io/badge/Status-Active%20Production-22c55e?style=flat-square" alt="Status" />
   </p>
 
   <p align="center">
+    <a href="#-design-philosophy--uiux-psychology">Design Philosophy</a> •
     <a href="#-features">Features</a> •
     <a href="#-tech-stack">Tech Stack</a> •
     <a href="#-quick-start">Quick Start</a> •
     <a href="#-project-structure">Structure</a> •
     <a href="#-customization">Customization</a> •
-    <a href="#-deployment">Deployment</a> •
     <a href="#-license">License</a>
   </p>
 
@@ -40,34 +40,43 @@
 
 🔗 **[https://dev.jhnbrd.com](https://dev.jhnbrd.com)**
 
-Engineered by **Jhianne Berida** — Backend Architect, Systems Specialist & Co-Founder at DevJunction.
+Engineered by **Jhianne Jose Berida** — Backend Architect, Systems Specialist & Co-Founder at DevJunction.
+
+---
+
+## 🎨 Design Philosophy & UI/UX Psychology
+
+This portfolio departs from generic developer templates and dense card grids in favor of **progressive disclosure, typographic authority, and intentional negative space** inspired by `bencodes.de`:
+
+- **Hick’s Law & Cognitive Load:** The primary portfolio canvas is uncluttered. Projects are presented as a clean numbered index with zero visual noise until interacted with.
+- **Curiosity & Hover Loop:** Hovering over any project row dynamically summons a floating preview card with the project's visual artifact.
+- **Von Restorff (Isolation) Effect:** High-contrast focal anchors (luminous mint accents on void black `#070707`, crisp editorial white `#ffffff`, and bold CTA conversion pills) intuitively guide visitor attention.
+- **Fitts’s Law & Context Preservation:** Deep architectural case studies open in a focused drawer/modal rather than forcing full page navigation, preserving the user’s scroll position and mental state.
 
 ---
 
 ## ✨ Features
 
-- 🖥️ **Interactive Boot Sequence** — Retro terminal BIOS-style boot animation with skip option.
-- 📡 **Homelab & Network Overview** — Dynamic machine inventory, reverse proxy topology, and staging monitor.
-- 📂 **Featured Projects Showcase** — Interactive modal view, direct live links, repository references, and tech tags.
-- 🛠️ **Categorized Tech Matrix** — Organized skills matrix (Backend, Frontend, Databases, DevOps & Cloud, Systems).
-- 🏆 **Credentials & Accomplishments** — Certifications, competitions, and formal education highlights.
-- 📊 **Dynamic GitHub Activity** — Real-time GitHub stats, language distribution, and commit heatmap integration.
-- 📱 **Adaptive Responsive Design** — Split workstation view on desktop with fluid mobile drawer navigation.
-- ⌨️ **Terminal Aesthetics** — Curated dark palette (`#0a0c10`), IBM Plex Mono typography, and glowing telemetry indicators.
+- 🌑 **Void Black Hero Canvas (`#070707`)** — Delicate wireframe architectural grid lines (`.bg-grid-void`), large display typography, and a single mint accent token (`#34d399`).
+- 📄 **Pure Editorial White Body (`#ffffff`)** — Extreme whitespace, hairline dividers (`#e5e7eb`), and a two-column manifesto layout.
+- 🎯 **Interactive Project Hover List** — Monospace index numbers (`01`, `02`), large typography titles, disciplinary tags, and an animated floating cursor-following preview card.
+- 🗂️ **Architectural Case Study Drawer** — Obsidian modal featuring a two-column technical breakdown (Problem & Outcome narrative on the left, explicitly separated **Backend/Infrastructure** vs. **Client/Interface** stack on the right, and framed UI screenshot on the bottom).
+- 📡 **Native Low-Noise Telemetry & Freedom Wall** — Ambient header status badges (availability ping, profile views counter) and an on-demand modal connected to a native Node.js RFC 6455 WebSocket server.
+- 🌸 **Ambient Pastel Footer** — Soft ambient glow gradient (`.bg-ambient-pastel`) paired with high-contrast conversion pill buttons.
 
 ---
 
 ## 🛠️ Tech Stack
 
-| Domain | Technology / Tool | Highlights |
+| Domain | Technology / Tool | Architectural Role |
 | :--- | :--- | :--- |
-| **Core Framework** | React 18 | Functional components, modular hooks, state-driven UI |
-| **Build Engine** | Vite 5 | Fast HMR, optimized production rollup bundle |
-| **Styling** | Tailwind CSS 3 | Custom terminal theme tokens, responsive layouts, glassmorphism |
-| **Icons** | Lucide React | Minimalist crisp iconography |
-| **Typography** | IBM Plex Mono | Monospace developer aesthetic |
-| **Networking / Host** | Cloudflare Edge / Zero-Trust | Global CDN delivery, WAF & SSL/TLS protection |
-| **Telemetry / Sockets** | Node.js (`server.js`) | WebSocket server for telemetry and health status |
+| **Core Framework** | React 18.3 | Component composition, custom hooks, and dynamic modal state |
+| **Build Tooling** | Vite 5.4 | Ultra-fast HMR and optimized production build |
+| **Styling Engine** | Tailwind CSS 3.4 | Custom editorial color tokens (`void`, `editorial`, `hairline`, `accent-neon`), fine-tuned typography |
+| **Typography** | Plus Jakarta Sans & Inter | Geometric display headings, with IBM Plex Mono strictly for indices and telemetry |
+| **Icons** | Lucide React | Minimalist line iconography |
+| **Telemetry Backend** | Node.js (`server.js`) | Native RFC 6455 WebSocket server, atomic view count persistence (`stats.json`), and latency telemetry |
+| **Edge Infrastructure** | Cloudflare Edge | Zero-Trust WAF, SSL/TLS, and global CDN delivery |
 
 ---
 
@@ -75,10 +84,8 @@ Engineered by **Jhianne Berida** — Backend Architect, Systems Specialist & Co-
 
 ### Prerequisites
 
-Ensure you have the following installed on your workstation:
-
 - [Node.js](https://nodejs.org/) `>= 18.0.0` (v20+ LTS recommended)
-- `npm` (bundled with Node) or `pnpm` / `yarn`
+- `npm` (or `pnpm` / `yarn`)
 - `git`
 
 ### Installation
@@ -87,7 +94,7 @@ Ensure you have the following installed on your workstation:
 # 1. Clone the repository
 git clone https://github.com/jhnbrd/portfolio.git
 
-# 2. Navigate to project root
+# 2. Enter project directory
 cd portfolio
 
 # 3. Install dependencies
@@ -96,14 +103,11 @@ npm install
 
 ### Development Server
 
-Start Vite with Hot Module Replacement (HMR):
-
 ```bash
 npm run dev
 ```
 
-The development server will launch at:
-`http://localhost:5173`
+Launches Vite with Hot Module Replacement at: `http://localhost:5173`
 
 ---
 
@@ -111,11 +115,11 @@ The development server will launch at:
 
 | Command | Action |
 | :--- | :--- |
-| `npm run dev` | Starts the Vite local development server |
+| `npm run dev` | Starts Vite local development server |
 | `npm run build` | Compiles and optimizes assets into production-ready `/dist` |
-| `npm run preview` | Runs a local preview server of the production build (`dist/`) |
-| `npm run ws` | Starts the optional telemetry / WebSocket companion service |
-| `npm run start` | Builds the frontend bundle and launches the companion server |
+| `npm run preview` | Runs local preview of the production build (`dist/`) |
+| `npm run ws` | Starts the native WebSocket companion telemetry service |
+| `npm run start` | Builds production bundle and starts companion server |
 
 ---
 
@@ -124,32 +128,32 @@ The development server will launch at:
 ```text
 portfolio/
 ├── public/
-│   ├── favicon.ico             # Site favicon / branding
+│   ├── favicon.ico                   # Brand icon
 │   └── images/
-│       ├── avatar.jpg          # Profile headshot
-│       ├── og/                 # OpenGraph social share previews (1200x630)
-│       └── projects/           # Featured project preview thumbnails (2:1 aspect ratio)
+│       ├── avatar.jpg                # Profile headshot
+│       ├── og/                       # OpenGraph social share previews
+│       └── projects/                 # Featured project preview assets
 ├── src/
-│   ├── components/             # Reusable UI sections and modular components
-│   │   ├── BootScreen.jsx      # Initial BIOS terminal boot sequence
-│   │   ├── HeroSection.jsx     # Terminal prompt, stats, and headline
-│   │   ├── AboutSection.jsx    # Bio, education, and credentials
-│   │   ├── HomelabSection.jsx  # Machine specs, network topology, and staging nodes
-│   │   ├── ProjectsSection.jsx # Grid of featured projects and project details modal
-│   │   ├── StackSection.jsx    # Categorized skill pills and proficiency
-│   │   ├── GitHubSection.jsx   # Live GitHub stats and telemetry
-│   │   └── ContactSection.jsx  # Contact form, socials, and contact endpoints
+│   ├── components/
+│   │   ├── EditorialHeader.jsx       # Minimalist nav bar with status indicator & telemetry
+│   │   ├── EditorialHero.jsx         # Void black hero, wireframe grid, display typography
+│   │   ├── EditorialBio.jsx          # Manifesto statement, two-column split, homelab mesh
+│   │   ├── EditorialProjectsList.jsx # Interactive hover-list with floating preview card
+│   │   ├── EditorialProjectDrawer.jsx# Detailed case study drawer with separated stack
+│   │   ├── EditorialFooter.jsx       # Ambient pastel footer with high-contrast conversion CTA
+│   │   ├── MinimalistFreedomWallModal.jsx # Live WebSocket ephemeral chat modal
+│   │   └── ProfileViewsCounter.jsx   # Atomic profile view counter badge
 │   ├── data/
-│   │   └── portfolio.js        # Centralized single source of truth for all data
-│   ├── hooks/                  # Custom React utility hooks
-│   ├── App.jsx                 # Main layout and view orchestration
-│   ├── index.css               # Tailwind directives and custom animation classes
-│   └── main.jsx                # Application root entry point
-├── server.js                   # Companion Node.js telemetry/WebSocket server
-├── tailwind.config.js          # Color palette, font definitions, and extensions
-├── vite.config.js              # Vite bundler plugins and server options
-├── LICENSE                     # MIT License
-└── package.json                # Project dependencies and script declarations
+│   │   └── portfolio.js              # Central source of truth for all content
+│   ├── App.jsx                       # Main application layout orchestrator
+│   ├── index.css                     # Editorial styling, void grid & ambient pastel gradient
+│   └── main.jsx                      # React application mount point
+├── _old_portfolio/                   # Archived previous terminal components (gitignored)
+├── server.js                         # Native Node.js WebSocket & telemetry server
+├── tailwind.config.js                # Custom editorial color tokens & fonts
+├── vite.config.js                    # Vite configuration
+├── LICENSE                           # MIT License
+└── package.json                      # Dependencies and scripts
 ```
 
 ---
@@ -160,75 +164,17 @@ All portfolio content is decoupled from layout components and centralized in one
 
 👉 **[`src/data/portfolio.js`](src/data/portfolio.js)**
 
-### Updating Content
-
-Modify any exported constant to re-render site information:
-
-- `personal` — Name, job titles, social profiles, email, and bio description
-- `stats` — Quick telemetry counter metrics (projects, languages, machines)
-- `machines` — Homelab inventory, physical hardware specs, and OS details
-- `homelab` — Network architecture, security rules, and active staging endpoints
-- `featuredProjects` — Titles, descriptions, live demo links, repository URLs, and tags
-- `stack` — Tech stack categorized by domain (Backend, Frontend, DBs, Cloud, etc.)
-- `credentials` — Certifications, competition achievements, and education history
-
-### Asset Specifications
-
-| Asset | Location | Recommended Specs |
-| :--- | :--- | :--- |
-| **Favicon** | `public/favicon.ico` | Multi-size ICO (16x16, 32x32, 48x48) |
-| **Profile Photo** | `public/images/avatar.jpg` | 1:1 Aspect ratio, min `500x500px` |
-| **OG Image** | `public/images/og/og-card.jpg` | `1200x630px` (High-res social share) |
-| **Project Thumbnails** | `public/images/projects/*` | `1200x600px` (2:1 landscape, centered) |
-
-### Theme Colors
-
-Customize the UI palette in `tailwind.config.js`:
-
-```javascript
-// tailwind.config.js
-theme: {
-  extend: {
-    colors: {
-      background: '#0a0c10', // Deep terminal background
-      surface:    '#0e1118', // Card and container surface
-      border:     '#1e2330', // Subtle cybernetic border
-      primary:    '#38bdf8', // Accent cyan / telemetry blue
-      foreground: '#e8eaf0', // High-contrast text
-    }
-  }
-}
-```
-
----
-
-## 🚢 Deployment
-
-### Static Hosting (Cloudflare Pages, Vercel, Netlify)
-
-This project compiles to a pure, static Single Page Application (SPA).
-
-1. Build the production files:
-   ```bash
-   npm run build
-   ```
-2. Set your deployment configuration:
-   - **Build Command:** `npm run build`
-   - **Output Directory:** `dist`
-   - **Node Version:** `>= 18`
-
-### Custom Subdomain / Reverse Proxy (e.g. `dev.jhnbrd.com`)
-
-When deploying behind NGINX, Caddy, or Cloudflare Tunnels:
-- Serve `/dist` as the web root.
-- Ensure fallback routing points to `index.html` for client-side navigation.
+- `personal` — Name, roles, social links, and bio text.
+- `featuredProjects` — Project title, subtitle/category, problem & outcome description, tech tags, and screenshots.
+- `homelab` & `machines` — Multi-machine staging mesh, hardware specs, and network setup.
+- `stats` — Telemetry metrics displayed in the hero section.
 
 ---
 
 ## 👤 Author
 
 **Jhianne Jose Berida**  
-*Backend Architect · Cloud & Systems Specialist · Co-Founder @ DevJunction*
+*Backend Architect · Systems Specialist · Co-Founder @ DevJunction*
 
 - 🌐 **Portfolio:** [dev.jhnbrd.com](https://dev.jhnbrd.com)
 - 🐙 **GitHub:** [@jhnbrd](https://github.com/jhnbrd)

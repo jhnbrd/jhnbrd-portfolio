@@ -31,3 +31,7 @@ coverage/
 # Local planning & context
 minimalist_plan.md
 context.md
+
+# Revamp Reference & Backups
+new-plan/
+_old_portfolio/

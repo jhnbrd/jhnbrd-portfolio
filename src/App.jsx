@@ -1,120 +1,67 @@
-import { useEffect, useState, useRef } from 'react'
-import BootScreen from './components/BootScreen'
-import Sidebar from './components/Sidebar'
-import MobileNav from './components/MobileNav'
-import HeroSection from './components/HeroSection'
-import AboutSection from './components/AboutSection'
-import ProjectsSection from './components/ProjectsSection'
-import StackSection from './components/StackSection'
-import CredentialsSection from './components/CredentialsSection'
-import GitHubSection from './components/GitHubSection'
-import FreedomWallSection from './components/FreedomWallSection'
-import ContactSection from './components/ContactSection'
-import Footer from './components/Footer'
+import React, { useState } from 'react'
+import EditorialHeader from './components/EditorialHeader'
+import EditorialHero from './components/EditorialHero'
+import EditorialBio from './components/EditorialBio'
+import EditorialProjectsList from './components/EditorialProjectsList'
+import EditorialProjectDrawer from './components/EditorialProjectDrawer'
+import EditorialFooter from './components/EditorialFooter'
+import MinimalistFreedomWallModal from './components/MinimalistFreedomWallModal'
 
-const SECTIONS = ['projects', 'about', 'stack', 'credentials', 'github', 'freedom-wall', 'contact']
-
-function useActiveSection(scrollRef) {
-  const [active, setActive] = useState('projects')
-
-  useEffect(() => {
-    const root = scrollRef.current
-    if (!root) return
-
-    const observers = []
-
-    SECTIONS.forEach((id) => {
-      const el = document.getElementById(id)
-      if (!el) return
-      const obs = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) setActive(id)
-        },
-        {
-          root,
-          threshold: 0,
-          rootMargin: '-15% 0px -70% 0px',
-        }
-      )
-      obs.observe(el)
-      observers.push(obs)
-    })
-
-    return () => observers.forEach((o) => o.disconnect())
-  }, [scrollRef])
-
-  return active
-}
+// Keep src/data/portfolio.js as the single source of truth
+import {
+  personal,
+  stats,
+  machines,
+  homelab,
+  featuredProjects,
+} from './data/portfolio'
 
 export default function App() {
-  const [booted, setBooted] = useState(false)
-  const scrollRef = useRef(null)
-  const activeSection = useActiveSection(scrollRef)
+  const [selectedProject, setSelectedProject] = useState(null)
+  const [isFreedomWallOpen, setIsFreedomWallOpen] = useState(false)
 
   return (
-    <>
-      {!booted && <BootScreen onComplete={() => setBooted(true)} />}
+    <div className="min-h-screen bg-editorial text-ink font-sans selection:bg-accent-neon selection:text-black">
+      {/* Editorial Header with Status & Telemetry */}
+      <EditorialHeader 
+        onOpenFreedomWall={() => setIsFreedomWallOpen(true)}
+      />
 
-      <div
-        className={`bg-background text-foreground font-mono transition-opacity duration-500 ${
-          booted ? 'opacity-100' : 'opacity-0 pointer-events-none'
-        }`}
-      >
-        {/* Fixed sidebar — desktop only */}
-        <Sidebar activeSection={activeSection} />
+      {/* Hero Section: Void black (#070707), delicate grid, display typography, mint accent */}
+      <EditorialHero 
+        personal={personal} 
+        stats={stats} 
+      />
 
-        {/*
-          Single scroll container for the whole page.
-          On desktop: has margin-left to clear the fixed sidebar.
-          scroll-snap is applied here via CSS class.
-        */}
-        <div
-          ref={scrollRef}
-          id="scroll-container"
-          className="h-screen overflow-y-scroll scroll-snap-container lg:ml-56"
-        >
-          {/* Mobile sticky nav — lives inside scroll container so it sticks at container top */}
-          <MobileNav activeSection={activeSection} />
+      {/* Bio Manifesto & Homelab Infrastructure: Pure editorial white (#ffffff), extreme whitespace, two-column split */}
+      <EditorialBio 
+        personal={personal} 
+        homelab={homelab} 
+        machines={machines} 
+      />
 
-          <main id="main-content">
-            {/* Hero: first snap point, no scroll-margin needed */}
-            <div className="scroll-snap-section">
-              <HeroSection activeSection={activeSection} />
-            </div>
+      {/* Selected Projects: Interactive hover-list with monospace index, floating preview card, and hairline dividers */}
+      <EditorialProjectsList 
+        projects={featuredProjects}
+        onSelectProject={(project) => setSelectedProject(project)}
+      />
 
-            {/* Remaining sections: scroll-margin-top on mobile to clear sticky nav */}
-            <div id="projects" className="scroll-snap-section scroll-mt-14 lg:scroll-mt-0">
-              <ProjectsSection />
-            </div>
+      {/* Footer & CTA: Ambient pastel glow, high-contrast action pill buttons */}
+      <EditorialFooter 
+        personal={personal} 
+      />
 
-            <div id="about" className="scroll-snap-section scroll-mt-14 lg:scroll-mt-0">
-              <AboutSection />
-            </div>
+      {/* Project Case Study Drawer / Modal: Obsidian black, Problem/Outcome left, Separated Stack right, Framed UI bottom */}
+      <EditorialProjectDrawer 
+        project={selectedProject}
+        onClose={() => setSelectedProject(null)}
+      />
 
-            <div id="stack" className="scroll-snap-section scroll-mt-14 lg:scroll-mt-0">
-              <StackSection />
-            </div>
-
-            <div id="credentials" className="scroll-snap-section scroll-mt-14 lg:scroll-mt-0">
-              <CredentialsSection />
-            </div>
-
-            <div id="github" className="scroll-snap-section scroll-mt-14 lg:scroll-mt-0">
-              <GitHubSection />
-            </div>
-
-            <div id="freedom-wall" className="scroll-snap-section scroll-mt-14 lg:scroll-mt-0">
-              <FreedomWallSection />
-            </div>
-
-            <div id="contact" className="scroll-snap-section scroll-mt-14 lg:scroll-mt-0">
-              <ContactSection />
-            </div>
-          </main>
-
-          <Footer />
-        </div>
-      </div>
-    </>
+      {/* Live Minimalist WebSocket Freedom Wall Modal */}
+      <MinimalistFreedomWallModal 
+        isOpen={isFreedomWallOpen}
+        onClose={() => setIsFreedomWallOpen(false)}
+      />
+    </div>
   )
 }
