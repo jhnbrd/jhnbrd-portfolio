@@ -45,13 +45,20 @@ function ParticleField() {
 
     const handleMouseMove = (e) => {
       const rect = canvas.getBoundingClientRect()
-      mouseRef.current = { x: e.clientX - rect.left, y: e.clientY - rect.top }
+      // Only track if within or near the hero viewport
+      if (e.clientY <= rect.bottom && e.clientY >= rect.top) {
+        mouseRef.current = { x: e.clientX - rect.left, y: e.clientY - rect.top }
+      } else {
+        mouseRef.current = { x: -1000, y: -1000 }
+      }
     }
+
     const handleMouseLeave = () => {
       mouseRef.current = { x: -1000, y: -1000 }
     }
-    canvas.addEventListener('mousemove', handleMouseMove)
-    canvas.addEventListener('mouseleave', handleMouseLeave)
+
+    window.addEventListener('mousemove', handleMouseMove)
+    document.addEventListener('mouseleave', handleMouseLeave)
 
     const animate = () => {
       const w = canvas.offsetWidth
@@ -132,8 +139,8 @@ function ParticleField() {
 
     return () => {
       window.removeEventListener('resize', resize)
-      canvas.removeEventListener('mousemove', handleMouseMove)
-      canvas.removeEventListener('mouseleave', handleMouseLeave)
+      window.removeEventListener('mousemove', handleMouseMove)
+      document.removeEventListener('mouseleave', handleMouseLeave)
       if (rafRef.current) cancelAnimationFrame(rafRef.current)
     }
   }, [initParticles])
@@ -141,8 +148,7 @@ function ParticleField() {
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 w-full h-full pointer-events-auto"
-      style={{ touchAction: 'none' }}
+      className="absolute inset-0 w-full h-full pointer-events-none"
     />
   )
 }
@@ -160,7 +166,7 @@ export default function EditorialHero() {
         <div className="absolute right-1/4 w-[1px] h-full bg-white/[0.02] hidden md:block" />
 
         <svg 
-          className="absolute w-full max-w-4xl h-full opacity-30" 
+          className="absolute w-full max-w-4xl h-full opacity-30 pointer-events-none" 
           viewBox="0 0 1000 800" 
           fill="none"
         >
@@ -172,10 +178,11 @@ export default function EditorialHero() {
         </svg>
       </div>
 
-      {/* Hero Content */}
+      {/* Hero Content with smooth entry & scroll awareness */}
       <motion.div 
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0, y: 35 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: false, amount: 0.3 }}
         transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
         className="relative z-10 max-w-4xl mx-auto text-center flex flex-col items-center pt-8"
       >
@@ -186,9 +193,10 @@ export default function EditorialHero() {
         </h1>
 
         <motion.p 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.4, ease: 'easeOut' }}
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, amount: 0.3 }}
+          transition={{ duration: 1, delay: 0.2, ease: 'easeOut' }}
           className="mt-6 text-sm sm:text-base md:text-lg text-neutral-400 font-light max-w-lg mx-auto leading-relaxed"
         >
           Backend architect building scalable APIs, cloud infrastructure, and zero-trust platforms from Davao City.
@@ -202,7 +210,7 @@ export default function EditorialHero() {
         transition={{ delay: 0.8, duration: 1 }}
         className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center pointer-events-none"
       >
-        <div className="w-[1px] h-8 bg-gradient-to-b from-white/20 to-transparent" />
+        <div className="w-[1px] h-8 bg-gradient-to-b from-white/30 via-white/10 to-transparent animate-pulse" />
       </motion.div>
     </section>
   )

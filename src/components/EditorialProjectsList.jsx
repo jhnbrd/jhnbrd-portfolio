@@ -1,12 +1,10 @@
 import React, { useState, useRef } from 'react'
-import { motion, AnimatePresence, useInView } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useTheme } from '../hooks/useTheme'
 
 export default function EditorialProjectsList({ projects, onSelectProject }) {
   const [hoveredProject, setHoveredProject] = useState(null)
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: '-60px' })
   const { isDark } = useTheme()
 
   const displayProjects = projects.slice(0, 4)
@@ -15,9 +13,31 @@ export default function EditorialProjectsList({ projects, onSelectProject }) {
     setMousePos({ x: e.clientX, y: e.clientY })
   }
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.1,
+      },
+    },
+  }
+
+  const rowVariants = {
+    hidden: { opacity: 0, y: 35 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.75,
+        ease: [0.16, 1, 0.3, 1],
+      },
+    },
+  }
+
   return (
     <section 
-      ref={ref}
       id="projects" 
       className={`relative w-full py-28 sm:py-36 transition-colors duration-500 ${
         isDark ? 'bg-neutral-950 text-white' : 'bg-white text-black'
@@ -27,8 +47,9 @@ export default function EditorialProjectsList({ projects, onSelectProject }) {
       <div className="max-w-5xl mx-auto px-6 sm:px-12">
         {/* Title centered */}
         <motion.h2 
-          initial={{ opacity: 0, y: 15 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
+          initial={{ opacity: 0, y: 25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, amount: 0.3 }}
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           className={`text-xl sm:text-2xl font-normal text-center mb-20 select-none font-sans ${
             isDark ? 'text-neutral-300' : 'text-neutral-800'
@@ -38,9 +59,15 @@ export default function EditorialProjectsList({ projects, onSelectProject }) {
         </motion.h2>
 
         {/* Project list */}
-        <div className={`divide-y border-y ${
-          isDark ? 'divide-neutral-800 border-neutral-800' : 'divide-neutral-200 border-neutral-200'
-        }`}>
+        <motion.div 
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false, amount: 0.15 }}
+          className={`divide-y border-y ${
+            isDark ? 'divide-neutral-800 border-neutral-800' : 'divide-neutral-200 border-neutral-200'
+          }`}
+        >
           {displayProjects.map((project, index) => {
             const indexNumber = `0${index + 1}`
             const category = project.subtitle ? project.subtitle.split('·')[0].trim() : 'Backend Development'
@@ -48,9 +75,7 @@ export default function EditorialProjectsList({ projects, onSelectProject }) {
             return (
               <motion.div
                 key={project.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                transition={{ duration: 0.6, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
+                variants={rowVariants}
                 onMouseEnter={() => setHoveredProject(project)}
                 onMouseLeave={() => setHoveredProject(null)}
                 onClick={() => onSelectProject(project)}
@@ -83,7 +108,7 @@ export default function EditorialProjectsList({ projects, onSelectProject }) {
               </motion.div>
             )
           })}
-        </div>
+        </motion.div>
       </div>
 
       {/* Floating Cursor-Follower Preview */}
@@ -93,9 +118,9 @@ export default function EditorialProjectsList({ projects, onSelectProject }) {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ 
               opacity: 1, 
-              scale: 1,
-              x: mousePos.x + 24,
-              y: mousePos.y - 80,
+              scale: 1, 
+              x: mousePos.x + 24, 
+              y: mousePos.y - 80 
             }}
             exit={{ opacity: 0, scale: 0.8 }}
             transition={{
