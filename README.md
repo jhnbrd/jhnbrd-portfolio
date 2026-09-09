@@ -1,11 +1,11 @@
 <div align="center">
 
-  <img src="public/favicon.ico" alt="Logo" width="72" height="72" />
+  <img src="public/favicon.svg" alt="jb Logo" width="76" height="76" />
 
   # ⚡ dev.jhnbrd.com — Personal Developer Portfolio
 
   <p align="center">
-    <strong>A high-impact, interaction-first editorial developer portfolio and backend engineering showcase inspired by the architecture and UI/UX psychology of bencodes.de.</strong>
+    <strong>A high-impact, interaction-first editorial developer portfolio and backend engineering showcase inspired by modern typography, physics-based cursor interactions, and progressive disclosure UI/UX psychology.</strong>
   </p>
 
   <p align="center">
@@ -19,6 +19,7 @@
     <img src="https://img.shields.io/badge/React-18.3-61DAFB?style=flat-square&logo=react&logoColor=black" alt="React" />
     <img src="https://img.shields.io/badge/Vite-5.4-646CFF?style=flat-square&logo=vite&logoColor=white" alt="Vite" />
     <img src="https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white" alt="Tailwind CSS" />
+    <img src="https://img.shields.io/badge/Framer_Motion-13.2-black?style=flat-square&logo=framer&logoColor=white" alt="Framer Motion" />
     <img src="https://img.shields.io/badge/Architecture-Editorial_Minimalism-111113?style=flat-square" alt="Style" />
     <img src="https://img.shields.io/badge/Status-Active%20Production-22c55e?style=flat-square" alt="Status" />
   </p>
@@ -40,29 +41,33 @@
 
 🔗 **[https://dev.jhnbrd.com](https://dev.jhnbrd.com)**
 
-Engineered by **Jhianne Jose Berida** — Backend Architect, Systems Specialist & Co-Founder at DevJunction.
+Engineered by **Jhianne Jose Berida** — Backend Developer & Systems Architect from Davao City, Philippines.
 
 ---
 
 ## 🎨 Design Philosophy & UI/UX Psychology
 
-This portfolio departs from generic developer templates and dense card grids in favor of **progressive disclosure, typographic authority, and intentional negative space** inspired by `bencodes.de`:
+This portfolio departs from generic developer templates and dense card grids in favor of **progressive disclosure, typographic authority, and intentional negative space**:
 
-- **Hick’s Law & Cognitive Load:** The primary portfolio canvas is uncluttered. Projects are presented as a clean numbered index with zero visual noise until interacted with.
+- **Hick’s Law & Cognitive Load:** The primary canvas is clean and uncluttered. Projects are presented as a minimal numbered index with zero visual noise until interacted with.
 - **Curiosity & Hover Loop:** Hovering over any project row dynamically summons a floating preview card with the project's visual artifact.
-- **Von Restorff (Isolation) Effect:** High-contrast focal anchors (luminous mint accents on void black `#070707`, crisp editorial white `#ffffff`, and bold CTA conversion pills) intuitively guide visitor attention.
+- **Magnetic Proximity:** Project titles slightly pull toward cursor coordinates using spring physics, providing a tactile, organic interaction.
+- **Von Restorff (Isolation) Effect:** High-contrast focal anchors (neon accents on pitch black `#050505`, crisp editorial white `#ffffff`, and bold CTA conversion pills) intuitively guide visitor attention.
 - **Fitts’s Law & Context Preservation:** Deep architectural case studies open in a focused drawer/modal rather than forcing full page navigation, preserving the user’s scroll position and mental state.
 
 ---
 
 ## ✨ Features
 
-- 🌑 **Void Black Hero Canvas (`#070707`)** — Delicate wireframe architectural grid lines (`.bg-grid-void`), large display typography, and a single mint accent token (`#34d399`).
-- 📄 **Pure Editorial White Body (`#ffffff`)** — Extreme whitespace, hairline dividers (`#e5e7eb`), and a two-column manifesto layout.
-- 🎯 **Interactive Project Hover List** — Monospace index numbers (`01`, `02`), large typography titles, disciplinary tags, and an animated floating cursor-following preview card.
-- 🗂️ **Architectural Case Study Drawer** — Obsidian modal featuring a two-column technical breakdown (Problem & Outcome narrative on the left, explicitly separated **Backend/Infrastructure** vs. **Client/Interface** stack on the right, and framed UI screenshot on the bottom).
-- 📡 **Native Low-Noise Telemetry & Freedom Wall** — Ambient header status badges (availability ping, profile views counter) and an on-demand modal connected to a native Node.js RFC 6455 WebSocket server.
-- 🌸 **Ambient Pastel Footer** — Soft ambient glow gradient (`.bg-ambient-pastel`) paired with high-contrast conversion pill buttons.
+- 🌑 **Binary Shard Cloud Hero (`#050505`)** — Monospace code glyphs and binary shards with real-time cursor repulsion physics and organic spring restoration.
+- 🌓 **Sleek Dark / Light Mode** — Fully themed with fluid color transitions, persistent via `localStorage`, and toggled from the top navigation bar.
+- 📜 **Centered Viewport-Triggered Reveals** — Calibrated scroll triggers with 1.8s relaxed transitions that only animate once a section reaches the central focal zone of the screen.
+- 💡 **Personalized Editorial Bio** — Authentic engineering manifesto, a single high-impact narrative paragraph, and dynamic age calculation derived from an epoch timestamp.
+- 🚀 **DevJunction Startup Spotlight** — Official brand showcase featuring the `/images/devjunction.png` logo, interactive competency cards, and direct Facebook CTA.
+- 🎯 **Magnetic Project List with Smart Delay** — Numbered project index with half-second (500ms) hover delay on initial entry and instant switching across active rows.
+- 🗂️ **Architectural Case Study Drawer** — Two-column technical spec breakdown (Problem/Outcome narrative on the left, separated Frontend & Backend stack on the right, high-res UI preview).
+- 💬 **Cute Floating Freedom Wall Button** — Discreet bottom-right floating pill that pops into view only on reaching the final section, connected to an ephemeral RFC 6455 WebSocket chat server.
+- 📬 **True Bottom-Pinned Footer** — Centered collaboration invitation with paired pill buttons (**Email**, **LinkedIn**, **Facebook Messenger**) and pinned bottom copyright bar.
 
 ---
 
@@ -72,10 +77,11 @@ This portfolio departs from generic developer templates and dense card grids in 
 | :--- | :--- | :--- |
 | **Core Framework** | React 18.3 | Component composition, custom hooks, and dynamic modal state |
 | **Build Tooling** | Vite 5.4 | Ultra-fast HMR and optimized production build |
-| **Styling Engine** | Tailwind CSS 3.4 | Custom editorial color tokens (`void`, `editorial`, `hairline`, `accent-neon`), fine-tuned typography |
-| **Typography** | Plus Jakarta Sans & Inter | Geometric display headings, with IBM Plex Mono strictly for indices and telemetry |
+| **Animation Engine** | Framer Motion 13.2 | Spring physics, magnetic hover, and viewport scroll reveals |
+| **Styling Engine** | Tailwind CSS 3.4 | Custom editorial color tokens, dark mode classes, fine-tuned typography |
+| **Typography** | Inter & IBM Plex Mono | Geometric display headings with monospace accents for code shards |
 | **Icons** | Lucide React | Minimalist line iconography |
-| **Telemetry Backend** | Node.js (`server.js`) | Native RFC 6455 WebSocket server, atomic view count persistence (`stats.json`), and latency telemetry |
+| **Telemetry Backend** | Node.js (`server.js`) | Native RFC 6455 WebSocket server, atomic view count persistence (`stats.json`) |
 | **Edge Infrastructure** | Cloudflare Edge | Zero-Trust WAF, SSL/TLS, and global CDN delivery |
 
 ---
@@ -107,7 +113,7 @@ npm install
 npm run dev
 ```
 
-Launches Vite with Hot Module Replacement at: `http://localhost:5173`
+Launches Vite with Hot Module Replacement at: `http://localhost:8000`
 
 ---
 
@@ -115,7 +121,7 @@ Launches Vite with Hot Module Replacement at: `http://localhost:5173`
 
 | Command | Action |
 | :--- | :--- |
-| `npm run dev` | Starts Vite local development server |
+| `npm run dev` | Starts Vite local development server on port 8000 |
 | `npm run build` | Compiles and optimizes assets into production-ready `/dist` |
 | `npm run preview` | Runs local preview of the production build (`dist/`) |
 | `npm run ws` | Starts the native WebSocket companion telemetry service |
@@ -128,29 +134,32 @@ Launches Vite with Hot Module Replacement at: `http://localhost:5173`
 ```text
 portfolio/
 ├── public/
-│   ├── favicon.ico                   # Brand icon
+│   ├── favicon.svg                   # Official jb brand SVG icon
 │   └── images/
 │       ├── avatar.jpg                # Profile headshot
+│       ├── devjunction.png           # Official DevJunction brand logo
 │       ├── og/                       # OpenGraph social share previews
 │       └── projects/                 # Featured project preview assets
 ├── src/
 │   ├── components/
-│   │   ├── EditorialHeader.jsx       # Minimalist nav bar with status indicator & telemetry
-│   │   ├── EditorialHero.jsx         # Void black hero, wireframe grid, display typography
-│   │   ├── EditorialBio.jsx          # Manifesto statement, two-column split, homelab mesh
-│   │   ├── EditorialProjectsList.jsx # Interactive hover-list with floating preview card
-│   │   ├── EditorialProjectDrawer.jsx# Detailed case study drawer with separated stack
-│   │   ├── EditorialFooter.jsx       # Ambient pastel footer with high-contrast conversion CTA
-│   │   ├── MinimalistFreedomWallModal.jsx # Live WebSocket ephemeral chat modal
-│   │   └── ProfileViewsCounter.jsx   # Atomic profile view counter badge
+│   │   ├── EditorialHeader.jsx       # Fixed header with jb mark, dark mode toggle, & drawer
+│   │   ├── EditorialHero.jsx         # Hero section with binary shard physics repulsion cloud
+│   │   ├── EditorialBio.jsx          # Manifesto, single-paragraph bio, & dynamic age
+│   │   ├── DevJunctionSection.jsx    # DevJunction spotlight with interactive competency cards
+│   │   ├── EditorialProjectsList.jsx # Magnetic hover project list with 500ms preview delay
+│   │   ├── EditorialProjectDrawer.jsx# Detailed case study drawer with separated tech stack
+│   │   ├── EditorialFooter.jsx       # Bottom-pinned footer with Email, LinkedIn, & Messenger
+│   │   ├── FloatingFreedomWallButton.jsx # Cute floating button active only on last section
+│   │   └── MinimalistFreedomWallModal.jsx # 100% human-only live WebSocket chat modal
 │   ├── data/
-│   │   └── portfolio.js              # Central source of truth for all content
+│   │   └── portfolio.js              # Central source of truth for all content & projects
+│   ├── hooks/
+│   │   └── useTheme.jsx              # Dark/light mode theme provider & localStorage hook
 │   ├── App.jsx                       # Main application layout orchestrator
-│   ├── index.css                     # Editorial styling, void grid & ambient pastel gradient
+│   ├── index.css                     # Editorial typography, scrollbar, & animation keyframes
 │   └── main.jsx                      # React application mount point
-├── _old_portfolio/                   # Archived previous terminal components (gitignored)
 ├── server.js                         # Native Node.js WebSocket & telemetry server
-├── tailwind.config.js                # Custom editorial color tokens & fonts
+├── tailwind.config.js                # Tailwind configuration
 ├── vite.config.js                    # Vite configuration
 ├── LICENSE                           # MIT License
 └── package.json                      # Dependencies and scripts
@@ -164,17 +173,17 @@ All portfolio content is decoupled from layout components and centralized in one
 
 👉 **[`src/data/portfolio.js`](src/data/portfolio.js)**
 
-- `personal` — Name, roles, social links, and bio text.
+- `personal` — Name, roles, location, social links, and contact information.
 - `featuredProjects` — Project title, subtitle/category, problem & outcome description, tech tags, and screenshots.
-- `homelab` & `machines` — Multi-machine staging mesh, hardware specs, and network setup.
-- `stats` — Telemetry metrics displayed in the hero section.
+- `experience` — Professional roles, timelines, and competencies.
+- `stats` — Telemetry metrics displayed across the site.
 
 ---
 
 ## 👤 Author
 
 **Jhianne Jose Berida**  
-*Backend Architect · Systems Specialist · Co-Founder @ DevJunction*
+*Backend Developer & Systems Architect*
 
 - 🌐 **Portfolio:** [dev.jhnbrd.com](https://dev.jhnbrd.com)
 - 🐙 **GitHub:** [@jhnbrd](https://github.com/jhnbrd)
