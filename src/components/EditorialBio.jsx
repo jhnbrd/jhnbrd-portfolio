@@ -1,10 +1,23 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { motion } from 'framer-motion'
 import { ArrowUpRight } from 'lucide-react'
 import { useTheme } from '../hooks/useTheme'
 
+/**
+ * Calculates current age dynamically from epoch timestamp without exposing birthdate string
+ */
+function useDynamicAge() {
+  return useMemo(() => {
+    // Epoch timestamp for March 18, 2004 UTC (1079568000000 ms)
+    const epochDelta = Date.now() - 1079568000000
+    const avgYearMs = 365.2425 * 24 * 60 * 60 * 1000
+    return Math.floor(epochDelta / avgYearMs)
+  }, [])
+}
+
 export default function EditorialBio({ personal }) {
   const { isDark } = useTheme()
+  const age = useDynamicAge()
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -46,7 +59,7 @@ export default function EditorialBio({ personal }) {
           viewport={{ once: false, amount: 0.2 }}
           className="w-full flex flex-col"
         >
-          {/* Top Manifesto Statement */}
+          {/* Top Unique Manifesto Statement */}
           <motion.div
             variants={itemVariants}
             className="mb-20 sm:mb-28"
@@ -54,7 +67,7 @@ export default function EditorialBio({ personal }) {
             <h2 className={`text-3xl sm:text-5xl md:text-[3.25rem] font-bold tracking-tight leading-[1.18] max-w-4xl ${
               isDark ? 'text-white' : 'text-black'
             }`}>
-              I believe in an engineering-first, user-centered approach, ensuring that every system I build is tailored to meet the specific operational needs of its users.
+              I engineer backend architectures where resilience, performance, and simplicity converge to solve real operational challenges.
             </h2>
           </motion.div>
 
@@ -69,15 +82,20 @@ export default function EditorialBio({ personal }) {
           </motion.div>
 
           {/* Two-Column Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-12 sm:gap-16">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-12 sm:gap-16 items-start">
             {/* Left Column: Greeting & Pill Button */}
             <motion.div 
               variants={itemVariants}
               className="md:col-span-5 flex flex-col justify-between items-start space-y-8"
             >
-              <h3 className={`text-4xl sm:text-5xl font-light tracking-tight ${isDark ? 'text-white' : 'text-black'}`}>
-                Hi, I'm Jhianne.
-              </h3>
+              <div>
+                <h3 className={`text-4xl sm:text-5xl font-light tracking-tight ${isDark ? 'text-white' : 'text-black'}`}>
+                  Hi, I'm Jhianne.
+                </h3>
+                <p className={`mt-2 font-mono text-xs tracking-wider uppercase ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>
+                  Davao City, Philippines
+                </p>
+              </div>
 
               <a
                 href={`mailto:${personal.email}`}
@@ -92,18 +110,15 @@ export default function EditorialBio({ personal }) {
               </a>
             </motion.div>
 
-            {/* Right Column: Narrative */}
+            {/* Right Column: Single Concise, High-Impact Narrative */}
             <motion.div 
               variants={itemVariants}
-              className={`md:col-span-7 space-y-6 text-sm sm:text-[0.95rem] font-light leading-relaxed ${
-                isDark ? 'text-neutral-400' : 'text-neutral-600'
-              }`}
+              className="md:col-span-7 pt-1"
             >
-              <p>
-                I'm a backend developer and systems architect dedicated to turning complex architectures into resilient solutions. I specialize in building high-throughput APIs, cloud systems, and scalable database schemas.
-              </p>
-              <p>
-                I'm involved in every step of the process: from schema discovery and system design to implementation, automated testing, and multi-machine staging. I focus on delivering high-quality, scalable results that drive reliable operations.
+              <p className={`text-base sm:text-lg font-light leading-relaxed ${
+                isDark ? 'text-neutral-300' : 'text-neutral-700'
+              }`}>
+                I'm a {age}-year-old backend developer and systems architect based in Davao City, Philippines. As Co-Founder of DevJunction, I specialize in engineering high-throughput REST APIs, resilient database architectures, and automated cloud staging environments built to power mission-critical software operations.
               </p>
             </motion.div>
           </div>
