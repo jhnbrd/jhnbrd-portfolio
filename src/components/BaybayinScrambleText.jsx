@@ -31,11 +31,11 @@ const WORD_OFFSETS = [0, 11, 20]
 
 // Proportional typographic widths for Latin characters (matches natural Inter metrics)
 function getLatinWidth(char) {
-  if ('ilI'.includes(char)) return '0.28em'
-  if ('rtfj'.includes(char)) return '0.38em'
-  if ('mwMW'.includes(char)) return '0.85em'
-  if (char >= 'A' && char <= 'Z') return '0.64em'
-  return '0.54em'
+  if ('ilI'.includes(char)) return '0.30em'
+  if ('rtfj'.includes(char)) return '0.40em'
+  if ('mwMW'.includes(char)) return '0.88em'
+  if (char >= 'A' && char <= 'Z') return '0.66em'
+  return '0.56em'
 }
 
 export default function BaybayinScrambleText() {
@@ -52,7 +52,7 @@ export default function BaybayinScrambleText() {
 
   return (
     <h1
-      className="text-[1.65rem] xs:text-3xl sm:text-5xl md:text-7xl lg:text-[5.5rem] font-bold leading-[1.22] sm:leading-[1.10] text-white cursor-pointer select-none text-center"
+      className="text-[clamp(2.15rem,8.5vw,2.75rem)] sm:text-5xl md:text-7xl lg:text-[5.5rem] font-bold leading-[1.14] sm:leading-[1.10] text-white cursor-pointer select-none text-center"
       onMouseEnter={() => setIsLatin(false)}
       onMouseLeave={() => setIsLatin(true)}
       aria-label="Engineering Resilient Systems"
@@ -107,9 +107,9 @@ export default function BaybayinScrambleText() {
                     key={cIdx}
                     className="inline-block relative text-center"
                     style={{
-                      width: isLatin ? getLatinWidth(latinChar) : '0.84em',
+                      width: isLatin ? getLatinWidth(latinChar) : '0.74em',
                       height: '1.22em',
-                      margin: isLatin ? '0 0.01em' : '0 0.04em',
+                      margin: isLatin ? '0 0.015em' : '0 0.025em',
                       verticalAlign: 'baseline',
                       overflow: 'visible',
                       transition:
