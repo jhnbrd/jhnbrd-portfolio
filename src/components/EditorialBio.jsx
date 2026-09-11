@@ -83,7 +83,7 @@ export default function EditorialBio({ personal }) {
             variants={itemVariants}
             className="mb-12 sm:mb-20"
           >
-            <h2 className={`text-2xl sm:text-4xl md:text-[3.25rem] font-bold tracking-tight leading-[1.22] max-w-4xl ${
+            <h2 className={`text-2xl sm:text-4xl md:text-[3.25rem] font-bold tracking-tight leading-[1.27] sm:leading-[1.29] md:leading-[1.31] max-w-4xl ${
               isDark ? 'text-white' : 'text-black'
             }`}>
               I engineer backend architectures where resilience, performance, and simplicity converge to solve real operational challenges.

@@ -7,8 +7,11 @@ import React from 'react'
  * - Authentic Baybayin characters with 0.85em optical scale and clean letter-spacing.
  * - Smooth GPU-accelerated staggered dissolve for both scripts.
  */
+// Latin name with trailing period (8 characters)
 const LATIN_CHARS = ['J', 'h', 'i', 'a', 'n', 'n', 'e', '.']
-const BAYBAYIN_CHARS = ['ᜌ', 'ᜑ', 'ᜁ', 'ᜀ', 'ᜈ', 'ᜈ', 'ᜁ', '.']
+
+// Phonetic Baybayin translation: "Jian" / "Ziyan" (ᜌ-ᜁ-ᜀ-ᜈ) with trailing period (5 characters)
+const BAYBAYIN_CHARS = ['ᜌ', 'ᜁ', 'ᜀ', 'ᜈ', '.']
 
 export default function BaybayinNameMorph({ isLatin = false }) {
   return (
