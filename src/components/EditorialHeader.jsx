@@ -51,10 +51,9 @@ export default function EditorialHeader({ onOpenFreedomWall }) {
           {/* Menu toggle */}
           <button
             onClick={() => setIsMenuOpen(true)}
-            className={`flex items-center gap-2.5 text-sm font-medium tracking-tight group transition-colors duration-300 select-none py-1 ${headerTextColor}`}
+            className={`w-8 h-8 rounded-full flex items-center justify-center group transition-colors duration-300 select-none hover:opacity-75 ${headerTextColor}`}
             aria-label="Toggle Menu"
           >
-            <span className="text-xs uppercase tracking-wider font-sans font-normal opacity-85 group-hover:opacity-100">menu</span>
             <div className="flex flex-col gap-1 w-4">
               <span className={`h-[1.5px] w-full transition-all group-hover:w-3 ml-auto ${barColor}`} />
               <span className={`h-[1.5px] w-full transition-all ${barColor}`} />

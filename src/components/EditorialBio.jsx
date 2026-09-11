@@ -1,7 +1,8 @@
-import React, { useMemo } from 'react'
-import { motion } from 'framer-motion'
+import React, { useMemo, useState, useEffect, useRef } from 'react'
+import { motion, useInView } from 'framer-motion'
 import { ArrowUpRight } from 'lucide-react'
 import { useTheme } from '../hooks/useTheme'
+import BaybayinNameMorph from './BaybayinNameMorph'
 
 /**
  * Calculates current age dynamically from epoch timestamp without exposing birthdate string
@@ -18,6 +19,23 @@ function useDynamicAge() {
 export default function EditorialBio({ personal }) {
   const { isDark } = useTheme()
   const age = useDynamicAge()
+  const sectionRef = useRef(null)
+  const isInView = useInView(sectionRef, { once: true, amount: 0.2 })
+  const [hasAutoTranslated, setHasAutoTranslated] = useState(false)
+  const [isBioHovered, setIsBioHovered] = useState(false)
+
+  // Initial display: first show in Baybayin for 1 second, then auto-translate to English
+  useEffect(() => {
+    if (isInView && !hasAutoTranslated) {
+      const timer = setTimeout(() => {
+        setHasAutoTranslated(true)
+      }, 1000)
+      return () => clearTimeout(timer)
+    }
+  }, [isInView, hasAutoTranslated])
+
+  // false = Baybayin (first 1s or hovered), true = English
+  const isLatin = hasAutoTranslated && !isBioHovered
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -44,6 +62,7 @@ export default function EditorialBio({ personal }) {
 
   return (
     <section 
+      ref={sectionRef}
       id="about" 
       className={`w-full min-h-screen min-h-[100dvh] flex flex-col justify-center py-20 sm:py-36 md:py-40 transition-colors duration-700 ${
         isDark 
@@ -89,8 +108,20 @@ export default function EditorialBio({ personal }) {
               className="md:col-span-5 flex flex-col justify-between items-start space-y-6 sm:space-y-8"
             >
               <div>
-                <h3 className={`text-3xl sm:text-5xl font-light tracking-tight ${isDark ? 'text-white' : 'text-black'}`}>
-                  Hi, I'm Jhianne.
+                <h3 
+                  onMouseEnter={() => setIsBioHovered(true)}
+                  onMouseLeave={() => setIsBioHovered(false)}
+                  className={`text-3xl sm:text-5xl font-light tracking-tight cursor-pointer select-none transition-colors duration-300 ${isDark ? 'text-white' : 'text-black'}`}
+                >
+                  <span className="inline-block">Hi, I'm</span>
+                  {isLatin ? (
+                    <span>&nbsp;</span>
+                  ) : (
+                    <br className="block" />
+                  )}
+                  <span className={`inline-flex items-baseline ${isLatin ? '' : 'mt-1 sm:mt-1.5'}`}>
+                    <BaybayinNameMorph isLatin={isLatin} />
+                  </span>
                 </h3>
                 <p className={`mt-1.5 font-mono text-xs tracking-wider uppercase ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>
                   Davao City, Philippines

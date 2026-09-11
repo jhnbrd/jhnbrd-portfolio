@@ -52,7 +52,7 @@ export default function BaybayinScrambleText() {
 
   return (
     <h1
-      className="text-3xl sm:text-5xl md:text-7xl lg:text-[5.5rem] font-bold leading-[1.18] sm:leading-[1.10] text-white cursor-pointer select-none text-center"
+      className="text-[1.65rem] xs:text-3xl sm:text-5xl md:text-7xl lg:text-[5.5rem] font-bold leading-[1.22] sm:leading-[1.10] text-white cursor-pointer select-none text-center"
       onMouseEnter={() => setIsLatin(false)}
       onMouseLeave={() => setIsLatin(true)}
       aria-label="Engineering Resilient Systems"
@@ -67,14 +67,16 @@ export default function BaybayinScrambleText() {
 
         return (
           <React.Fragment key={wordObj.text}>
-            {/* Semantic line break on medium/large viewports */}
-            {wIdx === 1 && (
+            {/* Break after Engineering: Line 1 -> Line 2 on both mobile and desktop */}
+            {wIdx === 1 && <br className="block" />}
+
+            {/* Break after Resilient: Line 2 -> Line 3 on mobile (< md), space on desktop (md:) */}
+            {wIdx === 2 && (
               <>
-                <span className="inline md:hidden">&nbsp;</span>
-                <br className="hidden md:inline" />
+                <br className="block md:hidden" />
+                <span className="hidden md:inline">&nbsp;</span>
               </>
             )}
-            {wIdx === 2 && <span>&nbsp;</span>}
 
             <span className="inline-block whitespace-nowrap">
               {wordChars.map((_, cIdx) => {
@@ -105,9 +107,9 @@ export default function BaybayinScrambleText() {
                     key={cIdx}
                     className="inline-block relative text-center"
                     style={{
-                      width: isLatin ? getLatinWidth(latinChar) : '0.92em',
+                      width: isLatin ? getLatinWidth(latinChar) : '0.84em',
                       height: '1.22em',
-                      margin: isLatin ? '0 0.01em' : '0 0.08em',
+                      margin: isLatin ? '0 0.01em' : '0 0.04em',
                       verticalAlign: 'baseline',
                       overflow: 'visible',
                       transition:
