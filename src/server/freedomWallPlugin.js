@@ -1,4 +1,8 @@
 import { createHash } from 'node:crypto'
+import { readFileSync, writeFileSync, existsSync } from 'node:fs'
+import { join } from 'node:path'
+
+const STATS_FILE = join(process.cwd(), 'stats.json')
 
 // Encode raw UTF-8 string into RFC 6455 WebSocket unmasked frame
 function encodeFrame(payload) {
@@ -86,7 +90,18 @@ export function freedomWallPlugin() {
   const MAX_HISTORY = 8
   const messageHistory = []
   const clients = new Set()
-  let profileViews = 124
+  let profileViews = 0
+  try {
+    if (existsSync(STATS_FILE)) {
+      const raw = readFileSync(STATS_FILE, 'utf8')
+      const parsed = JSON.parse(raw)
+      if (typeof parsed.views === 'number') profileViews = parsed.views
+    } else {
+      writeFileSync(STATS_FILE, JSON.stringify({ views: 0 }, null, 2))
+    }
+  } catch (e) {
+    profileViews = 0
+  }
 
   function broadcast(data) {
     const payload = JSON.stringify(data)
@@ -105,12 +120,15 @@ export function freedomWallPlugin() {
   return {
     name: 'vite-plugin-freedom-wall',
     configureServer(server) {
-      // Mock API endpoint for profile views
+      // Real API endpoint for profile views
       server.middlewares.use('/api/views', (req, res) => {
         res.setHeader('Content-Type', 'application/json')
         res.setHeader('Access-Control-Allow-Origin', '*')
         if (req.method === 'POST') {
           profileViews += 1
+          try {
+            writeFileSync(STATS_FILE, JSON.stringify({ views: profileViews }, null, 2))
+          } catch (err) {}
           res.end(JSON.stringify({ views: profileViews }))
           return
         }

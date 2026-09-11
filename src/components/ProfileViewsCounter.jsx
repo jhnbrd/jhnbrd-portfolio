@@ -2,12 +2,18 @@ import React, { useState, useEffect } from 'react'
 import { Eye } from 'lucide-react'
 import { useTheme } from '../hooks/useTheme'
 
-const STORAGE_KEY = 'jb_strictly_real_views'
-const SESSION_FLAG = 'jb_has_counted_session_v2'
+const STORAGE_KEY = 'jb_real_site_visits_v1'
+const SESSION_FLAG = 'jb_real_session_counted_v1'
 
 export default function ProfileViewsCounter({ inline = false, className = '' }) {
   const { isDark } = useTheme()
   const [views, setViews] = useState(() => {
+    // Clear legacy mock seed if present
+    try {
+      localStorage.removeItem('jb_strictly_real_views')
+      sessionStorage.removeItem('jb_has_counted_session_v2')
+    } catch (e) {}
+
     const saved = localStorage.getItem(STORAGE_KEY)
     return saved ? parseInt(saved, 10) : 0
   })
@@ -40,9 +46,9 @@ export default function ProfileViewsCounter({ inline = false, className = '' }) 
         // Graceful direct fallback if testing locally
       }
 
-      // If running standalone or disconnected from server, fallback to organic local count
+      // If running standalone or disconnected from server, fallback to organic local count starting from 0
       if (isMounted) {
-        let localCount = parseInt(localStorage.getItem(STORAGE_KEY) || '124', 10)
+        let localCount = parseInt(localStorage.getItem(STORAGE_KEY) || '0', 10)
         if (!hasCountedSession) {
           localCount += 1
           localStorage.setItem(STORAGE_KEY, String(localCount))
