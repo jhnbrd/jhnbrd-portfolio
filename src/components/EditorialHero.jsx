@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useCallback } from 'react'
 import { motion } from 'framer-motion'
+import BaybayinScrambleText from './BaybayinScrambleText'
 
 /**
  * Option D: Physics Repulsion Shards / Binary Particle Cloud
@@ -202,13 +203,9 @@ export default function EditorialHero() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: false, amount: 0.3 }}
         transition={{ duration: 1.3, ease: [0.16, 1, 0.3, 1] }}
-        className="relative z-10 max-w-4xl mx-auto text-center flex flex-col items-center pt-8"
+        className="relative z-10 max-w-5xl mx-auto text-center flex flex-col items-center pt-8"
       >
-        <h1 className="text-3xl sm:text-5xl md:text-7xl lg:text-[5.5rem] font-bold tracking-tight leading-[1.12] sm:leading-[1.08] text-white">
-          Engineering{' '}
-          <span className="creative-gradient font-bold tracking-tight">resilient</span>{' '}
-          systems.
-        </h1>
+        <BaybayinScrambleText />
 
         <motion.p 
           initial={{ opacity: 0, y: 15 }}
