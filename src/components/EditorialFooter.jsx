@@ -2,6 +2,7 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { Mail, Linkedin, MessageCircle } from 'lucide-react'
 import { useTheme } from '../hooks/useTheme'
+import ProfileViewsCounter from './ProfileViewsCounter'
 
 export default function EditorialFooter({ personal }) {
   const { isDark } = useTheme()
@@ -146,9 +147,13 @@ export default function EditorialFooter({ personal }) {
           <span className="opacity-75">Davao City, Philippines</span>
         </div>
 
-        <p className={`text-[11px] text-center sm:text-right ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>
-          © {new Date().getFullYear()} Jhianne Berida. All rights reserved.
-        </p>
+        <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
+          <ProfileViewsCounter inline />
+          <span className="hidden sm:inline opacity-30">·</span>
+          <p className={`text-[11px] text-center sm:text-right ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>
+            © {new Date().getFullYear()} Jhianne Berida. All rights reserved.
+          </p>
+        </div>
       </motion.div>
     </footer>
   )
