@@ -107,19 +107,17 @@ export default function EditorialBio({ personal }) {
               variants={itemVariants}
               className="md:col-span-5 flex flex-col justify-between items-start space-y-6 sm:space-y-8"
             >
-              <div>
+              <div
+                onMouseEnter={() => setIsBioHovered(true)}
+                onMouseLeave={() => setIsBioHovered(false)}
+                className="cursor-pointer select-none py-1"
+              >
                 <h3 
-                  onMouseEnter={() => setIsBioHovered(true)}
-                  onMouseLeave={() => setIsBioHovered(false)}
-                  className={`text-3xl sm:text-5xl font-light tracking-tight cursor-pointer select-none transition-colors duration-300 ${isDark ? 'text-white' : 'text-black'}`}
+                  className={`text-3xl sm:text-5xl font-light tracking-tight transition-colors duration-300 ${isDark ? 'text-white' : 'text-black'}`}
                 >
                   <span className="inline-block">Hi, I'm</span>
-                  {isLatin ? (
-                    <span>&nbsp;</span>
-                  ) : (
-                    <br className="block" />
-                  )}
-                  <span className={`inline-flex items-baseline ${isLatin ? '' : 'mt-1 sm:mt-1.5'}`}>
+                  <span className={isLatin ? "inline" : "block mt-1 sm:mt-1.5"}>
+                    {isLatin ? '\u00A0' : ''}
                     <BaybayinNameMorph isLatin={isLatin} />
                   </span>
                 </h3>
