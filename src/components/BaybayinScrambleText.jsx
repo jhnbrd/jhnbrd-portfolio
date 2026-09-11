@@ -50,12 +50,39 @@ export default function BaybayinScrambleText() {
     return () => clearTimeout(timer)
   }, [])
 
+  const handleMouseEnter = () => {
+    // Only trigger hover on devices that support true hover pointers
+    if (typeof window !== 'undefined' && window.matchMedia('(hover: hover)').matches) {
+      setIsLatin(false)
+    }
+  }
+
+  const handleMouseLeave = () => {
+    if (typeof window !== 'undefined' && window.matchMedia('(hover: hover)').matches) {
+      setIsLatin(true)
+    }
+  }
+
+  const handleClick = () => {
+    setIsLatin((prev) => !prev)
+  }
+
   return (
     <h1
-      className="text-[clamp(2.15rem,8.5vw,2.75rem)] sm:text-5xl md:text-7xl lg:text-[5.5rem] font-bold leading-[1.14] sm:leading-[1.10] text-white cursor-pointer select-none text-center"
-      onMouseEnter={() => setIsLatin(false)}
-      onMouseLeave={() => setIsLatin(true)}
+      className="text-[clamp(2.15rem,8.5vw,2.75rem)] sm:text-5xl md:text-7xl lg:text-[5.5rem] font-bold leading-[1.14] sm:leading-[1.10] text-white cursor-pointer select-none text-center active:scale-[0.99] transition-transform duration-200"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onClick={handleClick}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          handleClick()
+        }
+      }}
       aria-label="Engineering Resilient Systems"
+      title="Tap or hover to toggle Baybayin / English"
       style={{
         fontFamily: 'Inter, "Noto Sans Tagalog", "Segoe UI Historic", system-ui, sans-serif',
       }}

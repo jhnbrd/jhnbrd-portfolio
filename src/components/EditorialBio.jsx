@@ -23,6 +23,7 @@ export default function EditorialBio({ personal }) {
   const isInView = useInView(sectionRef, { once: true, amount: 0.2 })
   const [hasAutoTranslated, setHasAutoTranslated] = useState(false)
   const [isBioHovered, setIsBioHovered] = useState(false)
+  const [isToggled, setIsToggled] = useState(false)
 
   // Initial display: first show in Baybayin for 1 second, then auto-translate to English
   useEffect(() => {
@@ -34,8 +35,25 @@ export default function EditorialBio({ personal }) {
     }
   }, [isInView, hasAutoTranslated])
 
-  // false = Baybayin (first 1s or hovered), true = English
-  const isLatin = hasAutoTranslated && !isBioHovered
+  const handleMouseEnter = () => {
+    if (typeof window !== 'undefined' && window.matchMedia('(hover: hover)').matches) {
+      setIsBioHovered(true)
+    }
+  }
+
+  const handleMouseLeave = () => {
+    if (typeof window !== 'undefined' && window.matchMedia('(hover: hover)').matches) {
+      setIsBioHovered(false)
+    }
+  }
+
+  const handleClick = () => {
+    setIsToggled((prev) => !prev)
+  }
+
+  // false = Baybayin, true = English
+  const isBaybayin = !hasAutoTranslated || (isBioHovered !== isToggled)
+  const isLatin = !isBaybayin
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -108,9 +126,19 @@ export default function EditorialBio({ personal }) {
               className="md:col-span-5 flex flex-col justify-between items-start space-y-6 sm:space-y-8"
             >
               <div
-                onMouseEnter={() => setIsBioHovered(true)}
-                onMouseLeave={() => setIsBioHovered(false)}
-                className="cursor-pointer select-none py-1"
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+                onClick={handleClick}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault()
+                    handleClick()
+                  }
+                }}
+                className="cursor-pointer select-none py-1 active:scale-[0.99] transition-transform duration-200"
+                title="Tap or hover to toggle Baybayin / English"
               >
                 <h3 
                   className={`text-3xl sm:text-5xl font-light tracking-tight transition-colors duration-300 ${isDark ? 'text-white' : 'text-black'}`}
