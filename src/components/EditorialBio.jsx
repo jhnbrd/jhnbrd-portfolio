@@ -115,11 +115,8 @@ export default function EditorialBio({ personal }) {
                 <h3 
                   className={`text-3xl sm:text-5xl font-light tracking-tight transition-colors duration-300 ${isDark ? 'text-white' : 'text-black'}`}
                 >
-                  <span className="inline-block">Hi, I'm</span>
-                  <span className={isLatin ? "inline" : "block mt-1 sm:mt-1.5"}>
-                    {isLatin ? '\u00A0' : ''}
-                    <BaybayinNameMorph isLatin={isLatin} />
-                  </span>
+                  <span className="inline-block">Hi, I'm&nbsp;</span>
+                  <BaybayinNameMorph isLatin={isLatin} />
                 </h3>
                 <p className={`mt-1.5 font-mono text-xs tracking-wider uppercase ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>
                   Davao City, Philippines
