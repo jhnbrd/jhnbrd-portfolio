@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { X, Sun, Moon } from 'lucide-react'
 import { useTheme } from '../hooks/useTheme'
 
-export default function EditorialHeader({ onOpenFreedomWall }) {
+export default function EditorialHeader({ onOpenFreedomWall, onOpenEmailModal }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolledPastHero, setIsScrolledPastHero] = useState(false)
   const { isDark, toggle } = useTheme()
@@ -141,9 +141,16 @@ export default function EditorialHeader({ onOpenFreedomWall }) {
               }`}>
                 <div>
                   <span className={`block ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>Get in touch</span>
-                  <a href="mailto:dev@jhnbrd.com" className={`font-medium hover:underline ${isDark ? 'text-white' : 'text-neutral-900'}`}>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsMenuOpen(false)
+                      if (onOpenEmailModal) onOpenEmailModal()
+                    }}
+                    className={`font-medium text-left hover:underline cursor-pointer ${isDark ? 'text-white' : 'text-neutral-900'}`}
+                  >
                     dev@jhnbrd.com
-                  </a>
+                  </button>
                 </div>
                 <button
                   onClick={() => {

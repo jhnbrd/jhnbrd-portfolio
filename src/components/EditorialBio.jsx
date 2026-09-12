@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useEffect, useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
-import { ArrowUpRight } from 'lucide-react'
+import { ArrowDown } from 'lucide-react'
 import { useTheme } from '../hooks/useTheme'
 import BaybayinNameMorph from './BaybayinNameMorph'
 
@@ -152,14 +152,21 @@ export default function EditorialBio({ personal }) {
               </div>
 
               <a
-                href={`mailto:${personal.email}`}
-                className={`inline-flex items-center justify-center gap-2.5 font-medium text-xs sm:text-sm px-6 sm:px-7 py-3 sm:py-3.5 rounded-full transition-all duration-300 transform hover:-translate-y-0.5 shadow-sm w-full sm:w-auto ${
+                href="#contact"
+                onClick={(e) => {
+                  e.preventDefault()
+                  const contactSection = document.getElementById('contact')
+                  if (contactSection) {
+                    contactSection.scrollIntoView({ behavior: 'smooth' })
+                  }
+                }}
+                className={`inline-flex items-center justify-center gap-2.5 font-medium text-xs sm:text-sm px-6 sm:px-7 py-3 sm:py-3.5 rounded-full transition-all duration-300 transform hover:-translate-y-0.5 shadow-sm w-full sm:w-auto cursor-pointer ${
                   isDark 
                     ? 'bg-white hover:bg-neutral-200 text-black' 
                     : 'bg-black hover:bg-neutral-800 text-white'
                 }`}
               >
-                <ArrowUpRight size={15} />
+                <ArrowDown size={15} />
                 <span>Get in Touch</span>
               </a>
             </motion.div>

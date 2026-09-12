@@ -9,6 +9,7 @@ import EditorialProjectDrawer from './components/EditorialProjectDrawer'
 import EditorialFooter from './components/EditorialFooter'
 import MinimalistFreedomWallModal from './components/MinimalistFreedomWallModal'
 import FloatingFreedomWallButton from './components/FloatingFreedomWallButton'
+import ContactEmailModal from './components/ContactEmailModal'
 
 import {
   personal,
@@ -21,6 +22,7 @@ import {
 function AppContent() {
   const [selectedProject, setSelectedProject] = useState(null)
   const [isFreedomWallOpen, setIsFreedomWallOpen] = useState(false)
+  const [isEmailModalOpen, setIsEmailModalOpen] = useState(false)
   const { isDark } = useTheme()
 
   return (
@@ -29,6 +31,7 @@ function AppContent() {
     }`}>
       <EditorialHeader 
         onOpenFreedomWall={() => setIsFreedomWallOpen(true)}
+        onOpenEmailModal={() => setIsEmailModalOpen(true)}
       />
 
       <EditorialHero />
@@ -42,7 +45,10 @@ function AppContent() {
         onSelectProject={(project) => setSelectedProject(project)}
       />
 
-      <EditorialFooter personal={personal} />
+      <EditorialFooter 
+        personal={personal} 
+        onOpenEmailModal={() => setIsEmailModalOpen(true)}
+      />
 
       <EditorialProjectDrawer 
         project={selectedProject}
@@ -57,6 +63,12 @@ function AppContent() {
       <MinimalistFreedomWallModal 
         isOpen={isFreedomWallOpen}
         onClose={() => setIsFreedomWallOpen(false)}
+      />
+
+      <ContactEmailModal
+        isOpen={isEmailModalOpen}
+        onClose={() => setIsEmailModalOpen(false)}
+        recipientEmail={personal.email}
       />
     </div>
   )

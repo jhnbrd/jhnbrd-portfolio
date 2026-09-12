@@ -4,7 +4,7 @@ import { Mail, Linkedin, MessageCircle } from 'lucide-react'
 import { useTheme } from '../hooks/useTheme'
 import ProfileViewsCounter from './ProfileViewsCounter'
 
-export default function EditorialFooter({ personal }) {
+export default function EditorialFooter({ personal, onOpenEmailModal }) {
   const { isDark } = useTheme()
 
   const containerVariants = {
@@ -87,9 +87,10 @@ export default function EditorialFooter({ personal }) {
           variants={itemVariants}
           className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 w-full sm:w-auto max-w-xs sm:max-w-none"
         >
-          <a
-            href={`mailto:${personal.email}`}
-            className={`inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full text-xs sm:text-sm font-sans transition-all duration-300 border transform hover:-translate-y-0.5 ${
+          <button
+            type="button"
+            onClick={onOpenEmailModal}
+            className={`inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full text-xs sm:text-sm font-sans transition-all duration-300 border transform hover:-translate-y-0.5 cursor-pointer ${
               isDark 
                 ? 'bg-transparent hover:bg-neutral-800 text-white border-neutral-700 shadow-sm' 
                 : 'bg-transparent hover:bg-neutral-100 text-black border-neutral-300 shadow-sm'
@@ -97,7 +98,7 @@ export default function EditorialFooter({ personal }) {
           >
             <Mail size={14} />
             <span>Email</span>
-          </a>
+          </button>
 
           <a
             href={personal.linkedinUrl}
