@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto'
 import { readFileSync, writeFileSync, existsSync } from 'node:fs'
 import { join } from 'node:path'
+import { sendContactEmails } from './emailService.js'
 
 const STATS_FILE = join(process.cwd(), 'stats.json')
 
@@ -133,6 +134,55 @@ export function freedomWallPlugin() {
           return
         }
         res.end(JSON.stringify({ views: profileViews }))
+      })
+
+      // Contact Dispatch endpoint: POST /api/send-email
+      server.middlewares.use('/api/send-email', (req, res) => {
+        res.setHeader('Content-Type', 'application/json')
+        res.setHeader('Access-Control-Allow-Origin', '*')
+        res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
+
+        if (req.method === 'OPTIONS') {
+          res.statusCode = 204
+          res.end()
+          return
+        }
+
+        if (req.method !== 'POST') {
+          res.statusCode = 405
+          res.end(JSON.stringify({ success: false, error: 'Method Not Allowed' }))
+          return
+        }
+
+        let body = ''
+        req.on('data', (chunk) => {
+          body += chunk
+          if (body.length > 50000) {
+            req.destroy()
+          }
+        })
+
+        req.on('end', async () => {
+          try {
+            const payload = JSON.parse(body || '{}')
+            const { name, email, subject, message, style } = payload
+
+            if (!name || !email || !subject || !message) {
+              res.statusCode = 400
+              res.end(JSON.stringify({ success: false, error: 'Missing required fields' }))
+              return
+            }
+
+            const result = await sendContactEmails({ name, email, subject, message, style })
+            res.statusCode = 200
+            res.end(JSON.stringify(result))
+          } catch (err) {
+            console.error('[Email Dispatch Error]', err)
+            res.statusCode = 500
+            res.end(JSON.stringify({ success: false, error: err.message || 'Failed to dispatch email' }))
+          }
+        })
       })
 
       // WebSocket Upgrade handler on /ws

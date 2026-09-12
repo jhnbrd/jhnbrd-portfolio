@@ -82,7 +82,7 @@ export default function ContactEmailModal({ isOpen, onClose, recipientEmail = 'd
     return Object.keys(newErrors).length === 0
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     if (!validate()) return
 
@@ -92,7 +92,25 @@ export default function ContactEmailModal({ isOpen, onClose, recipientEmail = 'd
       ? formData.customSubject.trim()
       : formData.subjectOption
 
-    setTimeout(() => {
+    try {
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name.trim(),
+          email: formData.email.trim(),
+          subject: finalSubject,
+          message: formData.message.trim(),
+          style: isDark ? 'dark' : 'light',
+        }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.error || 'Failed to dispatch email')
+      }
+
       setSentSummary({
         name: formData.name.trim(),
         email: formData.email.trim(),
@@ -100,7 +118,14 @@ export default function ContactEmailModal({ isOpen, onClose, recipientEmail = 'd
       })
       setIsSubmitting(false)
       setIsSubmitted(true)
-    }, 700)
+    } catch (err) {
+      console.error('Email dispatch failed:', err)
+      setIsSubmitting(false)
+      setErrors((prev) => ({
+        ...prev,
+        submit: err.message || 'Dispatch failed. Please check connection.',
+      }))
+    }
   }
 
   const handleResetForm = () => {
@@ -360,6 +385,12 @@ export default function ContactEmailModal({ isOpen, onClose, recipientEmail = 'd
                       }`}
                     />
                   </div>
+
+                  {errors.submit && (
+                    <div className="pt-2 text-xs font-mono text-rose-400">
+                      {errors.submit}
+                    </div>
+                  )}
 
                   {/* Footer Action Bar */}
                   <div className="pt-4 flex items-center justify-between">

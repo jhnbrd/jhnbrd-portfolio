@@ -3,6 +3,7 @@ import { createHash } from 'node:crypto'
 import { spawn } from 'node:child_process'
 import { readFileSync, writeFileSync, existsSync } from 'node:fs'
 import { join } from 'node:path'
+import { sendContactEmails } from './src/server/emailService.js'
 
 const PORT = process.env.WS_PORT || 8008
 const MAX_HISTORY = 8
@@ -146,6 +147,43 @@ const server = createServer((req, res) => {
     // GET current views
     res.writeHead(200, { 'Content-Type': 'application/json' })
     res.end(JSON.stringify({ views: profileViews }))
+    return
+  }
+
+  // Contact Dispatch API endpoint: POST /api/send-email
+  if (req.url === '/api/send-email') {
+    if (req.method === 'POST') {
+      let body = ''
+      req.on('data', (chunk) => {
+        body += chunk
+        if (body.length > 50000) req.destroy()
+      })
+
+      req.on('end', async () => {
+        try {
+          const payload = JSON.parse(body || '{}')
+          const { name, email, subject, message, style } = payload
+
+          if (!name || !email || !subject || !message) {
+            res.writeHead(400, { 'Content-Type': 'application/json' })
+            res.end(JSON.stringify({ success: false, error: 'Missing required fields' }))
+            return
+          }
+
+          const result = await sendContactEmails({ name, email, subject, message, style })
+          res.writeHead(200, { 'Content-Type': 'application/json' })
+          res.end(JSON.stringify(result))
+        } catch (err) {
+          console.error('[Production Server Email Error]', err)
+          res.writeHead(500, { 'Content-Type': 'application/json' })
+          res.end(JSON.stringify({ success: false, error: err.message || 'Email dispatch failed' }))
+        }
+      })
+      return
+    }
+
+    res.writeHead(405, { 'Content-Type': 'application/json' })
+    res.end(JSON.stringify({ success: false, error: 'Method Not Allowed' }))
     return
   }
 
