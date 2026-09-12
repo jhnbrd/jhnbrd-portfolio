@@ -101,7 +101,7 @@ export default function ContactEmailModal({ isOpen, onClose, recipientEmail = 'd
           email: formData.email.trim(),
           subject: finalSubject,
           message: formData.message.trim(),
-          style: isDark ? 'dark' : 'light',
+          style: 'memo',
         }),
       })
 

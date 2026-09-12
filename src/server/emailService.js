@@ -251,25 +251,32 @@ export function generateLetterheadHtml({ name, email, subject, message, style = 
  */
 export async function sendContactEmails({ name, email, subject, message, style = 'memo' }) {
   const transporter = getTransporter()
-  const recipientInbox = process.env.RECIPIENT_EMAIL || 'dev@jhnbrd.com'
+  const gmailAccount = process.env.GMAIL_USER || 'dev.jhnbrd@gmail.com'
+  const customDomainEmail = process.env.RECIPIENT_EMAIL || 'dev@jhnbrd.com'
   const senderDisplayName = process.env.SENDER_DISPLAY_NAME || 'Jhianne Berida'
-  const fromAddress = `"${senderDisplayName}" <${recipientInbox}>`
 
-  // 1. Email to Admin (You)
+  // Using gmailAccount for SMTP From satisfies Google SPF/DKIM authentication completely,
+  // preventing it from being flagged as Spam or showing "via gmail.com".
+  // Reply-To is set to dev@jhnbrd.com so all visitor replies route directly to your custom address.
+  const fromAddress = `"${senderDisplayName}" <${gmailAccount}>`
+  const replyAddress = `"${senderDisplayName}" <${customDomainEmail}>`
+
+  // 1. Email to Admin (You):
+  // Delivered directly to your Google account inbox to bypass Cloudflare forwarding loop-prevention
   const adminMailOptions = {
-    from: fromAddress,
-    to: recipientInbox,
+    from: `"Portfolio Dispatch" <${gmailAccount}>`,
+    to: gmailAccount,
     replyTo: `"${name}" <${email}>`,
     subject: `[Portfolio Inquiry] ${subject} - from ${name}`,
     text: `New contact inquiry received from portfolio:\n\nSender: ${name} (${email})\nSubject: ${subject}\n\nMessage:\n${message}\n\nReply directly to this email to respond to ${name}.`,
     html: `<div style="font-family: sans-serif; font-size: 14px; color: #111; line-height: 1.6;">
-      <h2 style="font-size: 18px; margin-bottom: 12px;">New Inquiry from Portfolio</h2>
+      <h2 style="font-size: 18px; margin-bottom: 12px; color: #0f172a;">New Inquiry from Portfolio</h2>
       <p><strong>Sender:</strong> ${escapeHtml(name)} &lt;<a href="mailto:${escapeHtml(email)}">${escapeHtml(email)}</a>&gt;</p>
       <p><strong>Subject:</strong> ${escapeHtml(subject)}</p>
-      <div style="background: #f4f5f7; padding: 16px; border-radius: 8px; border-left: 3px solid #111; margin: 16px 0;">
+      <div style="background: #f8fafc; padding: 16px; border-radius: 8px; border-left: 3px solid #0f172a; margin: 16px 0;">
         ${escapeHtml(message).replace(/\n/g, '<br>')}
       </div>
-      <p style="color: #666; font-size: 12px;">Hit "Reply" in your email client to reply directly to ${escapeHtml(name)}.</p>
+      <p style="color: #64748b; font-size: 12px;">Hit "Reply" in your email client to reply directly to ${escapeHtml(name)}.</p>
     </div>`,
   }
 
@@ -277,7 +284,7 @@ export async function sendContactEmails({ name, email, subject, message, style =
   const visitorMailOptions = {
     from: fromAddress,
     to: email,
-    replyTo: fromAddress,
+    replyTo: replyAddress,
     subject: `Inquiry Acknowledgment: ${subject}`,
     text: `Hi ${name},\n\nThank you for reaching out through my portfolio. Your message regarding "${subject}" has been received at dev@jhnbrd.com.\n\nI review all technical inquiries personally and will respond within 24–48 hours.\n\nSummary of your message:\n${message}\n\nBest regards,\nJhianne Berida\nDevJunction Inc. · https://jhnbrd.com`,
     html: generateLetterheadHtml({ name, email, subject, message, style }),
