@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
-import { ArrowUpRight, Server, Database, Cloud } from 'lucide-react'
+import { ArrowUpRight } from 'lucide-react'
 import { useTheme } from '../hooks/useTheme'
 
 export default function DevJunctionSection({ personal }) {
   const { isDark } = useTheme()
-  const [logoHovered, setLogoHovered] = useState(false)
+  const [isLogoHovered, setIsLogoHovered] = useState(false)
 
   const handleContactClick = (e) => {
     e.preventDefault()
@@ -13,176 +13,141 @@ export default function DevJunctionSection({ personal }) {
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
 
-  // Smooth, relaxed scroll reveal transitions (1.8s duration)
+  // Smooth, relaxed scroll reveal transitions (1.8s duration matching Editorial theme)
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.18,
-        delayChildren: 0.12,
+        staggerChildren: 0.16,
+        delayChildren: 0.1,
       },
     },
   }
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 35 },
+    hidden: { opacity: 0, y: 30 },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 1.8,
+        duration: 1.6,
         ease: [0.16, 1, 0.3, 1],
       },
     },
   }
 
-  const pillars = [
-    { icon: Server, label: 'Scalable APIs' },
-    { icon: Database, label: 'Database Architecture' },
-    { icon: Cloud, label: 'Cloud Staging' },
-  ]
-
   return (
     <section
       id="devjunction"
-      className={`relative w-full min-h-screen min-h-[100dvh] flex flex-col justify-center py-20 sm:py-32 overflow-hidden transition-colors duration-700 ${
+      className={`relative w-full min-h-[90vh] sm:min-h-screen flex flex-col justify-center py-20 sm:py-32 overflow-hidden transition-colors duration-700 ${
         isDark
-          ? 'bg-[#060b16] text-white border-b border-[#1D64F2]/15'
-          : 'bg-[#f7f9fd] text-black border-b border-[#1D64F2]/10'
+          ? 'bg-neutral-950 text-white border-b border-neutral-800'
+          : 'bg-white text-black border-b border-neutral-200'
       }`}
     >
-      {/* DevJunction Static Ambient Glows (Zero CPU/GPU overhead) */}
+      {/* Subtle radial bloom behind center mark */}
       <div
-        className="absolute top-1/4 -right-24 w-72 sm:w-96 h-72 sm:h-96 rounded-full blur-3xl pointer-events-none opacity-20"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 sm:w-[500px] h-80 sm:h-[500px] rounded-full blur-3xl pointer-events-none opacity-20"
         style={{
-          background: 'radial-gradient(circle, rgba(29, 100, 242, 0.45) 0%, transparent 70%)',
-        }}
-        aria-hidden="true"
-      />
-      <div
-        className="absolute bottom-10 -left-20 w-64 sm:w-80 h-64 sm:h-80 rounded-full blur-3xl pointer-events-none opacity-15"
-        style={{
-          background: 'radial-gradient(circle, rgba(29, 100, 242, 0.3) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(29, 100, 242, 0.4) 0%, transparent 70%)',
         }}
         aria-hidden="true"
       />
 
-      <div className="relative z-10 max-w-5xl mx-auto px-5 sm:px-12 w-full">
+      <div className="relative z-10 max-w-4xl mx-auto px-5 sm:px-12 w-full">
         <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: false, margin: '-20% 0px -20% 0px', amount: 0.3 }}
-          className="w-full flex flex-col space-y-8 sm:space-y-12"
+          viewport={{ once: false, margin: '-18% 0px -18% 0px', amount: 0.3 }}
+          className="w-full flex flex-col items-center text-center space-y-6 sm:space-y-8"
         >
-          {/* Spotlight Tag */}
-          <motion.div variants={itemVariants} className="flex flex-wrap items-center gap-2 sm:gap-3 font-mono text-xs uppercase tracking-widest">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] sm:text-xs font-semibold tracking-wider bg-[#1D64F2]/10 text-[#1D64F2] border border-[#1D64F2]/25">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#1D64F2] animate-pulse" aria-hidden="true" />
-              Featured Tech Venture
-            </span>
-            <span className={`text-[11px] sm:text-xs ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>
-              Startup · Established 2026
-            </span>
-          </motion.div>
-
-          {/* DevJunction Main Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-14 items-start">
-            {/* Left Column: Brand Mark & Identity */}
-            <motion.div variants={itemVariants} className="md:col-span-5 flex flex-col items-start space-y-6">
-              {/* Logo Badge */}
+          {/* Prominent Large Logo with tactile hover dynamics */}
+          <motion.div variants={itemVariants} className="relative group/logo">
+            <div
+              className="relative cursor-pointer"
+              onMouseEnter={() => setIsLogoHovered(true)}
+              onMouseLeave={() => setIsLogoHovered(false)}
+            >
               <div 
-                className="relative group/logo cursor-pointer"
-                onMouseEnter={() => setLogoHovered(true)}
-                onMouseLeave={() => setLogoHovered(false)}
+                className="w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44 rounded-3xl bg-white p-4 sm:p-5 border border-neutral-200/90 shadow-[0_12px_45px_rgba(0,0,0,0.15)] dark:shadow-[0_12px_50px_rgba(0,0,0,0.5)] flex items-center justify-center overflow-hidden transition-all duration-500 hover:scale-105 hover:-translate-y-1"
               >
-                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-white p-3 border border-[#1D64F2]/30 shadow-[0_0_30px_rgba(29,100,242,0.2)] flex items-center justify-center overflow-hidden transition-all duration-300 group-hover/logo:shadow-[0_0_40px_rgba(29,100,242,0.35)] group-hover/logo:scale-105">
-                  <img
-                    src="/images/devjunction.png"
-                    alt="DevJunction Logo"
-                    className="w-full h-full object-contain"
-                  />
-                </div>
-                <div 
-                  className={`absolute -inset-2 bg-gradient-to-r from-[#1D64F2] via-[#38BDF8] to-[#1D64F2] rounded-3xl blur-lg pointer-events-none -z-10 transition-opacity duration-300 ${
-                    logoHovered ? 'opacity-50' : 'opacity-20'
-                  }`}
+                <img
+                  src="/images/devjunction.png"
+                  alt="DevJunction Logo"
+                  className="w-full h-full object-contain"
                 />
               </div>
 
-              {/* Title & Role */}
-              <div>
-                <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight leading-[1.08]">
-                  Dev<span className="text-[#1D64F2]">Junction</span>
-                </h2>
-                <p className="mt-1.5 text-xs sm:text-sm font-mono text-[#1D64F2] font-medium tracking-wide">
-                  Backend Developer
-                </p>
-              </div>
+              {/* Glowing aura around emblem on hover */}
+              <div
+                className={`absolute -inset-4 bg-gradient-to-r from-[#1D64F2] via-[#38BDF8] to-[#1D64F2] rounded-full blur-2xl pointer-events-none -z-10 transition-opacity duration-500 ${
+                  isLogoHovered ? 'opacity-40' : 'opacity-15'
+                }`}
+              />
+            </div>
+          </motion.div>
 
-              {/* Action Buttons */}
-              <div className="flex flex-wrap items-center gap-3 pt-2">
-                <a
-                  href={personal.devjunctionUrl || 'https://facebook.com/DevJunctionInc'}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-medium tracking-normal bg-[#1D64F2] hover:bg-[#1651c6] text-white transition-all duration-300 transform hover:-translate-y-0.5 shadow-[0_0_20px_rgba(29,100,242,0.3)] hover:shadow-[0_0_30px_rgba(29,100,242,0.5)] whitespace-nowrap group/btn"
-                  aria-label="Visit DevJunction Facebook Page"
-                >
-                  <span>Visit DevJunction</span>
-                  <ArrowUpRight size={14} className="shrink-0 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
-                </a>
+          {/* Minimal Meta Indicator */}
+          <motion.div variants={itemVariants} className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-mono tracking-wider uppercase border transition-colors duration-300">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#1D64F2] animate-pulse" />
+            <span className={isDark ? 'text-neutral-400' : 'text-neutral-600'}>
+              Backend Developer · 2026
+            </span>
+          </motion.div>
 
-                <button
-                  type="button"
-                  onClick={handleContactClick}
-                  className={`inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-mono transition-all duration-300 border whitespace-nowrap ${
-                    isDark
-                      ? 'border-neutral-800 text-neutral-400 hover:text-white hover:border-[#1D64F2]/50 hover:bg-[#1D64F2]/5'
-                      : 'border-neutral-300 text-neutral-600 hover:text-black hover:border-[#1D64F2]/50 hover:bg-white'
-                  }`}
-                >
-                  <span>Inquire for Project</span>
-                </button>
-              </div>
-            </motion.div>
+          {/* Grand Typographic Title matching DevJunction brand identity font */}
+          <motion.div variants={itemVariants} className="space-y-1">
+            <h2 className="text-5xl sm:text-7xl md:text-8xl font-medium tracking-[-0.04em] leading-none select-none font-devjunction">
+              <span className="text-[#1D64F2]">Dev</span><span className={isDark ? 'text-white' : 'text-[#060b16]'}>Junction</span>
+            </h2>
+            <div className={`text-[11px] sm:text-xs tracking-[0.25em] uppercase font-devjunction font-light pt-1 ${
+              isDark ? 'text-neutral-400' : 'text-neutral-500'
+            }`}>
+              Software Solutions, Inc.
+            </div>
+          </motion.div>
 
-            {/* Right Column: Mission & Core Capabilities */}
-            <motion.div variants={itemVariants} className="md:col-span-7 flex flex-col space-y-6 pt-1">
-              <p className={`text-base sm:text-lg md:text-xl font-light leading-relaxed ${
-                isDark ? 'text-neutral-200' : 'text-neutral-800'
-              }`}>
-                A modern tech startup delivering high-performance backend infrastructure, custom web platforms, and client digital systems engineered for scalable business operations.
-              </p>
+          {/* Single Clean Manifesto Statement */}
+          <motion.p
+            variants={itemVariants}
+            className={`text-base sm:text-xl font-light max-w-xl mx-auto leading-relaxed tracking-tight ${
+              isDark ? 'text-neutral-300' : 'text-neutral-700'
+            }`}
+          >
+            High-performance backend systems, REST APIs, and automated cloud staging.
+          </motion.p>
 
-              <p className={`text-xs sm:text-sm font-light leading-relaxed ${
-                isDark ? 'text-neutral-400' : 'text-neutral-600'
-              }`}>
-                DevJunction bridges startup development agility with enterprise systems reliability — overseeing full architectural lifecycles from database modeling and API contracts to automated staging and cloud deployments.
-              </p>
+          {/* Clean High-Contrast Action Pill Buttons */}
+          <motion.div variants={itemVariants} className="flex flex-wrap items-center justify-center gap-3.5 pt-2">
+            <a
+              href={personal.devjunctionUrl || 'https://facebook.com/DevJunctionInc'}
+              target="_blank"
+              rel="noreferrer"
+              className={`inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-xs sm:text-sm font-mono font-medium transition-all duration-300 transform hover:-translate-y-0.5 shadow-md group/btn ${
+                isDark
+                  ? 'bg-white text-black hover:bg-neutral-200'
+                  : 'bg-black text-white hover:bg-neutral-800'
+              }`}
+              aria-label="Visit DevJunction Page"
+            >
+              <span>Visit DevJunction</span>
+              <ArrowUpRight size={14} className="shrink-0 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
+            </a>
 
-              {/* Streamlined Capability Pills */}
-              <div className="flex flex-wrap gap-2 sm:gap-2.5 pt-2">
-                {pillars.map((pill, idx) => {
-                  const Icon = pill.icon
-                  return (
-                    <div
-                      key={idx}
-                      className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-mono transition-colors border ${
-                        isDark
-                          ? 'bg-[#081226]/80 text-neutral-300 border-[#1D64F2]/20 hover:border-[#1D64F2]/50'
-                          : 'bg-white text-neutral-800 border-[#1D64F2]/20 hover:border-[#1D64F2]/40 shadow-sm'
-                      }`}
-                    >
-                      <Icon size={14} className="text-[#1D64F2]" />
-                      <span>{pill.label}</span>
-                    </div>
-                  )
-                })}
-              </div>
-            </motion.div>
-          </div>
+            <button
+              type="button"
+              onClick={handleContactClick}
+              className={`inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-xs sm:text-sm font-mono transition-all duration-300 transform hover:-translate-y-0.5 border ${
+                isDark
+                  ? 'border-neutral-800 text-neutral-300 hover:text-white hover:border-neutral-600 bg-neutral-900/50 hover:bg-neutral-900'
+                  : 'border-neutral-300 text-neutral-700 hover:text-black hover:border-neutral-500 bg-white hover:bg-neutral-50'
+              }`}
+            >
+              <span>Inquire for Project</span>
+            </button>
+          </motion.div>
         </motion.div>
       </div>
     </section>

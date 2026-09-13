@@ -25,6 +25,7 @@ export default {
         display: ['Inter', 'system-ui', 'sans-serif'],
         heading: ['"Space Grotesk"', 'Inter', 'sans-serif'],
         mono: ['"IBM Plex Mono"', 'ui-monospace', 'monospace'],
+        devjunction: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', 'sans-serif'],
       },
       letterSpacing: {
         tighter: '-0.05em',

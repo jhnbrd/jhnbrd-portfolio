@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DevJunction Ultra-Minimalist Concepts — Large Logo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            dj: {
+              blue: '#1D64F2',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    * {
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      transition: background-color 0.5s ease, color 0.5s ease;
+    }
+    /* Magnetic spring button */
+    .pill-btn {
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.3s ease;
+    }
+    .pill-btn:hover {
+      transform: translateY(-2px);
+    }
+    /* Logo hover elevation & float */
+    .hero-logo {
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .hero-logo:hover {
+      transform: scale(1.03) translateY(-4px);
+    }
+    /* Continuous marquee for concept 3 */
+    @keyframes ticker {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .animate-ticker {
+      display: flex;
+      width: max-content;
+      animation: ticker 24s linear infinite;
+    }
+    .animate-ticker:hover {
+      animation-play-state: paused;
+    }
+  </style>
+</head>
+<body class="bg-neutral-950 text-white min-h-screen selection:bg-[#1D64F2] selection:text-white flex flex-col">
+
+  <!-- TOP BAR / EDITORIAL CONTROLS -->
+  <header class="sticky top-0 z-50 backdrop-blur-md bg-neutral-950/80 border-b border-neutral-800/80 px-5 sm:px-12 py-3.5 flex flex-wrap items-center justify-between gap-4">
+    <div class="flex items-center gap-3">
+      <span class="text-sm font-bold tracking-tighter select-none">jb</span>
+      <span class="text-xs font-mono text-neutral-500">/</span>
+      <span class="text-xs font-mono tracking-widest text-neutral-400 uppercase">DevJunction · Big Logo &amp; Ultra-Minimalist</span>
+    </div>
+
+    <!-- TABS -->
+    <div class="flex items-center bg-neutral-900 border border-neutral-800 p-1 rounded-full text-xs font-mono">
+      <button onclick="switchConcept('concept-1')" id="btn-concept-1" class="tab-btn px-4 py-1.5 rounded-full bg-white text-black font-medium transition-all">
+        01. Monolith Center
+      </button>
+      <button onclick="switchConcept('concept-2')" id="btn-concept-2" class="tab-btn px-4 py-1.5 rounded-full text-neutral-400 hover:text-white transition-all">
+        02. Asymmetric Big-Mark
+      </button>
+      <button onclick="switchConcept('concept-3')" id="btn-concept-3" class="tab-btn px-4 py-1.5 rounded-full text-neutral-400 hover:text-white transition-all">
+        03. Kinetic Horizon
+      </button>
+    </div>
+
+    <!-- THEME & LINK -->
+    <div class="flex items-center gap-3">
+      <button onclick="toggleTheme()" class="px-3 py-1.5 rounded-full border border-neutral-800 hover:border-neutral-700 bg-neutral-900 text-xs font-mono text-neutral-300 transition-colors">
+        <span id="theme-label">☀️ Light Mode</span>
+      </button>
+      <a href="http://localhost:8000" target="_blank" class="px-3.5 py-1.5 rounded-full bg-neutral-800 hover:bg-neutral-700 text-xs font-mono text-neutral-200 transition-colors">
+        Live Site ↗
+      </a>
+    </div>
+  </header>
+
+  <!-- MAIN WORKSPACE -->
+  <main class="flex-1 w-full max-w-5xl mx-auto px-5 sm:px-12 py-16 sm:py-24 flex flex-col justify-center">
+
+    <!-- ========================================================================================= -->
+    <!-- CONCEPT 01: MONOLITH CENTER (Breathtaking Centered Big-Logo + Stripped Typography)         -->
+    <!-- ========================================================================================= -->
+    <section id="concept-1" class="concept-view block">
+      <div class="text-xs font-mono text-neutral-500 mb-8 flex items-center justify-between">
+        <span class="tracking-widest uppercase text-[#1D64F2] font-semibold">// 01 · MONOLITH CENTER</span>
+        <span class="hidden sm:inline text-neutral-600">Pure center focal point · Zero excess text · Huge emblem</span>
+      </div>
+
+      <div class="w-full border-t border-b border-neutral-800 py-16 sm:py-24 flex flex-col items-center text-center">
+        
+        <!-- Large Hero Emblem (Clean, framed in pure white, subtle glow) -->
+        <div class="relative group mb-8">
+          <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44 rounded-3xl bg-white p-4 sm:p-5 border border-neutral-200/80 shadow-[0_10px_40px_rgba(0,0,0,0.3)] hero-logo flex items-center justify-center overflow-hidden">
+            <img 
+              src="/images/devjunction.png" 
+              alt="DevJunction Logo" 
+              class="w-full h-full object-contain"
+            />
+          </div>
+          <!-- Subtle radial blue bloom behind logo -->
+          <div class="absolute -inset-4 bg-gradient-to-r from-[#1D64F2]/30 via-[#38BDF8]/20 to-[#1D64F2]/30 rounded-full blur-2xl pointer-events-none -z-10 opacity-70 group-hover:opacity-100 transition-opacity"></div>
+        </div>
+
+        <!-- Meta pill tag -->
+        <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-mono text-neutral-400 bg-neutral-900 border border-neutral-800 mb-4">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#1D64F2]"></span>
+          <span>Co-Founder &amp; Backend Developer · 2026</span>
+        </div>
+
+        <!-- Giant Clean Name -->
+        <h2 class="text-5xl sm:text-7xl md:text-8xl font-light tracking-tighter text-white">
+          Dev<span class="font-normal text-[#1D64F2]">Junction</span>
+        </h2>
+
+        <!-- Single Clean Sentence (Zero buzzword fluff) -->
+        <p class="mt-4 text-base sm:text-xl font-light text-neutral-400 max-w-xl leading-relaxed tracking-tight">
+          High-performance backend systems, REST APIs, and automated cloud staging.
+        </p>
+
+        <!-- Clean Action Buttons -->
+        <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
+          <a 
+            href="https://facebook.com/DevJunctionInc" 
+            target="_blank" 
+            class="pill-btn inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-white text-black hover:bg-neutral-200 text-xs sm:text-sm font-mono font-medium shadow-lg"
+          >
+            <span>Visit DevJunction</span>
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+          </a>
+
+          <a 
+            href="#contact" 
+            class="pill-btn inline-flex items-center gap-2 px-7 py-3.5 rounded-full border border-neutral-800 hover:border-neutral-600 bg-neutral-900/50 text-xs sm:text-sm font-mono text-neutral-300 hover:text-white"
+          >
+            <span>Inquire for Project</span>
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================================================================= -->
+    <!-- CONCEPT 02: ASYMMETRIC BIG-MARK (Left Big Logo + Right Pure Typographic Lockup)           -->
+    <!-- ========================================================================================= -->
+    <section id="concept-2" class="concept-view hidden">
+      <div class="text-xs font-mono text-neutral-500 mb-8 flex items-center justify-between">
+        <span class="tracking-widest uppercase text-[#1D64F2] font-semibold">// 02 · ASYMMETRIC BIG-MARK</span>
+        <span class="hidden sm:inline text-neutral-600">Side-by-side scale contrast · Extreme breathing room</span>
+      </div>
+
+      <div class="w-full border-t border-b border-neutral-800 py-16 sm:py-24">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-10 md:gap-14">
+          
+          <!-- Large Prominent Logo (Left) -->
+          <div class="shrink-0 relative group">
+            <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44 rounded-3xl bg-white p-4 sm:p-5 border border-neutral-200/80 shadow-[0_12px_40px_rgba(0,0,0,0.3)] hero-logo flex items-center justify-center">
+              <img 
+                src="/images/devjunction.png" 
+                alt="DevJunction Logo" 
+                class="w-full h-full object-contain"
+              />
+            </div>
+            <div class="absolute -inset-3 bg-[#1D64F2]/20 rounded-3xl blur-xl pointer-events-none -z-10 group-hover:opacity-100 opacity-50 transition-opacity"></div>
+          </div>
+
+          <!-- Typography & Action (Right) -->
+          <div class="flex-1 flex flex-col space-y-5">
+            <div class="flex items-center justify-between text-xs font-mono text-neutral-500 border-b border-neutral-800 pb-3">
+              <span class="text-[#1D64F2] font-medium tracking-wider">FEATURED TECH VENTURE</span>
+              <span>EST. 2026</span>
+            </div>
+
+            <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
+              <h2 class="text-4xl sm:text-6xl md:text-7xl font-light tracking-tighter text-white">
+                Dev<span class="font-normal text-[#1D64F2]">Junction</span>
+              </h2>
+              <span class="text-xs sm:text-sm font-mono text-neutral-400">Backend Architect</span>
+            </div>
+
+            <p class="text-base sm:text-lg font-light text-neutral-300 leading-relaxed max-w-xl">
+              Engineering high-throughput backend infrastructure, custom web platforms, and automated cloud deployments.
+            </p>
+
+            <div class="pt-3 flex items-center gap-4">
+              <a 
+                href="https://facebook.com/DevJunctionInc" 
+                target="_blank" 
+                class="pill-btn inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-black hover:bg-neutral-200 text-xs sm:text-sm font-mono font-medium shadow-md"
+              >
+                <span>Visit Page</span>
+                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+              </a>
+
+              <a 
+                href="#contact" 
+                class="pill-btn inline-flex items-center gap-2 px-6 py-3 rounded-full border border-neutral-800 hover:border-neutral-600 bg-neutral-900/40 text-xs sm:text-sm font-mono text-neutral-400 hover:text-white"
+              >
+                <span>Inquire for Project</span>
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================================= -->
+    <!-- CONCEPT 03: KINETIC HORIZON (Big Logo + Oversized Display + Seamless Infinite Marquee)     -->
+    <!-- ========================================================================================= -->
+    <section id="concept-3" class="concept-view hidden">
+      <div class="text-xs font-mono text-neutral-500 mb-8 flex items-center justify-between">
+        <span class="tracking-widest uppercase text-[#1D64F2] font-semibold">// 03 · KINETIC HORIZON</span>
+        <span class="hidden sm:inline text-neutral-600">Big emblem · Giant editorial title · Running ticker</span>
+      </div>
+
+      <div class="w-full border-t border-neutral-800 pt-12 sm:pt-16">
+        
+        <!-- Top Row: Big Logo + Title Lockup -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6 pb-12 border-b border-neutral-800">
+          <div class="flex items-center gap-6 sm:gap-8">
+            <div class="w-24 h-24 sm:w-32 sm:h-32 md:w-36 md:h-36 rounded-3xl bg-white p-3.5 sm:p-4 border border-neutral-200/80 shadow-xl hero-logo flex items-center justify-center shrink-0">
+              <img 
+                src="/images/devjunction.png" 
+                alt="DevJunction Logo" 
+                class="w-full h-full object-contain"
+              />
+            </div>
+            <div>
+              <span class="text-xs font-mono text-[#1D64F2] tracking-widest uppercase block mb-1">
+                Co-Founded Venture
+              </span>
+              <h2 class="text-5xl sm:text-7xl font-light tracking-tighter text-white">
+                Dev<span class="font-normal text-[#1D64F2]">Junction</span>
+              </h2>
+            </div>
+          </div>
+
+          <div class="font-mono text-xs sm:text-sm text-neutral-400 sm:text-right">
+            <div class="text-white font-medium">Jhianne Berida</div>
+            <div class="text-neutral-500 mt-0.5">Backend Architect · Co-Founder</div>
+          </div>
+        </div>
+
+        <!-- 1-Sentence Crisp Summary + Button -->
+        <div class="py-10 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+          <p class="text-base sm:text-xl font-light text-neutral-300 max-w-xl leading-relaxed">
+            Architecting high-throughput backend infrastructure, secure client REST APIs, and automated cloud staging.
+          </p>
+
+          <a 
+            href="https://facebook.com/DevJunctionInc" 
+            target="_blank" 
+            class="pill-btn shrink-0 inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-black hover:bg-neutral-200 text-xs sm:text-sm font-mono font-medium"
+          >
+            <span>Visit Portal</span>
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+          </a>
+        </div>
+
+        <!-- Bottom Running Horizon Marquee -->
+        <div class="border-t border-b border-neutral-800 py-3 overflow-hidden select-none bg-neutral-950">
+          <div class="animate-ticker text-xs font-mono tracking-widest text-neutral-500 uppercase flex items-center space-x-8">
+            <span>· DEVJUNCTION INC.</span>
+            <span class="text-[#1D64F2]">· HIGH-THROUGHPUT REST APIS</span>
+            <span>· RELATIONAL DATABASE SCHEMAS</span>
+            <span class="text-white">· AUTOMATED CLOUD STAGING</span>
+            <span>· CO-FOUNDER JHIANNE BERIDA</span>
+            <span>· DEVJUNCTION INC.</span>
+            <span class="text-[#1D64F2]">· HIGH-THROUGHPUT REST APIS</span>
+            <span>· RELATIONAL DATABASE SCHEMAS</span>
+            <span class="text-white">· AUTOMATED CLOUD STAGING</span>
+            <span>· CO-FOUNDER JHIANNE BERIDA</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    function switchConcept(conceptId) {
+      document.querySelectorAll('.concept-view').forEach(el => {
+        el.classList.add('hidden');
+        el.classList.remove('block');
+      });
+      const activeEl = document.getElementById(conceptId);
+      if (activeEl) {
+        activeEl.classList.remove('hidden');
+        activeEl.classList.add('block');
+      }
+
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('bg-white', 'text-black');
+        btn.classList.add('text-neutral-400');
+      });
+      const activeBtn = document.getElementById('btn-' + conceptId);
+      if (activeBtn) {
+        activeBtn.classList.add('bg-white', 'text-black');
+        activeBtn.classList.remove('text-neutral-400');
+      }
+    }
+
+    let isDark = true;
+    function toggleTheme() {
+      isDark = !isDark;
+      const body = document.body;
+      const label = document.getElementById('theme-label');
+
+      if (!isDark) {
+        body.classList.remove('bg-neutral-950', 'text-white');
+        body.classList.add('bg-white', 'text-black');
+        label.innerText = '🌙 Dark Mode';
+        
+        document.querySelectorAll('.border-neutral-800').forEach(el => {
+          el.classList.remove('border-neutral-800');
+          el.classList.add('border-neutral-200');
+        });
+        document.querySelectorAll('.text-neutral-200, .text-neutral-300, .text-neutral-400').forEach(el => {
+          el.classList.remove('text-neutral-200', 'text-neutral-300', 'text-neutral-400');
+          el.classList.add('text-neutral-700');
+        });
+      } else {
+        body.classList.remove('bg-white', 'text-black');
+        body.classList.add('bg-neutral-950', 'text-white');
+        label.innerText = '☀️ Light Mode';
+
+        document.querySelectorAll('.border-neutral-200').forEach(el => {
+          el.classList.remove('border-neutral-200');
+          el.classList.add('border-neutral-800');
+        });
+        document.querySelectorAll('.text-neutral-700').forEach(el => {
+          el.classList.remove('text-neutral-700');
+          el.classList.add('text-neutral-400');
+        });
+      }
+    }
+  </script>
+</body>
+</html>
