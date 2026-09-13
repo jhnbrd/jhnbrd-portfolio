@@ -1,0 +1,36 @@
+name: Deploy Environment
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: production
+  cancel-in-progress: false
+
+jobs:
+  deployment:
+    name: Track Production Deployment
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Announce Active Deployment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            core.info("Active Production Deployment Target: https://jhnbrd.com");
+            core.info("Secondary Tunnel Subdomain: https://dev.jhnbrd.com");
+
+      - name: Register GitHub Deployment Environment
+        uses: chrnorm/deployment-action@v2
+        id: deployment
+        with:
+          token: ${{ github.token }}
+          environment-url: https://jhnbrd.com
+          environment: Production
+          initial-status: success
+          description: "Production self-hosted homelab server via Cloudflare Tunnel at https://jhnbrd.com"

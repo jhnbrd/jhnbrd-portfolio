@@ -9,7 +9,7 @@
   </p>
 
   <p align="center">
-    <a href="https://dev.jhnbrd.com"><img src="https://img.shields.io/badge/Live%20Site-dev.jhnbrd.com-22c55e?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Live Site" /></a>
+    <a href="https://jhnbrd.com"><img src="https://img.shields.io/badge/Live%20Site-jhnbrd.com-22c55e?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Live Site" /></a>
     <a href="https://github.com/jhnbrd/portfolio/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-black?style=for-the-badge" alt="License" /></a>
     <a href="https://github.com/jhnbrd/portfolio/stargazers"><img src="https://img.shields.io/github/stars/jhnbrd/portfolio?style=for-the-badge&color=f59e0b&logo=github" alt="Stars" /></a>
     <a href="https://github.com/jhnbrd/portfolio/network/members"><img src="https://img.shields.io/github/forks/jhnbrd/portfolio?style=for-the-badge&color=818cf8&logo=github" alt="Forks" /></a>
@@ -39,7 +39,7 @@
 
 ## 🌐 Live Production Site
 
-🔗 **[https://dev.jhnbrd.com](https://dev.jhnbrd.com)**
+🔗 **[https://jhnbrd.com](https://jhnbrd.com)** *(also tunneled to [dev.jhnbrd.com](https://dev.jhnbrd.com))*
 
 Engineered by **Jhianne Jose Berida** — Backend Developer & Systems Architect from Davao City, Philippines.
 
@@ -185,7 +185,7 @@ All portfolio content is decoupled from layout components and centralized in one
 **Jhianne Jose Berida**  
 *Backend Developer & Systems Architect*
 
-- 🌐 **Portfolio:** [dev.jhnbrd.com](https://dev.jhnbrd.com)
+- 🌐 **Portfolio:** [jhnbrd.com](https://jhnbrd.com) / [dev.jhnbrd.com](https://dev.jhnbrd.com)
 - 🐙 **GitHub:** [@jhnbrd](https://github.com/jhnbrd)
 - 💼 **LinkedIn:** [jhianneberida](https://linkedin.com/in/jhianneberida)
 - ✉️ **Email:** [dev@jhnbrd.com](mailto:dev@jhnbrd.com) / [jhiannejoseberida@gmail.com](mailto:jhiannejoseberida@gmail.com)
