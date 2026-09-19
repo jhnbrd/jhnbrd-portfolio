@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  portfolio:
+    build: .
+    container_name: jhnbrd-portfolio
+    restart: unless-stopped
+    ports:
+      - "8000:8000"  # Vite preview UI
+      - "8008:8008"  # Node WebSocket & REST API
+    volumes:
+      # Persists real view count stats on the host filesystem across container updates
+      - ./stats.json:/app/stats.json
+    environment:
+      - NODE_ENV=production
+      - WS_PORT=8008
