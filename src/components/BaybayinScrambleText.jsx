@@ -1,196 +1,72 @@
-import React, { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
-/**
- * Baybayin Character Pool:
- * Unicode range U+1700–U+171F (Tagalog script).
- * Standalone letterforms provide distinct, authentic, 
- * clean glyphs without combining mark collisions.
- */
-const WORDS = [
-  { text: 'Engineering', isGradient: false },
-  { text: 'Resilient', isGradient: true },
-  { text: 'Systems', isGradient: false },
-]
+const BAYBAYIN = {
+  engineering: '\u1701\u1708\u1704\u1703\u1708\u1701\u170d\u1705\u170a\u170c\u1707',
+  resilient: '\u170d\u1710\u170e\u170c\u1708\u1706\u170a\u1703\u1704',
+  systems: '\u1710\u1706\u170b\u1710\u1703\u170e\u1708',
+}
 
-// Authentic native Baybayin character mapping for the 27 letter slots
-// (Engineering: 11, Resilient: 9, Systems: 7)
-const DEFAULT_BAYBAYIN = [
-  // Engineering (11 chars)
-  'ᜁ', 'ᜈ', 'ᜄ', 'ᜃ', 'ᜈ', 'ᜁ', 'ᜍ', 'ᜅ', 'ᜊ', 'ᜌ', 'ᜇ',
-  // Resilient (9 chars)
-  'ᜍ', 'ᜐ', 'ᜎ', 'ᜌ', 'ᜈ', 'ᜆ', 'ᜊ', 'ᜃ', 'ᜄ',
-  // Systems (7 chars)
-  'ᜐ', 'ᜆ', 'ᜋ', 'ᜐ', 'ᜃ', 'ᜎ', 'ᜈ',
-]
-
-// Flattened target Latin characters (27 letters)
-const LATIN_TARGET = WORDS.flatMap((w) => w.text.split(''))
-
-// Word start indices
-const WORD_OFFSETS = [0, 11, 20]
-
-// Proportional typographic widths for Latin characters (matches natural Inter metrics)
-function getLatinWidth(char) {
-  if ('ilI'.includes(char)) return '0.30em'
-  if ('rtfj'.includes(char)) return '0.40em'
-  if ('mwMW'.includes(char)) return '0.88em'
-  if (char >= 'A' && char <= 'Z') return '0.66em'
-  return '0.56em'
+function Glyphs({ text, offset = 0 }) {
+  return [...text].map((glyph, index) => (
+    <span
+      className="hero-title-glyph"
+      style={{ '--glyph-index': offset + index }}
+      key={`${glyph}-${index}`}
+    >
+      {glyph}
+    </span>
+  ))
 }
 
 export default function BaybayinScrambleText() {
-  // false = Baybayin state, true = Latin state
   const [isLatin, setIsLatin] = useState(false)
 
-  // Initial load: Display native Baybayin for 500ms, then smoothly transition into Latin
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLatin(true)
-    }, 500)
-    return () => clearTimeout(timer)
+    const timer = window.setTimeout(() => setIsLatin(true), 500)
+    return () => window.clearTimeout(timer)
   }, [])
 
-  const handleMouseEnter = () => {
-    // Only trigger hover on devices that support true hover pointers
-    if (typeof window !== 'undefined' && window.matchMedia('(hover: hover)').matches) {
-      setIsLatin(false)
-    }
+  const showBaybayin = () => {
+    if (window.matchMedia('(hover: hover)').matches) setIsLatin(false)
   }
-
-  const handleMouseLeave = () => {
-    if (typeof window !== 'undefined' && window.matchMedia('(hover: hover)').matches) {
-      setIsLatin(true)
-    }
+  const showLatin = () => {
+    if (window.matchMedia('(hover: hover)').matches) setIsLatin(true)
   }
-
-  const handleClick = () => {
-    setIsLatin((prev) => !prev)
-  }
+  const toggle = () => setIsLatin((current) => !current)
 
   return (
     <h1
-      className="text-[clamp(2.15rem,8.5vw,2.75rem)] sm:text-5xl md:text-7xl lg:text-[5.5rem] font-bold leading-[1.14] sm:leading-[1.10] text-white cursor-pointer select-none text-center active:scale-[0.99] transition-transform duration-200"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      onClick={handleClick}
-      role="button"
-      tabIndex={0}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault()
-          handleClick()
+      className={`hero-title ${isLatin ? 'is-latin' : 'is-baybayin'}`}
+      onMouseEnter={showBaybayin}
+      onMouseLeave={showLatin}
+      onClick={toggle}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault()
+          toggle()
         }
       }}
-      aria-label="Engineering Resilient Systems"
-      title="Tap or hover to toggle Baybayin / English"
-      style={{
-        fontFamily: 'Inter, "Noto Sans Tagalog", "Segoe UI Historic", system-ui, sans-serif',
-      }}
+      role="button"
+      tabIndex={0}
+      aria-label="Engineering Resilient Systems. Toggle Baybayin translation."
+      title="Tap or hover to toggle Baybayin and English"
     >
-      {WORDS.map((wordObj, wIdx) => {
-        const wordStartIndex = WORD_OFFSETS[wIdx]
-        const wordLength = wordObj.text.length
-        const wordChars = wordObj.text.split('')
-
-        return (
-          <React.Fragment key={wordObj.text}>
-            {/* Break after Engineering: Line 1 -> Line 2 on both mobile and desktop */}
-            {wIdx === 1 && <br className="block" />}
-
-            {/* Break after Resilient: Line 2 -> Line 3 on mobile (< md), space on desktop (md:) */}
-            {wIdx === 2 && (
-              <>
-                <br className="block md:hidden" />
-                <span className="hidden md:inline">&nbsp;</span>
-              </>
-            )}
-
-            <span className="inline-block whitespace-nowrap">
-              {wordChars.map((_, cIdx) => {
-                const globalIdx = wordStartIndex + cIdx
-                const baybayinChar = DEFAULT_BAYBAYIN[globalIdx]
-                const latinChar = LATIN_TARGET[globalIdx]
-                const isGradient = wordObj.isGradient
-
-                // Gradient styling for "Resilient" (spans across all 9 letters)
-                const gradientPos = (cIdx / Math.max(1, wordLength - 1)) * 100
-                const gradientStyle = isGradient
-                  ? {
-                      background:
-                        'linear-gradient(100deg, #ff4d4d 0%, #ff6b3d 45%, #ffd23f 100%)',
-                      backgroundSize: `${wordLength * 100}% 100%`,
-                      backgroundPosition: `${gradientPos}% 0%`,
-                      WebkitBackgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                    }
-                  : {}
-
-                // Stagger timing calculation
-                // Half speed: 110ms per letter (was 55ms)
-                const delayMs = globalIdx * 110
-
-                return (
-                  <span
-                    key={cIdx}
-                    className="inline-block relative text-center"
-                    style={{
-                      width: isLatin ? getLatinWidth(latinChar) : '0.74em',
-                      height: '1.22em',
-                      margin: isLatin ? '0 0.015em' : '0 0.025em',
-                      verticalAlign: 'baseline',
-                      overflow: 'visible',
-                      transition:
-                        'width 1.3s cubic-bezier(0.16, 1, 0.3, 1), margin 1.3s cubic-bezier(0.16, 1, 0.3, 1)',
-                    }}
-                  >
-                    {/* Layer 1: Native Baybayin Glyph */}
-                    <span
-                      className="absolute inset-0 flex items-center justify-center pointer-events-none select-none"
-                      style={{
-                        ...gradientStyle,
-                        overflow: 'visible',
-                        opacity: isLatin ? 0 : 1,
-                        transform: isLatin
-                          ? 'translateY(-12px) scale(0.70)'
-                          : 'translateY(0px) scale(0.85)',
-                        filter: isLatin ? 'blur(6px)' : 'blur(0px)',
-                        transitionProperty: 'opacity, transform, filter',
-                        transitionDuration: '1200ms',
-                        transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
-                        transitionDelay: `${delayMs}ms`,
-                        willChange: 'opacity, transform, filter',
-                      }}
-                    >
-                      {baybayinChar}
-                    </span>
-
-                    {/* Layer 2: Latin Glyph */}
-                    <span
-                      className="absolute inset-0 flex items-center justify-center pointer-events-none select-none"
-                      style={{
-                        ...gradientStyle,
-                        overflow: 'visible',
-                        opacity: isLatin ? 1 : 0,
-                        transform: isLatin
-                          ? 'translateY(0px) scale(1)'
-                          : 'translateY(12px) scale(0.85)',
-                        filter: isLatin ? 'blur(0px)' : 'blur(6px)',
-                        transitionProperty: 'opacity, transform, filter',
-                        transitionDuration: '1200ms',
-                        transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
-                        transitionDelay: `${delayMs}ms`,
-                        willChange: 'opacity, transform, filter',
-                      }}
-                    >
-                      {latinChar}
-                    </span>
-                  </span>
-                )
-              })}
-            </span>
-          </React.Fragment>
-        )
-      })}
+      <span className="hero-title-layer hero-title-latin" aria-hidden={!isLatin}>
+        <span><Glyphs text="Engineering" /></span>
+        <span>
+          <strong><Glyphs text="Resilient" offset={11} /></strong>
+          <i aria-hidden="true" />
+          <Glyphs text="Systems" offset={20} />
+        </span>
+      </span>
+      <span className="hero-title-layer hero-title-baybayin" aria-hidden={isLatin}>
+        <span><Glyphs text={BAYBAYIN.engineering} /></span>
+        <span>
+          <strong><Glyphs text={BAYBAYIN.resilient} offset={11} /></strong>
+          <i aria-hidden="true" />
+          <Glyphs text={BAYBAYIN.systems} offset={20} />
+        </span>
+      </span>
     </h1>
   )
 }
