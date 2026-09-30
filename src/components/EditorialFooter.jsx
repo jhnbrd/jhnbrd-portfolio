@@ -125,7 +125,7 @@ export default function EditorialFooter({ personal, onOpenEmailModal }) {
             }`}
           >
             <MessageCircle size={14} className="text-[#1877F2]" />
-            <span>Facebook Message</span>
+            <span>Messenger</span>
           </a>
         </motion.div>
       </motion.div>

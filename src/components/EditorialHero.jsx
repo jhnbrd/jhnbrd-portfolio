@@ -1,5 +1,5 @@
-import React from 'react'
-import { motion, useReducedMotion } from 'framer-motion'
+import React, { useRef } from 'react'
+import { motion, useInView, useReducedMotion } from 'framer-motion'
 import BaybayinScrambleText from './BaybayinScrambleText'
 import InteractiveCodeField from './InteractiveCodeField'
 
@@ -19,19 +19,24 @@ function TechnicalFrame() {
 
 export default function EditorialHero() {
   const reduceMotion = useReducedMotion()
+  const sectionRef = useRef(null)
+  const isInView = useInView(sectionRef, { amount: 0.3 })
+  const isVisible = reduceMotion || isInView
   const scrollToWork = () => {
     document.getElementById('about')?.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' })
   }
 
   return (
-    <section className="hero-cinematic">
+    <section ref={sectionRef} className="hero-cinematic">
       <div className="hero-glow" aria-hidden="true" />
       <TechnicalFrame />
 
       <motion.div
-        initial={{ opacity: 0, scale: 1.04 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: reduceMotion ? 0 : 1.4, ease: [0.16, 1, 0.3, 1] }}
+        initial={{ opacity: 0, y: 42, scale: 1.055, filter: 'blur(12px)' }}
+        animate={isVisible
+          ? { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }
+          : { opacity: 0, y: 42, scale: 1.035, filter: 'blur(10px)' }}
+        transition={{ duration: reduceMotion ? 0 : 1.35, ease: [0.16, 1, 0.3, 1] }}
         className="hero-portrait"
         aria-hidden="true"
       >
@@ -46,7 +51,7 @@ export default function EditorialHero() {
 
       <motion.div
         initial={{ opacity: 0, y: 28 }}
-        animate={{ opacity: 1, y: 0 }}
+        animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 32 }}
         transition={{ duration: reduceMotion ? 0 : 1, delay: reduceMotion ? 0 : 0.35, ease: [0.16, 1, 0.3, 1] }}
         className="hero-copy"
       >

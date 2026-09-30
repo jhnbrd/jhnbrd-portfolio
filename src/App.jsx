@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { ThemeProvider, useTheme } from './hooks/useTheme'
 import EditorialHeader from './components/EditorialHeader'
 import EditorialHero from './components/EditorialHero'
@@ -24,13 +24,15 @@ function AppContent() {
   const [isFreedomWallOpen, setIsFreedomWallOpen] = useState(false)
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false)
   const { isDark } = useTheme()
+  const handleChatAvailability = useCallback((isAvailable) => {
+    if (!isAvailable) setIsFreedomWallOpen(false)
+  }, [])
 
   return (
     <div className={`min-h-screen font-sans transition-colors duration-700 ${
       isDark ? 'bg-neutral-950 text-white' : 'bg-white text-black'
     }`}>
       <EditorialHeader 
-        onOpenFreedomWall={() => setIsFreedomWallOpen(true)}
         onOpenEmailModal={() => setIsEmailModalOpen(true)}
       />
 
@@ -55,9 +57,11 @@ function AppContent() {
         onClose={() => setSelectedProject(null)}
       />
 
-      {/* Cute Floating Freedom Wall button only visible on the last section */}
+      {/* Icon-only live-chat launcher, available only in the final section */}
       <FloatingFreedomWallButton 
-        onClick={() => setIsFreedomWallOpen(true)}
+        isOpen={isFreedomWallOpen}
+        onClick={() => setIsFreedomWallOpen((current) => !current)}
+        onSectionVisibilityChange={handleChatAvailability}
       />
 
       <MinimalistFreedomWallModal 

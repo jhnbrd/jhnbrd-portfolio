@@ -1,9 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { X, Send, Radio, MessageSquare } from 'lucide-react'
+import { AnimatePresence, motion } from 'framer-motion'
+import { useTheme } from '../hooks/useTheme'
 
 const STORAGE_KEY = 'jb_freedom_wall_feed_v2'
 
 export default function MinimalistFreedomWallModal({ isOpen, onClose }) {
+  const { isDark } = useTheme()
   const [messages, setMessages] = useState(() => {
     try {
       const stored = localStorage.getItem(STORAGE_KEY)
@@ -23,6 +26,7 @@ export default function MinimalistFreedomWallModal({ isOpen, onClose }) {
   const [socketStatus, setSocketStatus] = useState('connecting')
   const socketRef = useRef(null)
   const channelRef = useRef(null)
+  const messagesEndRef = useRef(null)
 
   useEffect(() => {
     if (!isOpen) return
@@ -31,7 +35,6 @@ export default function MinimalistFreedomWallModal({ isOpen, onClose }) {
       if (e.key === 'Escape') onClose()
     }
     document.addEventListener('keydown', handleKeyDown)
-    document.body.style.overflow = 'hidden'
 
     // Multi-tab synchronization fallback
     let channel = null
@@ -122,7 +125,6 @@ export default function MinimalistFreedomWallModal({ isOpen, onClose }) {
     return () => {
       isDestroyed = true
       document.removeEventListener('keydown', handleKeyDown)
-      document.body.style.overflow = ''
       if (reconnectTimeout) clearTimeout(reconnectTimeout)
       if (ws) {
         try { ws.close() } catch (e) {}
@@ -132,6 +134,12 @@ export default function MinimalistFreedomWallModal({ isOpen, onClose }) {
       }
     }
   }, [isOpen, onClose])
+
+  useEffect(() => {
+    if (isOpen) {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+    }
+  }, [isOpen, messages])
 
   const handleSendMessage = (e) => {
     e.preventDefault()
@@ -178,86 +186,100 @@ export default function MinimalistFreedomWallModal({ isOpen, onClose }) {
     setInputMessage('')
   }
 
-  if (!isOpen) return null
-
   return (
-    <div 
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-sm animate-fade-in"
-      onClick={onClose}
-    >
-      <div 
-        className="w-full max-w-lg bg-[#0d0e12] border border-neutral-800 rounded-2xl sm:rounded-3xl p-5 sm:p-8 shadow-2xl flex flex-col space-y-5 sm:space-y-6 max-h-[90dvh]"
-        onClick={(e) => e.stopPropagation()}
-      >
-        {/* Header */}
-        <div className="flex items-center justify-between border-b border-neutral-800 pb-3 sm:pb-4">
-          <div className="flex items-center gap-2 font-mono text-xs text-neutral-300">
-            <Radio size={13} className={socketStatus === 'connected' ? 'text-emerald-400' : 'text-neutral-500'} />
-            <span className="font-semibold text-white">Live Freedom Wall</span>
-            <span className="text-neutral-500">({onlineCount} live)</span>
-          </div>
-          <button 
-            onClick={onClose}
-            className="w-7 h-7 rounded-full bg-neutral-900 flex items-center justify-center text-neutral-400 hover:text-white transition-colors"
-            aria-label="Close"
-          >
-            <X size={14} />
-          </button>
-        </div>
-
-        {/* In-Memory Ring Feed / Human Only Messages */}
-        <div className="space-y-2.5 sm:space-y-3 max-h-60 sm:max-h-64 overflow-y-auto pr-1">
-          {messages.length === 0 ? (
-            <div className="py-10 sm:py-12 flex flex-col items-center justify-center text-center text-neutral-500 space-y-2 select-none">
-              <MessageSquare size={24} className="text-neutral-700 mb-1" />
-              <p className="text-xs font-mono text-neutral-300">No messages on the wall yet.</p>
-              <p className="text-[11px] text-neutral-500 max-w-xs px-2">
-                Be the first visitor to broadcast a message to anyone online!
+    <AnimatePresence>
+      {isOpen && (
+        <motion.aside
+          initial={{ opacity: 0, y: 18, scale: 0.96 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 14, scale: 0.96 }}
+          transition={{ type: 'spring', stiffness: 430, damping: 34 }}
+          role="dialog"
+          aria-label="Live visitor chat"
+          className={`fixed inset-x-3 bottom-24 sm:inset-x-auto sm:right-10 sm:bottom-28 z-50 sm:w-[360px] max-h-[calc(100dvh-8rem)] overflow-hidden rounded-2xl border shadow-[0_24px_70px_rgba(0,0,0,0.28)] ${
+            isDark
+              ? 'bg-neutral-950 text-white border-neutral-800'
+              : 'bg-white text-neutral-950 border-neutral-200'
+          }`}
+        >
+          <header className={`flex items-center justify-between px-4 py-3.5 border-b ${isDark ? 'border-neutral-800' : 'border-neutral-200'}`}>
+            <div>
+              <div className="flex items-center gap-2">
+                <Radio size={12} className={socketStatus === 'connected' ? 'text-emerald-500' : 'text-neutral-400'} />
+                <h2 className="text-sm font-semibold tracking-tight">Live chat</h2>
+              </div>
+              <p className={`mt-0.5 ml-5 text-[10px] font-mono uppercase tracking-[0.14em] ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>
+                {onlineCount} online &middot; visitor channel
               </p>
             </div>
-          ) : (
-            messages.map((msg, i) => (
-              <div key={msg.id || i} className="p-3 sm:p-3.5 rounded-xl bg-neutral-900/60 border border-neutral-800/80 font-mono text-xs">
-                <div className="flex items-center justify-between text-neutral-500 mb-1">
-                  <span className="font-bold text-neutral-300" style={{ color: msg.color || '#38bdf8' }}>{msg.user}</span>
-                  <span className="text-[10px]">{msg.timestamp}</span>
-                </div>
-                <p className="text-neutral-200 text-xs sm:text-sm font-sans font-normal leading-relaxed">{msg.text}</p>
-              </div>
-            ))
-          )}
-        </div>
+            <button
+              type="button"
+              onClick={onClose}
+              className={`grid h-7 w-7 place-items-center rounded-full transition-colors ${
+                isDark ? 'text-neutral-500 hover:bg-neutral-900 hover:text-white' : 'text-neutral-400 hover:bg-neutral-100 hover:text-black'
+              }`}
+              aria-label="Close live chat"
+            >
+              <X size={14} />
+            </button>
+          </header>
 
-        {/* Input Form */}
-        <form onSubmit={handleSendMessage} className="space-y-2.5 sm:space-y-3">
-          <div className="flex flex-col sm:flex-row gap-2">
-            <input 
-              type="text" 
+          <div className="flex max-h-72 min-h-52 flex-col gap-3 overflow-y-auto px-4 py-4">
+            {messages.length === 0 ? (
+              <div className={`m-auto flex max-w-[230px] flex-col items-center text-center ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>
+                <MessageSquare size={20} strokeWidth={1.5} />
+                <p className={`mt-3 text-sm font-medium ${isDark ? 'text-neutral-300' : 'text-neutral-700'}`}>Start the conversation.</p>
+                <p className="mt-1 text-[11px] leading-relaxed">Leave a note for this page's visitors. Messages update live.</p>
+              </div>
+            ) : (
+              messages.map((msg, i) => (
+                <article key={msg.id || i} className={`border-l-2 pl-3 ${isDark ? 'border-neutral-700' : 'border-neutral-200'}`}>
+                  <div className="mb-1 flex items-baseline justify-between gap-3">
+                    <span className="truncate text-[11px] font-semibold" style={{ color: msg.color || '#1683ff' }}>{msg.user}</span>
+                    <time className={`shrink-0 font-mono text-[9px] ${isDark ? 'text-neutral-600' : 'text-neutral-400'}`}>{msg.timestamp}</time>
+                  </div>
+                  <p className={`break-words text-[13px] leading-relaxed ${isDark ? 'text-neutral-300' : 'text-neutral-700'}`}>{msg.text}</p>
+                </article>
+              ))
+            )}
+            <div ref={messagesEndRef} />
+          </div>
+
+          <form onSubmit={handleSendMessage} className={`border-t p-3 ${isDark ? 'border-neutral-800 bg-neutral-950' : 'border-neutral-200 bg-neutral-50/70'}`}>
+            <input
+              type="text"
               value={username}
               onChange={(e) => {
                 setUsername(e.target.value)
                 localStorage.setItem('jb_freedom_wall_username', e.target.value)
               }}
-              placeholder="Username" 
-              className="sm:w-1/3 bg-neutral-900 border border-neutral-800 rounded-xl px-3.5 py-2.5 text-xs font-mono text-white focus:outline-none focus:border-emerald-500"
+              placeholder="Your name"
+              aria-label="Chat display name"
+              className={`mb-2 w-full bg-transparent px-1 text-[10px] font-mono outline-none ${isDark ? 'text-neutral-400 placeholder:text-neutral-600' : 'text-neutral-500 placeholder:text-neutral-400'}`}
             />
-            <input 
-              type="text" 
-              value={inputMessage}
-              onChange={(e) => setInputMessage(e.target.value)}
-              placeholder="Say something nice..." 
-              className="flex-1 bg-neutral-900 border border-neutral-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500"
-            />
-          </div>
-          <button 
-            type="submit"
-            className="w-full py-2.5 bg-white hover:bg-neutral-200 text-black font-semibold rounded-xl text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
-          >
-            <span>Broadcast Message</span>
-            <Send size={12} />
-          </button>
-        </form>
-      </div>
-    </div>
+            <div className={`flex items-center gap-2 rounded-xl border px-3 py-1.5 transition-colors focus-within:border-[#1683ff] ${
+              isDark ? 'border-neutral-800 bg-neutral-900' : 'border-neutral-200 bg-white'
+            }`}>
+              <input
+                type="text"
+                value={inputMessage}
+                onChange={(e) => setInputMessage(e.target.value)}
+                placeholder="Write a message..."
+                aria-label="Message"
+                className={`min-w-0 flex-1 bg-transparent py-1.5 text-xs outline-none ${isDark ? 'text-white placeholder:text-neutral-600' : 'text-black placeholder:text-neutral-400'}`}
+              />
+              <button
+                type="submit"
+                disabled={!inputMessage.trim()}
+                className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[#1683ff] text-white transition-all hover:bg-[#0878ed] disabled:cursor-default disabled:opacity-35"
+                aria-label="Send message"
+              >
+                <Send size={13} />
+              </button>
+            </div>
+          </form>
+        </motion.aside>
+      )}
+    </AnimatePresence>
   )
 }

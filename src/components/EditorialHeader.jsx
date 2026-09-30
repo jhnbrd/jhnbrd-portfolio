@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { X, Sun, Moon } from 'lucide-react'
 import { useTheme } from '../hooks/useTheme'
 
-export default function EditorialHeader({ onOpenFreedomWall, onOpenEmailModal }) {
+export default function EditorialHeader({ onOpenEmailModal }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolledPastHero, setIsScrolledPastHero] = useState(false)
   const { isDark, toggle } = useTheme()
@@ -136,7 +136,7 @@ export default function EditorialHeader({ onOpenFreedomWall, onOpenEmailModal })
                 </div>
               </div>
 
-              <div className={`pt-6 sm:pt-8 flex items-center justify-between text-xs font-sans ${
+              <div className={`pt-6 sm:pt-8 flex items-center text-xs font-sans ${
                 isDark ? 'border-t border-neutral-800' : 'border-t border-neutral-100'
               }`}>
                 <div>
@@ -152,19 +152,6 @@ export default function EditorialHeader({ onOpenFreedomWall, onOpenEmailModal })
                     dev@jhnbrd.com
                   </button>
                 </div>
-                <button
-                  onClick={() => {
-                    setIsMenuOpen(false)
-                    onOpenFreedomWall()
-                  }}
-                  className={`px-3 py-1.5 rounded-full border text-[11px] font-mono transition-colors ${
-                    isDark 
-                      ? 'border-neutral-800 text-neutral-400 hover:border-neutral-600 hover:text-white' 
-                      : 'border-neutral-200 text-neutral-700 hover:border-black'
-                  }`}
-                >
-                  Live Wall
-                </button>
               </div>
             </motion.div>
           </>

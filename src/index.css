@@ -253,8 +253,82 @@
   .hero-explore { margin-top: 1rem; }
   .hero-location, .hero-coordinates, .hero-hatch, .hero-beam-three { display: none; }
 }
+
+/* DevJunction mark: diagonal polish followed by a restrained sparkle finish. */
+.devjunction-logo-card {
+  position: relative;
+}
+.devjunction-logo-card > img {
+  position: relative;
+  z-index: 1;
+}
+.devjunction-logo-sweep {
+  position: absolute;
+  z-index: 2;
+  inset-block: -35%;
+  left: -65%;
+  width: 42%;
+  pointer-events: none;
+  opacity: 0;
+  transform: skewX(-18deg);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.28) 25%,
+    rgba(255, 255, 255, 0.92) 52%,
+    rgba(170, 220, 255, 0.4) 75%,
+    transparent
+  );
+  filter: blur(1px);
+}
+.devjunction-logo-sparkles {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  pointer-events: none;
+}
+.devjunction-logo-sparkles i {
+  position: absolute;
+  width: 18px;
+  aspect-ratio: 1;
+  opacity: 0;
+  background: linear-gradient(135deg, #fff 20%, #7dd3fc 52%, #2563eb 100%);
+  filter:
+    drop-shadow(0 0 4px rgba(255, 255, 255, 1))
+    drop-shadow(0 0 9px rgba(29, 100, 242, 1));
+  clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%);
+}
+.devjunction-logo-sparkles i:nth-child(1) { top: 18%; left: 16%; }
+.devjunction-logo-sparkles i:nth-child(2) { top: 12%; right: 17%; width: 14px; }
+.devjunction-logo-sparkles i:nth-child(3) { right: 12%; bottom: 19%; width: 16px; }
+.devjunction-logo-sparkles i:nth-child(4) { left: 22%; bottom: 12%; width: 12px; }
+.devjunction-logo-card:hover .devjunction-logo-sweep {
+  animation: devjunction-shine-sweep 2.8s cubic-bezier(0.45, 0, 0.25, 1) both;
+}
+.devjunction-logo-card:hover .devjunction-logo-sparkles i {
+  animation: devjunction-spark 1.15s ease-in-out both;
+}
+.devjunction-logo-card:hover .devjunction-logo-sparkles i:nth-child(1) { animation-delay: 2.82s; }
+.devjunction-logo-card:hover .devjunction-logo-sparkles i:nth-child(2) { animation-delay: 2.96s; }
+.devjunction-logo-card:hover .devjunction-logo-sparkles i:nth-child(3) { animation-delay: 3.1s; }
+.devjunction-logo-card:hover .devjunction-logo-sparkles i:nth-child(4) { animation-delay: 3.24s; }
+@keyframes devjunction-shine-sweep {
+  0% { left: -65%; opacity: 0; }
+  12% { opacity: 1; }
+  86% { opacity: 1; }
+  100% { left: 125%; opacity: 0; }
+}
+@keyframes devjunction-spark {
+  0% { opacity: 0; transform: scale(0.15) rotate(0deg); }
+  24% { opacity: 1; transform: scale(1.45) rotate(32deg); }
+  58% { opacity: 0.9; transform: scale(1.05) rotate(58deg); }
+  78% { opacity: 1; transform: scale(1.3) rotate(78deg); }
+  100% { opacity: 0; transform: scale(0.35) rotate(105deg); }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .hero-aura, .hero-double-chevron { animation: none; }
+  .hero-aura, .hero-double-chevron,
+  .devjunction-logo-sweep, .devjunction-logo-sparkles i { animation: none !important; }
   .hero-title-layer, .hero-title-glyph { transition-duration: .01ms; transition-delay: 0s !important; }
 }
 

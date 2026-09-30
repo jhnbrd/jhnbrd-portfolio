@@ -71,13 +71,17 @@ export default function DevJunctionSection({ personal }) {
               onMouseLeave={() => setIsLogoHovered(false)}
             >
               <div 
-                className="w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44 rounded-3xl bg-white p-4 sm:p-5 border border-neutral-200/90 shadow-[0_12px_45px_rgba(0,0,0,0.15)] dark:shadow-[0_12px_50px_rgba(0,0,0,0.5)] flex items-center justify-center overflow-hidden transition-all duration-500 hover:scale-105 hover:-translate-y-1"
+                className="devjunction-logo-card w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44 rounded-3xl bg-white p-4 sm:p-5 border border-neutral-200/90 shadow-[0_12px_45px_rgba(0,0,0,0.15)] dark:shadow-[0_12px_50px_rgba(0,0,0,0.5)] flex items-center justify-center overflow-hidden transition-all duration-500 hover:scale-105 hover:-translate-y-1"
               >
                 <img
                   src="/images/devjunction.png"
                   alt="DevJunction Logo"
                   className="w-full h-full object-contain"
                 />
+                <span className="devjunction-logo-sweep" aria-hidden="true" />
+                <span className="devjunction-logo-sparkles" aria-hidden="true">
+                  <i /><i /><i /><i />
+                </span>
               </div>
 
               {/* Glowing aura around emblem on hover */}

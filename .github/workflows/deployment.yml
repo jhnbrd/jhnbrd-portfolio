@@ -1,4 +1,4 @@
-name: Deploy Environment
+name: Production Deployment
 
 on:
   push:
@@ -7,31 +7,43 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: production
-  cancel-in-progress: false
+  group: production-deployment
+  cancel-in-progress: true
 
 permissions:
   contents: read
   deployments: write
-  id-token: write
 
 jobs:
   deployment:
-    name: Track Production Deployment
+    name: Register live deployment
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     environment:
       name: Production
       url: https://jhnbrd.com
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Register Active Production Deployment
+      - name: Verify jhnbrd.com
         run: |
-          echo "=========================================="
-          echo "  PRODUCTION DEPLOYMENT ACTIVE"
-          echo "  Primary URL:    https://jhnbrd.com"
-          echo "  Tunnel Gateway: https://dev.jhnbrd.com"
-          echo "  Host:           Self-Hosted Homelab Laptop"
-          echo "  Port:           8000"
-          echo "=========================================="
+          curl --fail --silent --show-error --location \
+            --retry 5 --retry-delay 3 --retry-all-errors \
+            https://jhnbrd.com/ > /dev/null
+
+      - name: Verify dev.jhnbrd.com
+        run: |
+          curl --fail --silent --show-error --location \
+            --retry 5 --retry-delay 3 --retry-all-errors \
+            https://dev.jhnbrd.com/ > /dev/null
+
+      - name: Add deployment summary
+        run: |
+          {
+            echo "## Production Deployment"
+            echo ""
+            echo "- Primary: https://jhnbrd.com"
+            echo "- Development alias: https://dev.jhnbrd.com"
+            echo "- Commit: \`${GITHUB_SHA}\`"
+            echo "- Hosting: Existing home-server Docker deployment"
+            echo ""
+            echo "This workflow records the existing live deployment. It does not modify the server or restart Docker."
+          } >> "${GITHUB_STEP_SUMMARY}"
