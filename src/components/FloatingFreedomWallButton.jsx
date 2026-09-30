@@ -53,8 +53,8 @@ export default function FloatingFreedomWallButton({ onClick, isOpen, onSectionVi
             }}
             className={`group relative flex h-14 w-14 items-center justify-center rounded-full shadow-[0_12px_32px_rgba(0,0,0,0.28)] backdrop-blur-md border transition-all duration-300 select-none cursor-pointer ${
               isDark
-                ? 'bg-[#1683ff] text-white border-white/10 hover:bg-[#0878ed] hover:shadow-[0_12px_36px_rgba(22,131,255,0.3)]'
-                : 'bg-[#1683ff] text-white border-[#1683ff] hover:bg-[#0878ed] hover:shadow-[0_12px_36px_rgba(22,131,255,0.28)]'
+                ? 'bg-[#00e5ff] text-[#020608] border-white/10 hover:bg-[#67e8f9] hover:shadow-[0_12px_36px_rgba(0,229,255,0.3)]'
+                : 'bg-[#00e5ff] text-[#020608] border-[#00e5ff] hover:bg-[#67e8f9] hover:shadow-[0_12px_36px_rgba(0,229,255,0.28)]'
             }`}
             aria-label={isOpen ? 'Close live chat' : 'Open live chat'}
             aria-expanded={isOpen}

@@ -1,9 +1,10 @@
 import { createHash } from 'node:crypto'
-import { readFileSync, writeFileSync, existsSync } from 'node:fs'
-import { join } from 'node:path'
 import { sendContactEmails } from './emailService.js'
-
-const STATS_FILE = join(process.cwd(), 'stats.json')
+import {
+  loadPersistentState,
+  MAX_CHAT_MESSAGES,
+  savePersistentState,
+} from './persistentState.js'
 
 // Encode raw UTF-8 string into RFC 6455 WebSocket unmasked frame
 function encodeFrame(payload) {
@@ -88,21 +89,11 @@ function decodeFrames(buffer) {
  * and view telemetry, eliminating the need to run a secondary background server.
  */
 export function freedomWallPlugin() {
-  const MAX_HISTORY = 8
-  const messageHistory = []
+  const MAX_HISTORY = MAX_CHAT_MESSAGES
+  const persistentState = loadPersistentState()
+  const messageHistory = persistentState.messages
   const clients = new Set()
-  let profileViews = 0
-  try {
-    if (existsSync(STATS_FILE)) {
-      const raw = readFileSync(STATS_FILE, 'utf8')
-      const parsed = JSON.parse(raw)
-      if (typeof parsed.views === 'number') profileViews = parsed.views
-    } else {
-      writeFileSync(STATS_FILE, JSON.stringify({ views: 0 }, null, 2))
-    }
-  } catch (e) {
-    profileViews = 0
-  }
+  let profileViews = persistentState.views
 
   function broadcast(data) {
     const payload = JSON.stringify(data)
@@ -127,9 +118,7 @@ export function freedomWallPlugin() {
         res.setHeader('Access-Control-Allow-Origin', '*')
         if (req.method === 'POST') {
           profileViews += 1
-          try {
-            writeFileSync(STATS_FILE, JSON.stringify({ views: profileViews }, null, 2))
-          } catch (err) {}
+          savePersistentState({ views: profileViews, messages: messageHistory })
           res.end(JSON.stringify({ views: profileViews }))
           return
         }
@@ -260,7 +249,7 @@ export function freedomWallPlugin() {
                 if ((msg.type === 'CHAT' || msg.type === 'SEND_CHAT') && msg.text && msg.user) {
                   const cleanMsg = {
                     id: msg.id || `msg_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
-                    user: String(msg.user).slice(0, 16).trim() || 'anonymous',
+                    user: String(msg.user).slice(0, 32).trim() || 'anonymous',
                     text: String(msg.text).slice(0, 160).trim(),
                     timestamp: new Date().toTimeString().split(' ')[0],
                     color: msg.color || '#34d399',
@@ -270,6 +259,7 @@ export function freedomWallPlugin() {
                   if (messageHistory.length > MAX_HISTORY) {
                     messageHistory.shift()
                   }
+                  savePersistentState({ views: profileViews, messages: messageHistory })
 
                   broadcast({
                     type: 'NEW_CHAT',

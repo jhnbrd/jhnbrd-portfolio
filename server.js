@@ -1,38 +1,24 @@
 import { createServer } from 'node:http'
 import { createHash } from 'node:crypto'
 import { spawn } from 'node:child_process'
-import { readFileSync, writeFileSync, existsSync } from 'node:fs'
-import { join } from 'node:path'
 import { sendContactEmails } from './src/server/emailService.js'
+import {
+  loadPersistentState,
+  MAX_CHAT_MESSAGES,
+  savePersistentState,
+} from './src/server/persistentState.js'
 
 const PORT = process.env.WS_PORT || 8008
-const MAX_HISTORY = 8
-const STATS_FILE = join(process.cwd(), 'stats.json')
-
-// Persistent strictly-real view counter
-let profileViews = 0
-try {
-  if (existsSync(STATS_FILE)) {
-    const raw = readFileSync(STATS_FILE, 'utf8')
-    const parsed = JSON.parse(raw)
-    if (typeof parsed.views === 'number') profileViews = parsed.views
-  } else {
-    writeFileSync(STATS_FILE, JSON.stringify({ views: 0 }, null, 2))
-  }
-} catch (e) {
-  profileViews = 0
-}
+const MAX_HISTORY = MAX_CHAT_MESSAGES
+const persistentState = loadPersistentState()
+let profileViews = persistentState.views
+const messageHistory = persistentState.messages
 
 function recordView() {
   profileViews += 1
-  try {
-    writeFileSync(STATS_FILE, JSON.stringify({ views: profileViews }, null, 2))
-  } catch (err) {}
+  savePersistentState({ views: profileViews, messages: messageHistory })
   return profileViews
 }
-
-// In-memory ring buffer: strictly keeps only the last 8 messages (no-scrollback freedom wall)
-let messageHistory = []
 
 const clients = new Set()
 
@@ -253,7 +239,7 @@ server.on('upgrade', (req, socket) => {
           if ((msg.type === 'CHAT' || msg.type === 'SEND_CHAT') && msg.text && msg.user) {
             const cleanMsg = {
               id: msg.id || `msg_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
-              user: String(msg.user).slice(0, 16).trim() || 'anonymous',
+              user: String(msg.user).slice(0, 32).trim() || 'anonymous',
               text: String(msg.text).slice(0, 160).trim(),
               timestamp: new Date().toTimeString().split(' ')[0],
               color: msg.color || '#38bdf8',
@@ -263,6 +249,7 @@ server.on('upgrade', (req, socket) => {
             if (messageHistory.length > MAX_HISTORY) {
               messageHistory.shift()
             }
+            savePersistentState({ views: profileViews, messages: messageHistory })
 
             broadcast({
               type: 'NEW_CHAT',

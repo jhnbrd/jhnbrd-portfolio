@@ -146,10 +146,11 @@ export default function EditorialFooter({ personal, onOpenEmailModal }) {
           <span className="font-medium">Jhianne Berida</span>
           <span className="opacity-40">·</span>
           <span className="opacity-75">Davao City, Philippines</span>
+          <span className="opacity-40" aria-hidden="true">&middot;</span>
+          <ProfileViewsCounter inline />
         </div>
 
-        <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
-          <ProfileViewsCounter inline />
+        <div className="flex items-center [&>span]:hidden">
           <span className="hidden sm:inline opacity-30">·</span>
           <p className={`text-[11px] text-center sm:text-right ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>
             © {new Date().getFullYear()} Jhianne Berida. All rights reserved.

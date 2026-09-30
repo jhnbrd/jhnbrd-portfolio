@@ -67,24 +67,19 @@ export default function ProfileViewsCounter({ inline = false, className = '' }) 
 
   if (inline) {
     return (
-      <div 
-        className={`inline-flex items-center gap-2 text-[11px] font-mono px-3 py-1 rounded-full border transition-colors duration-300 ${
-          isDark 
-            ? 'bg-neutral-900/90 border-neutral-800 text-neutral-400' 
-            : 'bg-neutral-100/90 border-neutral-200 text-neutral-600'
+      <span
+        className={`inline-flex items-baseline gap-1.5 text-[11px] transition-colors duration-300 ${
+          isDark ? 'text-neutral-500' : 'text-neutral-400'
         } ${className}`}
         title="Unique site visits"
       >
-        <span className="relative flex h-1.5 w-1.5">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-          <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
+        <span className="uppercase tracking-[0.12em]">
+          Visitors
         </span>
-        <Eye size={12} className={isDark ? 'text-neutral-400' : 'text-neutral-500'} />
-        <span className="opacity-70">visits</span>
-        <span className={`font-semibold font-mono tracking-tight ${isDark ? 'text-white' : 'text-black'}`}>
+        <span className={`font-mono font-medium tracking-tight ${isDark ? 'text-neutral-300' : 'text-neutral-700'}`}>
           {views ? views.toLocaleString() : '...'}
         </span>
-      </div>
+      </span>
     )
   }
 

@@ -20,7 +20,10 @@ function TechnicalFrame() {
 export default function EditorialHero() {
   const reduceMotion = useReducedMotion()
   const sectionRef = useRef(null)
-  const isInView = useInView(sectionRef, { amount: 0.3 })
+  const isInView = useInView(sectionRef, {
+    amount: 0.3,
+    margin: '-20% 0px -20% 0px',
+  })
   const isVisible = reduceMotion || isInView
   const scrollToWork = () => {
     document.getElementById('about')?.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' })
@@ -32,11 +35,22 @@ export default function EditorialHero() {
       <TechnicalFrame />
 
       <motion.div
-        initial={{ opacity: 0, y: 42, scale: 1.055, filter: 'blur(12px)' }}
+        initial={{ opacity: 0, y: 34, scale: 0.92, filter: 'blur(12px)' }}
         animate={isVisible
-          ? { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }
-          : { opacity: 0, y: 42, scale: 1.035, filter: 'blur(10px)' }}
-        transition={{ duration: reduceMotion ? 0 : 1.35, ease: [0.16, 1, 0.3, 1] }}
+          ? {
+              opacity: [0, 1, 1],
+              y: [34, -3, 0],
+              scale: [0.92, 1.028, 1],
+              filter: ['blur(12px)', 'blur(0px)', 'blur(0px)'],
+            }
+          : { opacity: 0, y: 28, scale: 0.92, filter: 'blur(9px)' }}
+        transition={isVisible
+          ? {
+              duration: reduceMotion ? 0 : 1.4,
+              times: [0, 0.72, 1],
+              ease: [0.16, 1, 0.3, 1],
+            }
+          : { duration: reduceMotion ? 0 : 0.85, ease: [0.4, 0, 0.2, 1], delay: 0 }}
         className="hero-portrait"
         aria-hidden="true"
       >
@@ -52,7 +66,9 @@ export default function EditorialHero() {
       <motion.div
         initial={{ opacity: 0, y: 28 }}
         animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 32 }}
-        transition={{ duration: reduceMotion ? 0 : 1, delay: reduceMotion ? 0 : 0.35, ease: [0.16, 1, 0.3, 1] }}
+        transition={isVisible
+          ? { duration: reduceMotion ? 0 : 1, delay: reduceMotion ? 0 : 0.35, ease: [0.16, 1, 0.3, 1] }
+          : { duration: reduceMotion ? 0 : 0.75, delay: 0, ease: [0.4, 0, 0.2, 1] }}
         className="hero-copy"
       >
         <BaybayinScrambleText />

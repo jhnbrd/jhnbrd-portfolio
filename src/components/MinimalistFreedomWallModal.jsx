@@ -4,6 +4,61 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { useTheme } from '../hooks/useTheme'
 
 const STORAGE_KEY = 'jb_freedom_wall_feed_v2'
+const USERNAME_KEY = 'jb_freedom_wall_username'
+const MEME_HANDLES = [
+  'pwede_nang_mangarap',
+  'fox_silica',
+  'fox_silic_wait',
+  'yoohoo_dito_tingin',
+  'hello_po_team_ryzza',
+  'sino_kalaban_team_ryzza',
+  'kain_po_team_ryzza',
+  'oh_cmon_naman',
+  'one_two_three_go',
+  'kanya_kanya_na',
+  'depende_kung_tatlo',
+  'suntukan_right_neow',
+  'ay_nakatulog',
+  'na_para_bang',
+  'ba_is_liw',
+  'wala_naman_akong_script',
+  'pwede_na_mangawat',
+]
+const OUTDATED_AUTO_HANDLES = [
+  'nasan_ang_kanin_bossing',
+  'bigla_kang_sumakses',
+  'over_naman_sa_wifi',
+  'trentahin_na_bossing',
+  'kuya_natanggal',
+  'thank_you_so_mu',
+  'ipa_notaryo_na',
+  'sharmaine_nasan_ka',
+  'vanessa_online',
+  'melanie_nagchat',
+  'bakit_kasalanan_ko',
+  'sana_all_may_wifi',
+  'charot_lang_boss',
+  'hawak_mo_ang_wifi',
+  'hot_maria_clara',
+  'limang_daan_lang',
+  'soafer_online',
+  'bossing_gising_pa',
+]
+
+function createMemeUsername() {
+  let randomValue
+  if (typeof crypto !== 'undefined' && crypto.getRandomValues) {
+    const values = new Uint32Array(1)
+    crypto.getRandomValues(values)
+    randomValue = values[0]
+  } else {
+    randomValue = Math.floor(Math.random() * 0xffffffff)
+  }
+
+  const handle = MEME_HANDLES[randomValue % MEME_HANDLES.length]
+  const suffix = String((randomValue >>> 8) % 100000).padStart(5, '0')
+  return `${handle}_${suffix}`
+}
 
 export default function MinimalistFreedomWallModal({ isOpen, onClose }) {
   const { isDark } = useTheme()
@@ -12,14 +67,24 @@ export default function MinimalistFreedomWallModal({ isOpen, onClose }) {
       const stored = localStorage.getItem(STORAGE_KEY)
       if (stored) {
         const parsed = JSON.parse(stored)
-        if (Array.isArray(parsed)) return parsed.slice(-8)
+        if (Array.isArray(parsed)) return parsed.slice(-20)
       }
     } catch (e) {}
     return []
   })
 
   const [username, setUsername] = useState(() => {
-    return localStorage.getItem('jb_freedom_wall_username') || `visitor_${Math.floor(100 + Math.random() * 900)}`
+    const generated = createMemeUsername()
+    try {
+      const stored = localStorage.getItem(USERNAME_KEY)
+      const isLegacyVisitor = /^visitor_\d+$/i.test(stored || '')
+      const isOutdatedAutoName = OUTDATED_AUTO_HANDLES.some((handle) => (
+        stored?.startsWith(`${handle}_`) && /_\d{5}$/.test(stored)
+      ))
+      if (stored && !isLegacyVisitor && !isOutdatedAutoName) return stored
+      localStorage.setItem(USERNAME_KEY, generated)
+    } catch (e) {}
+    return generated
   })
   const [inputMessage, setInputMessage] = useState('')
   const [onlineCount, setOnlineCount] = useState(1)
@@ -46,7 +111,7 @@ export default function MinimalistFreedomWallModal({ isOpen, onClose }) {
           if (event.data?.type === 'NEW_CHAT' && event.data.message) {
             setMessages((prev) => {
               if (prev.some((m) => m.id === event.data.message.id)) return prev
-              const next = [...prev.slice(-7), event.data.message]
+              const next = [...prev.slice(-19), event.data.message]
               try {
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(next))
               } catch (e) {}
@@ -82,13 +147,13 @@ export default function MinimalistFreedomWallModal({ isOpen, onClose }) {
             const data = JSON.parse(event.data)
             if (data.type === 'INIT' && Array.isArray(data.history)) {
               if (data.history.length > 0) {
-                setMessages(data.history.slice(-8))
+                setMessages(data.history.slice(-20))
               }
               if (data.clientsCount) setOnlineCount(data.clientsCount)
             } else if (data.type === 'NEW_CHAT' && data.message) {
               setMessages((prev) => {
                 if (prev.some((m) => m.id === data.message.id)) return prev
-                const next = [...prev.slice(-7), data.message]
+                const next = [...prev.slice(-19), data.message]
                 try {
                   localStorage.setItem(STORAGE_KEY, JSON.stringify(next))
                 } catch (e) {}
@@ -157,7 +222,7 @@ export default function MinimalistFreedomWallModal({ isOpen, onClose }) {
     // Optimistically add to local feed and broadcast to other tabs
     setMessages((prev) => {
       if (prev.some((m) => m.id === newEntry.id)) return prev
-      const next = [...prev.slice(-7), newEntry]
+      const next = [...prev.slice(-19), newEntry]
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(next))
       } catch (e) {}
@@ -235,7 +300,7 @@ export default function MinimalistFreedomWallModal({ isOpen, onClose }) {
               messages.map((msg, i) => (
                 <article key={msg.id || i} className={`border-l-2 pl-3 ${isDark ? 'border-neutral-700' : 'border-neutral-200'}`}>
                   <div className="mb-1 flex items-baseline justify-between gap-3">
-                    <span className="truncate text-[11px] font-semibold" style={{ color: msg.color || '#1683ff' }}>{msg.user}</span>
+                    <span className="truncate text-[11px] font-semibold" style={{ color: msg.color || '#00e5ff' }}>{msg.user}</span>
                     <time className={`shrink-0 font-mono text-[9px] ${isDark ? 'text-neutral-600' : 'text-neutral-400'}`}>{msg.timestamp}</time>
                   </div>
                   <p className={`break-words text-[13px] leading-relaxed ${isDark ? 'text-neutral-300' : 'text-neutral-700'}`}>{msg.text}</p>
@@ -251,13 +316,13 @@ export default function MinimalistFreedomWallModal({ isOpen, onClose }) {
               value={username}
               onChange={(e) => {
                 setUsername(e.target.value)
-                localStorage.setItem('jb_freedom_wall_username', e.target.value)
+                localStorage.setItem(USERNAME_KEY, e.target.value)
               }}
               placeholder="Your name"
               aria-label="Chat display name"
               className={`mb-2 w-full bg-transparent px-1 text-[10px] font-mono outline-none ${isDark ? 'text-neutral-400 placeholder:text-neutral-600' : 'text-neutral-500 placeholder:text-neutral-400'}`}
             />
-            <div className={`flex items-center gap-2 rounded-xl border px-3 py-1.5 transition-colors focus-within:border-[#1683ff] ${
+            <div className={`flex items-center gap-2 rounded-xl border px-3 py-1.5 transition-colors focus-within:border-[#00e5ff] ${
               isDark ? 'border-neutral-800 bg-neutral-900' : 'border-neutral-200 bg-white'
             }`}>
               <input
@@ -271,7 +336,7 @@ export default function MinimalistFreedomWallModal({ isOpen, onClose }) {
               <button
                 type="submit"
                 disabled={!inputMessage.trim()}
-                className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[#1683ff] text-white transition-all hover:bg-[#0878ed] disabled:cursor-default disabled:opacity-35"
+                className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[#00e5ff] text-[#020608] transition-all hover:bg-[#67e8f9] disabled:cursor-default disabled:opacity-35"
                 aria-label="Send message"
               >
                 <Send size={13} />
