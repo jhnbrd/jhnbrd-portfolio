@@ -261,7 +261,7 @@ export default function MinimalistFreedomWallModal({ isOpen, onClose }) {
           transition={{ type: 'spring', stiffness: 430, damping: 34 }}
           role="dialog"
           aria-label="Live visitor chat"
-          className={`fixed inset-x-3 bottom-24 sm:inset-x-auto sm:right-10 sm:bottom-28 z-50 sm:w-[360px] max-h-[calc(100dvh-8rem)] overflow-hidden rounded-2xl border shadow-[0_24px_70px_rgba(0,0,0,0.28)] ${
+          className={`fixed inset-x-3 bottom-48 sm:inset-x-auto sm:right-10 sm:bottom-28 z-50 sm:w-[360px] max-h-[calc(100dvh-14rem)] sm:max-h-[calc(100dvh-8rem)] overflow-hidden rounded-2xl border shadow-[0_24px_70px_rgba(0,0,0,0.28)] ${
             isDark
               ? 'bg-neutral-950 text-white border-neutral-800'
               : 'bg-white text-neutral-950 border-neutral-200'

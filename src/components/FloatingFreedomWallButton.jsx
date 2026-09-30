@@ -36,7 +36,7 @@ export default function FloatingFreedomWallButton({ onClick, isOpen, onSectionVi
             damping: 22,
             mass: 0.6,
           }}
-          className="fixed bottom-5 right-5 sm:bottom-10 sm:right-10 z-[60] pointer-events-auto"
+          className="fixed bottom-28 right-5 sm:bottom-10 sm:right-10 z-[60] pointer-events-auto"
         >
           {/* Cute subtle floating bounce */}
           <motion.button
@@ -51,7 +51,7 @@ export default function FloatingFreedomWallButton({ onClick, isOpen, onSectionVi
               repeat: Infinity,
               ease: 'easeInOut',
             }}
-            className={`group relative flex h-14 w-14 items-center justify-center rounded-full shadow-[0_12px_32px_rgba(0,0,0,0.28)] backdrop-blur-md border transition-all duration-300 select-none cursor-pointer ${
+            className={`group relative ${isOpen ? 'hidden sm:flex' : 'flex'} h-14 w-14 items-center justify-center rounded-full shadow-[0_12px_32px_rgba(0,0,0,0.28)] backdrop-blur-md border transition-all duration-300 select-none cursor-pointer ${
               isDark
                 ? 'bg-[#00e5ff] text-[#020608] border-white/10 hover:bg-[#67e8f9] hover:shadow-[0_12px_36px_rgba(0,229,255,0.3)]'
                 : 'bg-[#00e5ff] text-[#020608] border-[#00e5ff] hover:bg-[#67e8f9] hover:shadow-[0_12px_36px_rgba(0,229,255,0.28)]'

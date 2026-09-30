@@ -233,10 +233,10 @@
 @media (max-width: 639px) {
   .hero-grid { background-size: 25vw 25vw; opacity: .46; }
   .hero-portrait {
-    bottom: clamp(8rem, 18dvh, 9.75rem);
-    height: 92%;
-    width: 152%;
-    left: -26%;
+    bottom: clamp(5.5rem, 12dvh, 6.75rem);
+    height: 80%;
+    width: 122%;
+    left: -11%;
   }
   .hero-break { display: block; }
   .hero-copy {
