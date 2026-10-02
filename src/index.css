@@ -100,9 +100,46 @@
 }
 .hero-hatch-one { left: 4%; top: 32%; border-left-width: 1px; border-top-width: 1px; }
 .hero-hatch-two { right: 4%; bottom: 7%; border-right-width: 1px; border-top-width: 1px; }
-.hero-portrait {
+.hero-name {
   position: absolute;
   z-index: 2;
+  top: 19%;
+  left: 50%;
+  display: flex;
+  width: min(96vw, 105rem);
+  translate: -50% 0;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  color: transparent;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: clamp(8rem, 15.5vw, 17rem);
+  font-weight: 950;
+  line-height: .72;
+  letter-spacing: -.075em;
+  text-align: center;
+  text-transform: uppercase;
+  pointer-events: none;
+  user-select: none;
+}
+.hero-name span {
+  display: block;
+  width: 100%;
+  background: linear-gradient(180deg, #fff 0%, #f7fdff 43%, #d7f8ff 68%, #59e7f7 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 8px 2px rgba(0, 54, 67, .34));
+  text-shadow:
+    0 0 1px rgba(255,255,255,.9),
+    0 8px 0 rgba(6,104,122,.17),
+    0 0 24px rgba(0,229,255,.23),
+    0 18px 45px rgba(0,0,0,.78);
+  transform: scaleX(1.04);
+}
+.hero-portrait {
+  position: absolute;
+  z-index: 3;
   inset-inline: 0;
   bottom: 0;
   margin-inline: auto;
@@ -132,7 +169,7 @@
   filter: blur(70px);
   animation: hero-breathe 7s ease-in-out infinite;
 }
-.hero-side-fade, .hero-floor-fade { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
+.hero-side-fade, .hero-floor-fade { position: absolute; inset: 0; z-index: 4; pointer-events: none; }
 .hero-side-fade { background: linear-gradient(90deg, rgba(2,6,8,.92), transparent 22% 78%, rgba(2,6,8,.92)); }
 .hero-floor-fade { background: linear-gradient(180deg, rgba(2,6,8,.25), transparent 40%, rgba(2,6,8,.18) 62%, rgba(2,6,8,.98)); }
 .hero-code-field { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; pointer-events: none; }
@@ -232,17 +269,28 @@
 }
 @media (max-width: 639px) {
   .hero-grid { background-size: 25vw 25vw; opacity: .46; }
-  .hero-portrait {
-    bottom: clamp(5.5rem, 12dvh, 6.75rem);
-    height: 80%;
-    width: 122%;
-    left: -11%;
+  .hero-name {
+    top: 14%;
+    width: 100%;
+    font-size: clamp(3.9rem, 19.5vw, 5.65rem);
+    line-height: .74;
+    letter-spacing: -.065em;
   }
+  .hero-portrait {
+    top: auto;
+    right: auto;
+    bottom: 0;
+    left: 50%;
+    width: clamp(145%, calc(120dvh - 17rem), 190%);
+    height: 100dvh;
+    translate: -50% 0;
+  }
+  .hero-portrait img { object-position: center bottom; }
   .hero-break { display: block; }
   .hero-copy {
     bottom: max(
-      clamp(7.25rem, 16dvh, 8.5rem),
-      calc(env(safe-area-inset-bottom, 0px) + 6rem)
+      clamp(2.5rem, 6dvh, 4rem),
+      calc(env(safe-area-inset-bottom, 0px) + 2rem)
     );
     padding-inline: .75rem;
   }
@@ -254,6 +302,14 @@
   .hero-location, .hero-coordinates, .hero-hatch, .hero-beam-three { display: none; }
 }
 
+@media (min-width: 640px) and (max-width: 1024px) and (orientation: portrait) {
+  .hero-portrait {
+    top: 21%;
+    bottom: auto;
+    height: 79%;
+  }
+  .hero-portrait img { object-position: center top; }
+}
 /* DevJunction mark: diagonal polish followed by a restrained sparkle finish. */
 .devjunction-logo-card {
   position: relative;

@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import { motion, useInView, useReducedMotion } from 'framer-motion'
-import BaybayinScrambleText from './BaybayinScrambleText'
+// import BaybayinScrambleText from './BaybayinScrambleText'
 import InteractiveCodeField from './InteractiveCodeField'
 
 function TechnicalFrame() {
@@ -33,6 +33,23 @@ export default function EditorialHero() {
     <section ref={sectionRef} className="hero-cinematic">
       <div className="hero-glow" aria-hidden="true" />
       <TechnicalFrame />
+
+      <motion.h1
+        initial={{ opacity: 0, y: 24, scale: 0.96 }}
+        animate={isVisible
+          ? { opacity: 1, y: 0, scale: 1 }
+          : { opacity: 0, y: 20, scale: 0.97 }}
+        transition={{
+          duration: reduceMotion ? 0 : 1.1,
+          delay: isVisible && !reduceMotion ? 0.16 : 0,
+          ease: [0.16, 1, 0.3, 1],
+        }}
+        className="hero-name"
+        aria-label="Jhianne Berida"
+      >
+        <span>Jhianne</span>
+        <span>Berida</span>
+      </motion.h1>
 
       <motion.div
         initial={{ opacity: 0, y: 34, scale: 0.92, filter: 'blur(12px)' }}
@@ -71,10 +88,14 @@ export default function EditorialHero() {
           : { duration: reduceMotion ? 0 : 0.75, delay: 0, ease: [0.4, 0, 0.2, 1] }}
         className="hero-copy"
       >
-        <BaybayinScrambleText />
+        {/* Temporarily hidden while the hero uses the name-led composition. */}
+        {/* <BaybayinScrambleText /> */}
+        {/* Temporarily hidden with the previous hero title. */}
+        {/*
         <p className="hero-subtitle">
           Backend architect building scalable APIs, cloud infrastructure, and zero-trust platforms from Davao City.
         </p>
+        */}
         <button type="button" onClick={scrollToWork} className="hero-explore" aria-label="Scroll to explore the portfolio">
           <i className="hero-scroll-stem" aria-hidden="true" />
           <span className="hero-double-chevron" aria-hidden="true">
