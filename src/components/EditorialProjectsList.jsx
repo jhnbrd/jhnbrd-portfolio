@@ -172,6 +172,7 @@ export default function EditorialProjectsList({ projects, onSelectProject }) {
   return (
     <section 
       id="projects" 
+      aria-labelledby="projects-heading"
       className={`relative w-full py-20 sm:py-36 transition-colors duration-700 ${
         isDark ? 'bg-neutral-950 text-white' : 'bg-white text-black'
       }`}
@@ -179,7 +180,8 @@ export default function EditorialProjectsList({ projects, onSelectProject }) {
     >
       <div className="max-w-5xl mx-auto px-5 sm:px-12">
         {/* Title centered with relaxed pacing, triggers only when centered in view */}
-        <motion.h2 
+        <motion.h2
+          id="projects-heading"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false, margin: '-20% 0px -20% 0px', amount: 0.4 }}

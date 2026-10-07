@@ -33,6 +33,7 @@ export default function EditorialFooter({ personal, onOpenEmailModal }) {
   return (
     <footer 
       id="contact" 
+      aria-labelledby="contact-heading"
       className={`relative w-full min-h-screen min-h-[100dvh] flex flex-col justify-between pt-20 sm:pt-32 pb-8 sm:pb-12 px-5 sm:px-12 overflow-hidden transition-colors duration-700 ${
         isDark ? 'bg-neutral-950 text-white' : 'bg-white text-black'
       }`}
@@ -73,7 +74,8 @@ export default function EditorialFooter({ personal, onOpenEmailModal }) {
           Want to collaborate?
         </motion.p>
 
-        <motion.h2 
+        <motion.h2
+          id="contact-heading"
           variants={itemVariants}
           className={`text-3xl sm:text-5xl md:text-7xl font-bold tracking-tight leading-[1.1] mb-8 sm:mb-12 font-sans ${
             isDark ? 'text-white' : 'text-black'
@@ -140,6 +142,13 @@ export default function EditorialFooter({ personal, onOpenEmailModal }) {
           isDark ? 'border-neutral-800 text-neutral-400' : 'border-neutral-200 text-neutral-600'
         }`}
       >
+        <nav aria-label="Portfolio sections" className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 mb-4 sm:mb-0">
+          <a href="#about" className="hover:underline">About</a>
+          <a href="#devjunction" className="hover:underline">DevJunction</a>
+          <a href="#projects" className="hover:underline">Projects</a>
+          <a href="#contact" className="hover:underline">Contact</a>
+        </nav>
+
         <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 sm:gap-3 text-center sm:text-left">
           <span className={`text-base font-bold tracking-tighter ${isDark ? 'text-white' : 'text-black'}`}>jb</span>
           <span className="opacity-40">·</span>

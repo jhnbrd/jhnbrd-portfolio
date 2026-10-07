@@ -82,6 +82,7 @@ export default function EditorialBio({ personal }) {
     <section 
       ref={sectionRef}
       id="about" 
+      aria-labelledby="about-heading"
       className={`w-full min-h-screen min-h-[100dvh] flex flex-col justify-center py-20 sm:py-36 md:py-40 transition-colors duration-700 ${
         isDark 
           ? 'bg-neutral-950 text-white border-b border-neutral-800' 
@@ -101,7 +102,7 @@ export default function EditorialBio({ personal }) {
             variants={itemVariants}
             className="mb-12 sm:mb-20"
           >
-            <h2 className={`text-2xl sm:text-4xl md:text-[3.25rem] font-bold tracking-tight leading-[1.27] sm:leading-[1.29] md:leading-[1.31] max-w-4xl ${
+            <h2 id="about-heading" className={`text-2xl sm:text-4xl md:text-[3.25rem] font-bold tracking-tight leading-[1.27] sm:leading-[1.29] md:leading-[1.31] max-w-4xl ${
               isDark ? 'text-white' : 'text-black'
             }`}>
               I engineer backend architectures where resilience, performance, and simplicity converge to solve real operational challenges.

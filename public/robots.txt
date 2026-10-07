@@ -3,4 +3,4 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://dev.jhnbrd.com/sitemap.xml
+Sitemap: https://jhnbrd.com/sitemap.xml

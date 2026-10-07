@@ -15,7 +15,7 @@ export const personal = {
   facebook: 'facebook.com/yanjisama',
   facebookUrl: 'https://facebook.com/yanjisama',
   devjunctionUrl: 'https://facebook.com/DevJunctionInc',
-  website: 'dev.jhnbrd.com',
+  website: 'jhnbrd.com',
   available: true,
   bio: [
     "Backend Developer and Systems Architect at DevJunction. I engineer resilient backend platforms, RESTful APIs, and scalable cloud database architectures tailored to client operations.",
