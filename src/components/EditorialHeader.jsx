@@ -76,6 +76,9 @@ export default function EditorialHeader({ onOpenEmailModal }) {
             />
 
             <motion.div
+              role="dialog"
+              aria-modal="true"
+              aria-label="Navigation menu"
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
@@ -118,6 +121,7 @@ export default function EditorialHeader({ onOpenEmailModal }) {
                     {[
                       { label: 'About Me', href: '#about' },
                       { label: 'DevJunction', href: '#devjunction' },
+                      { label: 'Lilimio', href: '#lilimio' },
                       { label: 'Projects', href: '#projects' },
                       { label: 'Contact', href: '#contact' },
                     ].map((item, idx) => (

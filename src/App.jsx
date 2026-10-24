@@ -1,9 +1,11 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import { ThemeProvider, useTheme } from './hooks/useTheme'
 import EditorialHeader from './components/EditorialHeader'
 import EditorialHero from './components/EditorialHero'
 import EditorialBio from './components/EditorialBio'
 import DevJunctionSection from './components/DevJunctionSection'
+import LilimioSection from './components/LilimioSection'
+import useSectionScroll from './hooks/useSectionScroll'
 import EditorialProjectsList from './components/EditorialProjectsList'
 import EditorialProjectDrawer from './components/EditorialProjectDrawer'
 import EditorialFooter from './components/EditorialFooter'
@@ -20,6 +22,8 @@ import {
 } from './data/portfolio'
 
 function AppContent() {
+  const pageRef = useRef(null)
+  useSectionScroll(pageRef)
   const [selectedProject, setSelectedProject] = useState(null)
   const [isFreedomWallOpen, setIsFreedomWallOpen] = useState(false)
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false)
@@ -29,7 +33,7 @@ function AppContent() {
   }, [])
 
   return (
-    <div className={`min-h-screen font-sans transition-colors duration-700 ${
+    <div ref={pageRef} className={`portfolio-page min-h-screen font-sans transition-colors duration-700 ${
       isDark ? 'bg-neutral-950 text-white' : 'bg-white text-black'
     }`}>
       <EditorialHeader 
@@ -41,6 +45,8 @@ function AppContent() {
       <EditorialBio personal={personal} />
 
       <DevJunctionSection personal={personal} />
+
+      <LilimioSection />
 
       <EditorialProjectsList 
         projects={featuredProjects}

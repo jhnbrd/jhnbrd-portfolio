@@ -54,7 +54,7 @@ function ProjectRow({ project, index, isDark, onSelectProject, onHover, onLeave 
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={() => onSelectProject(project)}
-      className="group relative flex flex-col sm:flex-row sm:items-baseline justify-between py-6 sm:py-12 gap-1.5 sm:gap-0 cursor-pointer select-none transition-colors duration-300"
+      className="editorial-project-row group relative flex flex-col sm:flex-row sm:items-baseline justify-between gap-1.5 sm:gap-0 cursor-pointer select-none transition-colors duration-300"
     >
       <div className="flex items-baseline space-x-4 sm:space-x-8 z-10">
         <motion.span
@@ -173,25 +173,21 @@ export default function EditorialProjectsList({ projects, onSelectProject }) {
     <section 
       id="projects" 
       aria-labelledby="projects-heading"
-      className={`relative w-full py-20 sm:py-36 transition-colors duration-700 ${
+      className={`editorial-projects-section relative w-full transition-colors duration-700 ${
         isDark ? 'bg-neutral-950 text-white' : 'bg-white text-black'
       }`}
       onMouseMove={handleMouseMove}
     >
-      <div className="max-w-5xl mx-auto px-5 sm:px-12">
-        {/* Title centered with relaxed pacing, triggers only when centered in view */}
-        <motion.h2
+      <div className="editorial-projects-layout max-w-5xl mx-auto px-5 sm:px-12">
+        {/* Keep navigation context visible at the edges of the viewport. */}
+        <h2
           id="projects-heading"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, margin: '-20% 0px -20% 0px', amount: 0.4 }}
-          transition={{ duration: 1.8, ease: [0.16, 1, 0.3, 1] }}
-          className={`text-lg sm:text-2xl font-normal text-center mb-12 sm:mb-20 select-none font-sans ${
+          className={`text-lg sm:text-2xl font-normal text-center select-none font-sans ${
             isDark ? 'text-neutral-300' : 'text-neutral-800'
           }`}
         >
           Selected Projects
-        </motion.h2>
+        </h2>
 
         {/* Project list - triggers when centered on screen */}
         <motion.div 
@@ -199,7 +195,7 @@ export default function EditorialProjectsList({ projects, onSelectProject }) {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: false, margin: '-18% 0px -18% 0px', amount: 0.35 }}
-          className={`divide-y border-y ${
+          className={`editorial-projects-rows divide-y border-y ${
             isDark ? 'divide-neutral-800 border-neutral-800' : 'divide-neutral-200 border-neutral-200'
           }`}
         >
@@ -217,12 +213,8 @@ export default function EditorialProjectsList({ projects, onSelectProject }) {
         </motion.div>
 
         {/* See 30+ projects on GitHub link */}
-        <motion.div
-          initial={{ opacity: 0, y: 25 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, margin: '-10% 0px -10% 0px', amount: 0.3 }}
-          transition={{ duration: 1.4, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-10 sm:mt-16 flex justify-center"
+        <div
+          className="editorial-projects-more flex justify-center"
         >
           <a
             href="https://github.com/jhnbrd?tab=repositories"
@@ -237,7 +229,7 @@ export default function EditorialProjectsList({ projects, onSelectProject }) {
             <span>See 30+ projects on GitHub</span>
             <ArrowUpRight size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200" />
           </a>
-        </motion.div>
+        </div>
       </div>
 
       {/* Floating Cursor-Follower Preview with spring entrance */}

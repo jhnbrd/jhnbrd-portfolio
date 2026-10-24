@@ -145,6 +145,7 @@ export default function EditorialFooter({ personal, onOpenEmailModal }) {
         <nav aria-label="Portfolio sections" className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 mb-4 sm:mb-0">
           <a href="#about" className="hover:underline">About</a>
           <a href="#devjunction" className="hover:underline">DevJunction</a>
+          <a href="#lilimio" className="hover:underline">Lilimio</a>
           <a href="#projects" className="hover:underline">Projects</a>
           <a href="#contact" className="hover:underline">Contact</a>
         </nav>

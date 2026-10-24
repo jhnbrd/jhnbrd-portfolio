@@ -409,3 +409,84 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #404040;
 }
+
+/* Viewport chapters retain document flow so enlarged/long content stays reachable. */
+html.section-scroll-enabled { scroll-snap-type: y proximity; }
+.portfolio-page > section,
+.portfolio-page > footer { scroll-snap-align: start; scroll-snap-stop: always; min-height: 100svh; }
+.portfolio-page > #about,
+.portfolio-page > #devjunction { padding-block: clamp(5rem, 10svh, 7rem); }
+.lilimio-section { display: flex; align-items: center; padding: 5rem 1.25rem 3rem; border-bottom: 1px solid #e5e5e5; }
+.dark .lilimio-section { border-color: #262626; }
+.lilimio-layout { width: 100%; max-width: 58rem; margin-inline: auto; display: grid; grid-template-columns: 1.15fr 1fr; gap: clamp(2rem, 6vw, 5rem); align-items: center; }
+.lilimio-eyebrow { font: .75rem/1.5 ui-monospace, monospace; text-transform: uppercase; letter-spacing: .1em; color: #525252; margin-bottom: 2rem; }
+.dark .lilimio-eyebrow, .dark .lilimio-description, .dark .lilimio-credit, .dark .lilimio-device figcaption { color: #bcbcbc; }
+.lilimio-wordmark { display: block; width: 11.25rem; height: auto; margin-bottom: 1.5rem; }
+.dark .lilimio-wordmark { filter: brightness(0) invert(1); }
+.lilimio-copy h2 { font-size: clamp(2.25rem, 4.1vw, 3.4rem); line-height: 1.05; letter-spacing: -.05em; font-weight: 500; margin-bottom: 1.5rem; }
+.lilimio-description { max-width: 24rem; font-size: 1rem; line-height: 1.65; color: #525252; margin-bottom: 1.75rem; }
+.lilimio-link { display: inline-flex; align-items: center; justify-content: center; gap: .75rem; min-height: 48px; padding: .875rem 1.5rem; border-radius: 999px; font: .8125rem/1.5 ui-monospace, monospace; background: #111; color: white; }
+.dark .lilimio-link { background: #fafafa; color: #111; }
+.lilimio-link:focus-visible { outline: 3px solid #c26b2d; outline-offset: 5px; }
+.lilimio-credit { font: .75rem/1.6 ui-monospace, monospace; color: #525252; margin-top: 1.375rem; }
+.lilimio-device { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+/* Crop the supplied artwork in CSS: preserve its original phone pixels and angle. */
+.lilimio-phone-crop { position: relative; width: min(100%, 17.5rem, 31svh); aspect-ratio: 429 / 933; filter: drop-shadow(0 14px 14px #0002); }
+.lilimio-phone-crop img { position: absolute; max-width: none; width: 261.5385%; height: auto; left: -145.2214%; top: -25.7235%; clip-path: polygon(56.1% 25%, 56.3% 22.3%, 57.1% 20.5%, 58.5% 19.3%, 60.3% 18.5%, 64% 18.1%, 85.8% 17.6%, 88% 17.9%, 90.2% 18.7%, 91.8% 20%, 92.6% 22%, 93% 24%, 93% 76%, 92.8% 79.3%, 92% 81%, 90.6% 82.1%, 88.5% 82.7%, 85% 82.9%, 62% 82.1%, 59.3% 81.6%, 57.6% 80.4%, 56.5% 78.7%, 56.1% 76%); }
+.lilimio-device figcaption { font: .6875rem/1.5 ui-monospace, monospace; color: #595959; }
+@media (max-width: 639px) {
+  html.section-scroll-enabled { scroll-snap-type: none; }
+  .portfolio-page > section, .portfolio-page > footer { scroll-snap-stop: normal; }
+  .lilimio-section { padding-block: 5rem 2rem; }
+  .lilimio-layout { grid-template-columns: 1fr; gap: 1.5rem; }
+  .lilimio-eyebrow { margin-bottom: 1rem; font-size: .6875rem; }
+  .lilimio-wordmark { width: 8.75rem; margin-bottom: 1rem; }
+  .lilimio-copy h2 { font-size: clamp(1.875rem, 8vw, 2.5rem); margin-bottom: 1rem; }
+  .lilimio-description { font-size: .9375rem; margin-bottom: 1rem; }
+  .lilimio-credit { margin-top: .875rem; }
+  .lilimio-phone-crop { width: min(52vw, 13.125rem); }
+  .lilimio-device { gap: .5rem; }
+}
+@media (min-width: 640px) and (max-height: 650px) {
+  .portfolio-page > #about, .portfolio-page > #devjunction { padding-block: 4.5rem 2rem; }
+  .lilimio-section { padding-block: 4.5rem 2rem; }
+  .lilimio-eyebrow { margin-bottom: 1rem; }
+  .lilimio-phone-crop { width: 28svh; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html.section-scroll-enabled { scroll-behavior: auto; }
+}
+
+@media (pointer: coarse) {
+  html.section-scroll-enabled { scroll-snap-type: none; }
+  .portfolio-page > section, .portfolio-page > footer { scroll-snap-stop: normal; }
+}
+
+/* Share the usable viewport across four rows, after reserving the fixed chrome. */
+.editorial-projects-section {
+  --projects-top: clamp(5rem, 10svh, 6rem);
+  --projects-bottom: clamp(1.5rem, 4svh, 3rem);
+  --projects-gap: clamp(1rem, 3svh, 2rem);
+  padding-block: var(--projects-top) var(--projects-bottom);
+}
+.editorial-projects-layout {
+  min-height: calc(100svh - var(--projects-top) - var(--projects-bottom));
+  display: flex;
+  flex-direction: column;
+  gap: var(--projects-gap);
+}
+.editorial-projects-layout > h2 { flex: none; margin: 0; }
+.editorial-projects-rows {
+  flex: 1;
+  display: grid;
+  grid-template-rows: repeat(4, minmax(min-content, 1fr));
+}
+.editorial-project-row {
+  justify-content: center;
+  padding-block: clamp(.75rem, 2svh, 1.5rem);
+}
+.editorial-project-row h3 { font-size: clamp(1.5rem, min(4.2vw, 7svh), 3.75rem); }
+.editorial-projects-more { flex: none; margin: 0; }
+@media (min-width: 640px) {
+  .editorial-project-row { align-items: center; justify-content: space-between; }
+}
