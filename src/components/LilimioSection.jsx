@@ -1,5 +1,6 @@
 import { ArrowUpRight } from 'lucide-react'
 import { useTheme } from '../hooks/useTheme'
+import LilimioRelease from './LilimioRelease'
 
 export default function LilimioSection() {
   const { isDark } = useTheme()
@@ -13,6 +14,7 @@ export default function LilimioSection() {
           <p className="lilimio-description">Compare forecasts, plan outdoor time, and find nearby places to cool down.</p>
           <a className="lilimio-link" href="https://lilimio.jhnbrd.com" target="_blank" rel="noopener noreferrer">Explore lilimio <ArrowUpRight size={16} aria-hidden="true" /></a>
           <p className="lilimio-credit">Main developer · Jhianne Jose C. Berida</p>
+          <LilimioRelease />
         </div>
         <figure className="lilimio-device">
           <div className="lilimio-phone-crop">

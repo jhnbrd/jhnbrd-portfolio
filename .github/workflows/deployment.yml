@@ -1,14 +1,17 @@
-name: Production Deployment
+name: Record manual deployment
+run-name: Record manual deployment of ${{ inputs.deployed_ref }}
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
+    inputs:
+      deployed_ref:
+        description: Exact commit SHA or tag already deployed and verified on the home server
+        required: true
+        type: string
 
 concurrency:
   group: production-deployment
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 permissions:
   contents: read
@@ -19,31 +22,40 @@ jobs:
     name: Register live deployment
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    environment:
-      name: Production
-      url: https://jhnbrd.com
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      DEPLOYED_REF: ${{ inputs.deployed_ref }}
+      SITE_URL: https://jhnbrd.com
     steps:
-      - name: Verify jhnbrd.com
+      - name: Record the operator's deployment attestation
+        shell: bash
         run: |
-          curl --fail --silent --show-error --location \
-            --retry 5 --retry-delay 3 --retry-all-errors \
-            https://jhnbrd.com/ > /dev/null
-
-      - name: Verify dev.jhnbrd.com
-        run: |
-          curl --fail --silent --show-error --location \
-            --retry 5 --retry-delay 3 --retry-all-errors \
-            https://dev.jhnbrd.com/ > /dev/null
-
-      - name: Add deployment summary
-        run: |
+          set -euo pipefail
+          encoded_ref=$(node -e 'process.stdout.write(encodeURIComponent(process.env.DEPLOYED_REF))')
+          sha=$(gh api "repos/$GH_REPO/commits/$encoded_ref" --jq .sha)
+          jq -n --arg sha "$sha" '{
+            ref: $sha,
+            task: "record-manual-deployment",
+            auto_merge: false,
+            required_contexts: [],
+            environment: "Production",
+            production_environment: true,
+            transient_environment: false,
+            description: "Owner-reported manual deployment already completed; record only.",
+            payload: {method: "manual", record_only: true, verification: "owner-reported"}
+          }' > "$RUNNER_TEMP/deployment.json"
+          deployment_id=$(gh api --method POST "repos/$GH_REPO/deployments" \
+            --input "$RUNNER_TEMP/deployment.json" --jq .id)
+          gh api --method POST "repos/$GH_REPO/deployments/$deployment_id/statuses" \
+            -f state=success \
+            -f environment_url="$SITE_URL" \
+            -f log_url="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" \
+            -f description="Recorded existing manual deployment; no server changes performed." \
+            -F auto_inactive=true > /dev/null
           {
-            echo "## Production Deployment"
-            echo ""
-            echo "- Primary: https://jhnbrd.com"
-            echo "- Development alias: https://dev.jhnbrd.com"
-            echo "- Commit: \`${GITHUB_SHA}\`"
-            echo "- Hosting: Existing home-server Docker deployment"
-            echo ""
-            echo "This workflow records the existing live deployment. It does not modify the server or restart Docker."
-          } >> "${GITHUB_STEP_SUMMARY}"
+            echo '### Existing manual deployment recorded'
+            printf '\nCommit: `%s`\n\n' "$sha"
+            printf 'Site: %s\n\n' "$SITE_URL"
+            echo 'Owner-reported deployment. This workflow did not deploy or independently verify the server.'
+          } >> "$GITHUB_STEP_SUMMARY"

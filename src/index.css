@@ -429,6 +429,11 @@ html.section-scroll-enabled { scroll-snap-type: y proximity; }
 .dark .lilimio-link { background: #fafafa; color: #111; }
 .lilimio-link:focus-visible { outline: 3px solid #c26b2d; outline-offset: 5px; }
 .lilimio-credit { font: .75rem/1.6 ui-monospace, monospace; color: #525252; margin-top: 1.375rem; }
+.lilimio-updated { font: .75rem/1.7 ui-monospace, monospace; color: #595959; margin-top: .625rem; }
+.dark .lilimio-updated { color: #bcbcbc; }
+.lilimio-updated a { display: inline-block; padding-block: .25rem; text-underline-offset: .2em; }
+.lilimio-updated a:hover { text-decoration: underline; }
+.lilimio-updated a:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
 .lilimio-device { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 1rem; }
 /* Crop the supplied artwork in CSS: preserve its original phone pixels and angle. */
 .lilimio-phone-crop { position: relative; width: min(100%, 17.5rem, 31svh); aspect-ratio: 429 / 933; filter: drop-shadow(0 14px 14px #0002); }
